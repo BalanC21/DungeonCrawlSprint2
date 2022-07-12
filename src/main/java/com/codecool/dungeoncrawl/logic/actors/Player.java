@@ -31,8 +31,7 @@ public class Player extends Actor {
     void reduceHealth(int value) {
         if (value > this.getHealth())
             this.setAlive(false);
-        int healthRemaining = this.getHealth() - value;
-        this.setHealth(healthRemaining);
+        this.setHealth(this.getHealth() - value);
     }
 
     @Override
