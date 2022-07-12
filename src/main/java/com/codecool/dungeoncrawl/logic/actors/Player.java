@@ -13,10 +13,12 @@ public class Player extends Actor {
 
     @Override
     public void attack() {
-        List<Enemy> enemyList = ifMonster();
-        if (ifMonster().size() != 0) {
-            System.out.println(enemyList.get(0).getTileName());
-            System.out.println(ifMonster().size());
+        List<Enemy> enemyList = ifEnemy();
+        if (enemyList.size() != 0) {
+            for (Enemy enemy : enemyList) {
+                if (enemy.isAlive())
+                    enemy.reduceHealth(5);
+            }
         }
     }
 
@@ -34,7 +36,7 @@ public class Player extends Actor {
     }
 
     @Override
-    List<Enemy> ifMonster() {
+    List<Enemy> ifEnemy() {
         List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
             if (i == 0) {

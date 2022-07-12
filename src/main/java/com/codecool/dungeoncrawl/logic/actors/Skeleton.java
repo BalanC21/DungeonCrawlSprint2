@@ -21,11 +21,14 @@ public class Skeleton extends Enemy {
 
     @Override
     void reduceHealth(int value) {
-
+        if (this.isCharacterAlive())
+            this.setHealth(this.getHealth() - value);
+        else
+            this.setCharacterAlive(false);
     }
 
     @Override
-    List<Enemy> ifMonster() {
+    List<Enemy> ifEnemy() {
         return null;
     }
 

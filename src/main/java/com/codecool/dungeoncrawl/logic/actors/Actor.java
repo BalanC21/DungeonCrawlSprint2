@@ -22,6 +22,11 @@ public abstract class Actor implements Drawable {
     public boolean isCharacterAlive() {
         return isCharacterAlive;
     }
+
+    public void setCharacterAlive(boolean characterAlive) {
+        isCharacterAlive = characterAlive;
+    }
+
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON)) {
@@ -34,14 +39,14 @@ public abstract class Actor implements Drawable {
     abstract boolean isAlive();
     abstract void reduceHealth(int value);
 
-    abstract List<Enemy> ifMonster();
+    abstract List<Enemy> ifEnemy();
 
     public int getHealth() {
         return health;
     }
 
     public void setHealth(int health) {
-        this.health = health;
+            this.health = health;
     }
 
     public Cell getCell() {
