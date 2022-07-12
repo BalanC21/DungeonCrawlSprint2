@@ -13,10 +13,11 @@ public class Player extends Actor {
 
     @Override
     public void attack() {
-        boolean ana = ifMonster();
-        System.out.println(ana);
-        if (ana)
-            System.out.println("Entering Boolean");
+        List<Enemy> enemyList = ifMonster();
+        if (ifMonster().size() != 0) {
+            System.out.println(enemyList.get(0).getTileName());
+            System.out.println(ifMonster().size());
+        }
     }
 
     @Override
@@ -33,17 +34,18 @@ public class Player extends Actor {
     }
 
     @Override
-    boolean ifMonster() {
+    List<Enemy> ifMonster() {
+        List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
             if (i == 0) {
                 continue;
             }
             if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.SKELETON))
-                return true;
+                enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
-                return true;
+                enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
         }
-        return false;
+        return enemyList;
     }
 
     public String getTileName() {

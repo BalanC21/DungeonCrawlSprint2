@@ -4,6 +4,8 @@ import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
+import java.util.List;
+
 public abstract class Actor implements Drawable {
     private Cell cell;
     private boolean isCharacterAlive;
@@ -32,7 +34,7 @@ public abstract class Actor implements Drawable {
     abstract boolean isAlive();
     abstract void reduceHealth(int value);
 
-    abstract boolean ifMonster();
+    abstract List<Enemy> ifMonster();
 
     public int getHealth() {
         return health;

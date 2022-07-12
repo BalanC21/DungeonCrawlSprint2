@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
 
+import java.util.List;
+
 public class Skeleton extends Enemy {
     public Skeleton(Cell cell) {
         super(cell);
@@ -23,8 +25,8 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    boolean ifMonster() {
-        return true;
+    List<Enemy> ifMonster() {
+        return null;
     }
 
     @Override
