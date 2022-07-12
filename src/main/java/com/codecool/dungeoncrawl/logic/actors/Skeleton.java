@@ -28,7 +28,7 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    List<Enemy> ifEnemy() {
+    List<Enemy> getEnemyList() {
         return null;
     }
 

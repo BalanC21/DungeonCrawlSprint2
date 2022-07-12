@@ -13,7 +13,7 @@ public class Player extends Actor {
 
     @Override
     public void attack() {
-        List<Enemy> enemyList = ifEnemy();
+        List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {
                 if (enemy.isAlive())
@@ -35,7 +35,7 @@ public class Player extends Actor {
     }
 
     @Override
-    List<Enemy> ifEnemy() {
+    List<Enemy> getEnemyList() {
         List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
             if (i == 0) {
