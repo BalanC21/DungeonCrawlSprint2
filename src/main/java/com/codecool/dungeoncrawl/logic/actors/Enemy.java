@@ -10,10 +10,5 @@ public abstract class Enemy extends Actor{
     }
 
     @Override
-    public String getTileName() {
-        return null;
-    }
-
-    @Override
     abstract void attack();
 }
