@@ -71,6 +71,10 @@ public class Main extends Application {
                 map.getPlayer().move(1,0);
                 refresh();
                 break;
+            case W:
+                map.getPlayer().attack();
+                refresh();
+                break;
         }
     }
 
