@@ -3,6 +3,9 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player extends Actor {
     public Player(Cell cell) {
         super(cell);
@@ -18,23 +21,29 @@ public class Player extends Actor {
 
     @Override
     boolean isAlive() {
-        return super.getHealth() != 0;
+        return this.getHealth() != 0;
     }
 
     @Override
     void reduceHealth(int value) {
-        if (value > super.getHealth())
-            super.setAlive(false);
-        int healthRemaining = super.getHealth() - value;
-        super.setHealth(healthRemaining);
+        if (value > this.getHealth())
+            this.setAlive(false);
+        int healthRemaining = this.getHealth() - value;
+        this.setHealth(healthRemaining);
     }
 
     @Override
     boolean ifMonster() {
-        if (this.getCell().getNeighbor(1, 0).getType().equals(CellType.SKELETON) || this.getCell().getNeighbor(- 1, 0).getType().equals(CellType.SKELETON)) {
-            return true;
+        for (int i = -1; i < 2; i++) {
+            if (i == 0) {
+                continue;
+            }
+            if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.SKELETON))
+                return true;
+            if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
+                return true;
         }
-        return this.getCell().getNeighbor(0, 1).getType().equals(CellType.SKELETON) || this.getCell().getNeighbor(0, -1).getType().equals(CellType.SKELETON);
+        return false;
     }
 
     public String getTileName() {
