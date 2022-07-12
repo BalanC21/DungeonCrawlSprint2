@@ -1,19 +1,24 @@
 package com.codecool.dungeoncrawl;
 
-import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.GameMap;
-import com.codecool.dungeoncrawl.logic.MapLoader;
+import com.codecool.dungeoncrawl.logic.*;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -22,6 +27,9 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Button button = new Button("Pick Up");
+
+
 
     public static void main(String[] args) {
         launch(args);
@@ -32,19 +40,40 @@ public class Main extends Application {
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
-
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+        ui.add(button, 1,1 );
+        button.setFocusTraversable(false);
 
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("Hi there! You clicked me!");
+                Cell playerCell =map.getPlayer().getCell();
+                Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
+                if (selectedCell.getType() == CellType.SWORD){
+                    System.out.println("it works");
+                    map.getPlayer().addItem(ItemType.SWORD);
+                    selectedCell.setType(CellType.FLOOR);
+                } else if (selectedCell.getType() == CellType.KEY) {
+                    map.getPlayer().addItem(ItemType.KEY);
+                    selectedCell.setType(CellType.FLOOR);
+
+                }
+                System.out.println(map.getPlayer().getItemTypeList());
+            }
+        });
         BorderPane borderPane = new BorderPane();
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane);
+
         primaryStage.setScene(scene);
+
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
+
 
         primaryStage.setTitle("Dungeon Crawl");
 
@@ -68,7 +97,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case RIGHT:
-                map.getPlayer().move(1,0);
+                map.getPlayer().move(1, 0);
                 refresh();
                 break;
         }

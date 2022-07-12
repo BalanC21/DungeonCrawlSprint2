@@ -1,15 +1,12 @@
 package com.codecool.dungeoncrawl.logic;
 
-public enum CellType {
-    EMPTY("empty"),
-    FLOOR("floor"),
-    WALL("wall"),
+public enum ItemType {
     SWORD("sword"),
     KEY("key");
 
     private final String tileName;
 
-    CellType(String tileName) {
+    ItemType(String tileName) {
         this.tileName = tileName;
     }
 
