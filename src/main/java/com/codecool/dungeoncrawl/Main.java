@@ -47,6 +47,9 @@ public class Main extends Application {
         scene.setOnKeyPressed(this::onKeyPressed);
 
         primaryStage.setTitle("Dungeon Crawl");
+
+        Cell cell = map.getCell(10, 10);
+
         primaryStage.show();
     }
 
