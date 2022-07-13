@@ -46,10 +46,10 @@ public class MapLoader {
                             cell.setType(CellType.KEY);
                             break;
                         case 'o':
-                            cell.setType(CellType.OPENDOOR);
+                            cell.setType(CellType.OPEN_DOOR);
                             break;
                         case 'c':
-                            cell.setType(CellType.CLOSEDDOOR);
+                            cell.setType(CellType.CLOSED_DOOR);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
