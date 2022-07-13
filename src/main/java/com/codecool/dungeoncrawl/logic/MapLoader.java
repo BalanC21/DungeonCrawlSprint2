@@ -32,11 +32,11 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             break;
                         case 's':
-                            cell.setType(CellType.FLOOR);
+                            cell.setType(CellType.SKELETON);
                             new Skeleton(cell);
                             break;
                         case '@':
-                            cell.setType(CellType.FLOOR);
+                            cell.setType(CellType.PLAYER);
                             map.setPlayer(new Player(cell));
                             break;
                         case 'i':
@@ -58,6 +58,19 @@ public class MapLoader {
             }
         }
         return map;
+    }
+
+    public static void deleteCharacter(){
+        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+        Scanner scanner = new Scanner(is);
+        int width = scanner.nextInt();
+        int height = scanner.nextInt();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+
+            }
+
+        }
     }
 
 }

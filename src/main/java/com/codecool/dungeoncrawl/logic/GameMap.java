@@ -23,6 +23,9 @@ public class GameMap {
     public Cell getCell(int x, int y) {
         return cells[x][y];
     }
+    public Cell setCell(int x, int y) {
+        return cells[x][y];
+    }
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -31,7 +34,6 @@ public class GameMap {
     public Player getPlayer() {
         return player;
     }
-
     public int getWidth() {
         return width;
     }
