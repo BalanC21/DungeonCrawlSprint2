@@ -21,10 +21,15 @@ public class Player extends Actor {
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {
-                if (enemy.isAlive())
+                if (enemy.getHealth() >= 5) {
                     enemy.reduceHealth(5);
-                else
+                }
+                if (!enemy.isAlive()) {
                     enemy.getCell().setType(CellType.FLOOR);
+                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY()) {
+                        System.out.println(this.getHealth());
+                    }
+                }
             }
         }
     }
@@ -81,4 +86,17 @@ public class Player extends Actor {
     public List<ItemType> getItemTypeList() {
         return itemTypeList;
     }
+
+    public boolean hasItem(ItemType item) {
+        for (ItemType elem : itemTypeList) {
+            if (item == elem) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 }
