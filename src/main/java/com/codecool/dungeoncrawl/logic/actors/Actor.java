@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
+import com.codecool.dungeoncrawl.logic.ItemType;
 
 import java.util.List;
 
@@ -16,9 +17,11 @@ public abstract class Actor implements Drawable {
         this.isCharacterAlive = true;
         this.cell.setActor(this);
     }
+
     public void setAlive(boolean alive) {
         isCharacterAlive = alive;
     }
+
     public boolean isCharacterAlive() {
         return isCharacterAlive;
     }
@@ -29,14 +32,26 @@ public abstract class Actor implements Drawable {
 
     public void move(int dx, int dy) {
         Cell nextCell = cell.getNeighbor(dx, dy);
-        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON)) {
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
+
+        }
+        if (((Player) cell.getActor()).hasItem(ItemType.KEY)) {
+            System.out.println("Ana");
+            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3)) {
+                cell.setActor(null);
+                nextCell.setActor(this);
+                cell = nextCell;
+            }
         }
     }
+
     abstract void attack();
+
     abstract boolean isAlive();
+
     abstract void reduceHealth(int value);
 
     abstract List<Enemy> getEnemyList();
@@ -46,7 +61,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void setHealth(int health) {
-            this.health = health;
+        this.health = health;
     }
 
     public Cell getCell() {
@@ -60,4 +75,6 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
+
+
 }

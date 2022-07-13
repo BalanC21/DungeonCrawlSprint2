@@ -107,6 +107,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case W:
+                refresh();
                 map.getPlayer().attack();
                 refresh();
                 break;
