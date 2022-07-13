@@ -36,10 +36,8 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-
         }
         if (((Player) cell.getActor()).hasItem(ItemType.KEY)) {
-            System.out.println("PLayer has a key");
             if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
                 cell.setActor(null);
                 nextCell.setActor(this);

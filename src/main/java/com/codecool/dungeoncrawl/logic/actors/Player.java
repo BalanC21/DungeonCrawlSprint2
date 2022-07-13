@@ -21,13 +21,27 @@ public class Player extends Actor {
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {
-                if (enemy.getHealth() >= 5) {
+                if (enemy.getHealth() != 0)
                     enemy.reduceHealth(5);
-                }
-                if (!enemy.isAlive()) {
-                    enemy.getCell().setType(CellType.FLOOR);
-                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY()) {
-                        System.out.println(this.getHealth());
+            }
+        }
+    }
+
+    public void lootEnemy() {
+        List<Enemy> enemyList = getEnemyList();
+        // TODO: 13.07.2022 Try to repair this!
+
+        for (Enemy enemy : enemyList) {
+            if (!enemy.isAlive()) {
+                enemy.getCell().setType(CellType.FLOOR);
+                for (int i = -1; i < 2; i++) {
+                    if (i == 0)
+                        continue;
+                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY() + i) {
+                        this.reduceHealth(-2);
+                    }
+                    if (this.getCell().getX() == enemy.getX() - i && this.getCell().getY() == enemy.getY()) {
+                        this.reduceHealth(-2);
                     }
                 }
             }
@@ -44,7 +58,6 @@ public class Player extends Actor {
         if (value > this.getHealth())
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);
-        System.out.println(this.getHealth());
     }
 
     @Override
@@ -82,8 +95,6 @@ public class Player extends Actor {
         }
         return false;
     }
-
-
 
 
 }

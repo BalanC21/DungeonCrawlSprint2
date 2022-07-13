@@ -31,7 +31,6 @@ public class Main extends Application {
     Button button = new Button("Pick Up");
 
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -42,19 +41,19 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
         ui.add(new Label("Health: "), 0, 1);
-        ui.add(new Label("Inventory"), 0,2);
+        ui.add(new Label("Inventory"), 0, 2);
         ui.add(healthLabel, 1, 1);
-        ui.add(inventory, 1,2);
-        ui.add(button, 0,0 );
+        ui.add(inventory, 1, 2);
+        ui.add(button, 0, 0);
         button.setFocusTraversable(false);
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hi there! You clicked me!");
-                Cell playerCell =map.getPlayer().getCell();
+                Cell playerCell = map.getPlayer().getCell();
                 Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
-                if (selectedCell.getType() == CellType.SWORD){
+                if (selectedCell.getType() == CellType.SWORD) {
                     System.out.println("it works");
                     map.getPlayer().addItem(ItemType.SWORD);
                     selectedCell.setType(CellType.FLOOR);
@@ -91,23 +90,26 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, -1);
                 refresh();
                 break;
             case DOWN:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, 1);
                 refresh();
                 break;
             case LEFT:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(-1, 0);
                 refresh();
                 break;
             case RIGHT:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(1, 0);
                 refresh();
                 break;
             case W:
-                refresh();
                 map.getPlayer().attack();
                 refresh();
                 break;
