@@ -18,6 +18,8 @@ public class Player extends Actor {
             for (Enemy enemy : enemyList) {
                 if (enemy.isAlive())
                     enemy.reduceHealth(5);
+                else
+                    enemy.getCell().setType(CellType.FLOOR);
             }
         }
     }
@@ -32,6 +34,7 @@ public class Player extends Actor {
         if (value > this.getHealth())
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);
+        System.out.println(this.getHealth());
     }
 
     @Override
