@@ -5,10 +5,12 @@ import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.codecool.dungeoncrawl.logic.ItemType;
 
 public class Player extends Actor {
     private List<ItemType> itemTypeList;
+
     public Player(Cell cell) {
         super(cell);
         itemTypeList = new ArrayList<>();
@@ -23,6 +25,19 @@ public class Player extends Actor {
                     enemy.reduceHealth(5);
                 else
                     enemy.getCell().setType(CellType.FLOOR);
+            }
+        }
+    }
+
+    public void lootEnemy() {
+        int[] ana = new int[2];
+        for (Actor enemy : getEnemyList()) {
+            System.out.println(enemy.getTileName());
+            ana[0] = enemy.getX();
+            ana[1] = enemy.getY();
+
+            if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY()) {
+                this.reduceHealth(-2);
             }
         }
     }
@@ -59,7 +74,7 @@ public class Player extends Actor {
         return "player";
     }
 
-    public void addItem(ItemType itemType){
+    public void addItem(ItemType itemType) {
         itemTypeList.add(itemType);
     }
 

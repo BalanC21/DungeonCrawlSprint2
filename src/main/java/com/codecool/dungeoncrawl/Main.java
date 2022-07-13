@@ -1,4 +1,7 @@
 package com.codecool.dungeoncrawl;
+//Good
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import com.codecool.dungeoncrawl.logic.*;
 import javafx.application.Application;
@@ -14,8 +17,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -31,7 +32,6 @@ public class Main extends Application {
     Button button = new Button("Pick Up");
 
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -42,19 +42,19 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
         ui.add(new Label("Health: "), 0, 1);
-        ui.add(new Label("Inventory"), 0,2);
+        ui.add(new Label("Inventory"), 0, 2);
         ui.add(healthLabel, 1, 1);
-        ui.add(inventory, 1,2);
-        ui.add(button, 0,0 );
+        ui.add(inventory, 1, 2);
+        ui.add(button, 0, 0);
         button.setFocusTraversable(false);
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hi there! You clicked me!");
-                Cell playerCell =map.getPlayer().getCell();
+                Cell playerCell = map.getPlayer().getCell();
                 Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
-                if (selectedCell.getType() == CellType.SWORD){
+                if (selectedCell.getType() == CellType.SWORD) {
                     System.out.println("it works");
                     map.getPlayer().addItem(ItemType.SWORD);
                     selectedCell.setType(CellType.FLOOR);
@@ -93,17 +93,21 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().move(0, -1);
                 refresh();
+                map.getPlayer().lootEnemy();
                 break;
             case DOWN:
                 map.getPlayer().move(0, 1);
+                map.getPlayer().lootEnemy();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().move(-1, 0);
+                map.getPlayer().lootEnemy();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().move(1, 0);
+                map.getPlayer().lootEnemy();
                 refresh();
                 break;
             case W:

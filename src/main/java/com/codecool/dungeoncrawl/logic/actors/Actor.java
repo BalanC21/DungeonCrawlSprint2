@@ -16,9 +16,23 @@ public abstract class Actor implements Drawable {
         this.isCharacterAlive = true;
         this.cell.setActor(this);
     }
+
+    protected void ana() {
+        List<Enemy> enemyList = getEnemyList();
+        if (enemyList.size() != 0) {
+            for (Enemy enemy : enemyList) {
+                if (enemy.isAlive())
+                    enemy.reduceHealth(5);
+                else
+                    enemy.getCell().setType(CellType.FLOOR);
+            }
+        }
+    }
+
     public void setAlive(boolean alive) {
         isCharacterAlive = alive;
     }
+
     public boolean isCharacterAlive() {
         return isCharacterAlive;
     }
@@ -35,8 +49,11 @@ public abstract class Actor implements Drawable {
             cell = nextCell;
         }
     }
+
     abstract void attack();
+
     abstract boolean isAlive();
+
     abstract void reduceHealth(int value);
 
     abstract List<Enemy> getEnemyList();
@@ -46,7 +63,7 @@ public abstract class Actor implements Drawable {
     }
 
     public void setHealth(int health) {
-            this.health = health;
+        this.health = health;
     }
 
     public Cell getCell() {
