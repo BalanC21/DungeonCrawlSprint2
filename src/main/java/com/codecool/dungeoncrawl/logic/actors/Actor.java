@@ -19,6 +19,8 @@ public abstract class Actor implements Drawable {
         this.health = health;
     }
 
+    public abstract void move(int dx, int dy);
+
     void reduceHealth(int value) {
         if (value > this.getHealth())
             this.setAlive(false);
@@ -30,18 +32,18 @@ public abstract class Actor implements Drawable {
     }
 
     public boolean isCharacterAlive() {
-        return isCharacterAlive;
+        return this.health <= 0;
     }
 
     public void setCharacterAlive(boolean characterAlive) {
         isCharacterAlive = characterAlive;
     }
 
-    public abstract void move(int dx, int dy);
-
     public abstract void attack();
 
     abstract boolean isAlive();
+
+    abstract List<Enemy> getEnemyList();
 
     public int getHealth() {
         return health;
