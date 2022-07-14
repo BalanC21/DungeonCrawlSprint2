@@ -10,6 +10,7 @@ import com.codecool.dungeoncrawl.logic.ItemType;
 
 public class Player extends Actor {
     private List<ItemType> itemTypeList;
+    private List<Enemy> enemyList;
 
     private CellType cellType;
 
@@ -17,6 +18,7 @@ public class Player extends Actor {
         super(cell, 10);
         this.cellType = CellType.PLAYER;
         itemTypeList = new ArrayList<>();
+        enemyList = new ArrayList<>();
     }
 
     public CellType getCellType() {
@@ -24,13 +26,32 @@ public class Player extends Actor {
     }
 
     @Override
+    public void move(int dx, int dy) {
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+        }
+        if (hasItem(ItemType.KEY)) {
+            if (!nextCell.getType().equals(CellType.WALL) && !(this.getCell().getActor().getX() == 17 & this.getCell().getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
+                this.getCell().setActor(null);
+                nextCell.setActor(this);
+                this.setCell(nextCell);
+            }
+        }
+    }
+
+    @Override
     public void attack() {
-        System.out.println(this.getCell().getType());
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {
-                if (enemy.getHealth() != 0)
+                if (enemy.getHealth() != 0) {
+                    System.out.println("Player attack");
                     enemy.reduceHealth(5);
+                    System.out.println(enemy.getHealth());
+                }
             }
         }
     }
@@ -57,9 +78,8 @@ public class Player extends Actor {
         return this.getHealth() != 0;
     }
 
-    @Override
-    public List<Enemy> getEnemyList() {
-        List<Enemy> enemyList = new ArrayList<>();
+
+    private void addEnemyToList() {
         for (int i = -1; i < 2; i++) {
             if (i == 0)
                 continue;
@@ -68,12 +88,17 @@ public class Player extends Actor {
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
                 enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
         }
+    }
+
+
+    public List<Enemy> getEnemyList() {
         return enemyList;
     }
 
     public String getTileName() {
         return "player";
     }
+
 
     public void addItem(ItemType itemType) {
         itemTypeList.add(itemType);
@@ -83,7 +108,7 @@ public class Player extends Actor {
         return itemTypeList;
     }
 
-    public boolean hasItem(ItemType item) {
+    private boolean hasItem(ItemType item) {
         for (ItemType elem : itemTypeList) {
             if (item == elem) {
                 return true;

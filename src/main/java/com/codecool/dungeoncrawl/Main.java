@@ -144,6 +144,7 @@ public class Main extends Application {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
             enemy.attack();
+            enemy.move(0,0);
             refresh();
         }
     }

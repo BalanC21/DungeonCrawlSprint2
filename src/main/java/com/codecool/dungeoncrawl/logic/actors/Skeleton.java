@@ -10,6 +10,11 @@ public class Skeleton extends Enemy {
         super(cell, 10);
     }
 
+    @Override
+    public void move(int dx, int dy) {
+
+    }
+
     public void attack() {
         Optional<Player> optionalPlayer = Optional.ofNullable(getPLayer());
         if (optionalPlayer.isPresent()) {
@@ -26,10 +31,6 @@ public class Skeleton extends Enemy {
         return super.getHealth() != 0;
     }
 
-    @Override
-    List<Enemy> getEnemyList() {
-        return null;
-    }
 
     @Override
     public String getTileName() {

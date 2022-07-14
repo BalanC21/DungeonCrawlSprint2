@@ -12,6 +12,7 @@ public abstract class Enemy extends Actor {
         super(cell, health);
     }
 
+
     public Player getPLayer() {
         Player player = null;
         for (int i = -1; i < 2; i++) {

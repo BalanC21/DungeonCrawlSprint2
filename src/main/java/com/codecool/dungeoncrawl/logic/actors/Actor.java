@@ -37,27 +37,11 @@ public abstract class Actor implements Drawable {
         isCharacterAlive = characterAlive;
     }
 
-    public void move(int dx, int dy) {
-        Cell nextCell = cell.getNeighbor(dx, dy);
-        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
-            cell.setActor(null);
-            nextCell.setActor(this);
-            cell = nextCell;
-        }
-        if (((Player) cell.getActor()).hasItem(ItemType.KEY)) {
-            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
-                cell.setActor(null);
-                nextCell.setActor(this);
-                cell = nextCell;
-            }
-        }
-    }
+    public abstract void move(int dx, int dy);
 
     public abstract void attack();
 
     abstract boolean isAlive();
-
-    abstract List<Enemy> getEnemyList();
 
     public int getHealth() {
         return health;
@@ -69,6 +53,10 @@ public abstract class Actor implements Drawable {
 
     public Cell getCell() {
         return cell;
+    }
+
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
     public int getX() {
