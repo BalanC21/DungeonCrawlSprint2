@@ -4,7 +4,7 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 import java.util.List;
 
-public class Archer extends Enemy{
+public class Archer extends Enemy {
 
     public Archer(Cell cell) {
         super(cell, 5);
@@ -12,7 +12,12 @@ public class Archer extends Enemy{
 
     @Override
     public String getTileName() {
-        return null;
+        return "archer";
+    }
+
+    @Override
+    public void attack() {
+
     }
 
     @Override
@@ -23,10 +28,5 @@ public class Archer extends Enemy{
     @Override
     List<Enemy> getEnemyList() {
         return null;
-    }
-
-    @Override
-    void attack() {
-
     }
 }

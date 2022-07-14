@@ -23,13 +23,6 @@ public abstract class Actor implements Drawable {
         if (value > this.getHealth())
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);
-        System.out.println(this.getHealth());
-    }
-
-    void reduceHealth(int value) {
-        if (value > this.getHealth())
-            this.setAlive(false);
-        this.setHealth(this.getHealth() - value);
     }
 
     public void setAlive(boolean alive) {

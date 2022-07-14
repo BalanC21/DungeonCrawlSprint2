@@ -4,17 +4,9 @@ import com.codecool.dungeoncrawl.logic.Cell;
 
 import java.util.List;
 
-public class Sentinel extends Enemy{
-
-
-
+public class Sentinel extends Enemy {
     public Sentinel(Cell cell) {
         super(cell, 20);
-    }
-
-    @Override
-    void attack() {
-
     }
 
     boolean isAlive() {
@@ -27,12 +19,17 @@ public class Sentinel extends Enemy{
     }
 
     @Override
+    public void attack() {
+
+    }
+
+    @Override
     List<Enemy> getEnemyList() {
         return null;
     }
 
     @Override
     public String getTileName() {
-        return null;
+        return "sentinel";
     }
 }

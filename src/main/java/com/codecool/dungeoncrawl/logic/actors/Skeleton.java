@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public class Skeleton extends Enemy {
     public Skeleton(Cell cell) {
-        super(cell);
+        super(cell, 10);
     }
 
     public void attack() {

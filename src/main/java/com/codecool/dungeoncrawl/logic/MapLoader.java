@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 import java.io.InputStream;
@@ -51,6 +53,14 @@ public class MapLoader {
                         case 'c':
                             cell.setType(CellType.CLOSED_DOOR);
                             break;
+                        case 't':
+                            cell.setType(CellType.SENTINEL);
+                            new Sentinel(cell);
+                            break;
+                        case 'a':
+                            cell.setType(CellType.ARCHER);
+                            new Archer(cell);
+                            break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
@@ -60,17 +70,17 @@ public class MapLoader {
         return map;
     }
 
-    public static void deleteCharacter(){
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
-        Scanner scanner = new Scanner(is);
-        int width = scanner.nextInt();
-        int height = scanner.nextInt();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-
-            }
-
-        }
-    }
+//    public static void deleteCharacter(){
+//        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+//        Scanner scanner = new Scanner(is);
+//        int width = scanner.nextInt();
+//        int height = scanner.nextInt();
+//        for (int i = 0; i < width; i++) {
+//            for (int j = 0; j < height; j++) {
+//
+//            }
+//
+//        }
+//    }
 
 }

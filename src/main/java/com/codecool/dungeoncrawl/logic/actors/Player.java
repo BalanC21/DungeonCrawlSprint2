@@ -14,7 +14,7 @@ public class Player extends Actor {
     private CellType cellType;
 
     public Player(Cell cell) {
-        super(cell);
+        super(cell, 10);
         this.cellType = CellType.PLAYER;
         itemTypeList = new ArrayList<>();
     }
