@@ -31,6 +31,11 @@ public class Skeleton extends Enemy {
         return super.getHealth() != 0;
     }
 
+    @Override
+    List<Enemy> getEnemyList() {
+        return null;
+    }
+
 
     @Override
     public String getTileName() {

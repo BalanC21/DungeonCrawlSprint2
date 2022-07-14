@@ -30,5 +30,10 @@ public class Archer extends Enemy {
         return false;
     }
 
+    @Override
+    List<Enemy> getEnemyList() {
+        return null;
+    }
+
 
 }

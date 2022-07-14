@@ -17,9 +17,10 @@ public class Sentinel extends Enemy {
     }
 
     @Override
-    public void move(int dx, int dy) {
-
+    List<Enemy> getEnemyList() {
+        return null;
     }
+
 
     @Override
     void reduceHealth(int value) {
