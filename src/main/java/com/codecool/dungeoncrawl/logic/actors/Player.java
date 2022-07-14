@@ -28,9 +28,9 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
-            if(this.getCell().getType().equals(CellType.PLAYER)){
-                    this.getCell().setType(CellType.FLOOR);
-                }
+            if (this.getCell().getType().equals(CellType.PLAYER)) {
+                this.getCell().setType(CellType.FLOOR);
+            }
             this.getCell().setActor(null);
             nextCell.setActor(this);
             this.setCell(nextCell);
@@ -51,11 +51,18 @@ public class Player extends Actor {
         System.out.println(this.getCell().getType());
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
+            System.out.println("moni");
             for (Enemy enemy : enemyList) {
                 enemyOptional = Optional.ofNullable(enemy);
-                if (enemyOptional.isPresent()){
-                    if (enemyOptional.get().getHealth() != 0)
-                        enemyOptional.get().reduceHealth(5);}
+                if (enemyOptional.isPresent()) {
+                    System.out.println(enemyOptional.get().getHealth());
+                    if (enemyOptional.get().getHealth() != 0) {
+                        enemyOptional.get().reduceHealth(5);
+                    } else if (!enemyOptional.get().isAlive()) {
+                        System.out.println("something 1");
+                    } else
+                        System.out.println("something2");
+                }
             }
         }
     }
@@ -81,6 +88,7 @@ public class Player extends Actor {
             }
         }
     }
+
     @Override
     boolean isAlive() {
         return this.getHealth() != 0;

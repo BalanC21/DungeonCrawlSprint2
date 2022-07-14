@@ -20,12 +20,15 @@ public class Skeleton extends Enemy {
             this.getCell().setActor(null);
             nextCell.setActor(this);
             this.setCell(nextCell);
+            this.getCell().setType(CellType.SKELETON);
+
         }
     }
 
     public void attack() {
         Optional<Player> optionalPlayer = Optional.ofNullable(getPLayer());
         if (optionalPlayer.isPresent()) {
+            System.out.println("is this ok");
             if (optionalPlayer.get().getHealth() != 0) {
                 System.out.println("Enemy Attack");
                 optionalPlayer.get().reduceHealth(2);
