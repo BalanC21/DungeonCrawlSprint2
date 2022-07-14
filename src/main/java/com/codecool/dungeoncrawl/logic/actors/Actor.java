@@ -1,9 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 import com.codecool.dungeoncrawl.logic.Drawable;
-import com.codecool.dungeoncrawl.logic.ItemType;
 
 import java.util.List;
 
@@ -21,7 +19,7 @@ public abstract class Actor implements Drawable {
 
     public abstract void move(int dx, int dy);
 
-    void reduceHealth(int value) {
+    void modifyHealth(int value) {
         if (value > this.getHealth())
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);

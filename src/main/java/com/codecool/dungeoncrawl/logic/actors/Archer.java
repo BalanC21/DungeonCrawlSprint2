@@ -27,7 +27,7 @@ public class Archer extends Enemy {
 
     @Override
     boolean isAlive() {
-        return false;
+        return this.getHealth() > 0;
     }
 
     @Override

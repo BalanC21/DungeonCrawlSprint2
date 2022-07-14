@@ -10,7 +10,6 @@ public class Util {
         int max = 2;
         int number;
         number = random.nextInt(max - min) + min;
-        System.out.println(number);
         return number;
     }
 

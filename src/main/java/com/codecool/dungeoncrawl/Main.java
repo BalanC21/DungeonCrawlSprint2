@@ -32,6 +32,7 @@ public class Main extends Application {
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
+    Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
 
@@ -46,9 +47,11 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
         ui.add(new Label("Health: "), 0, 1);
-        ui.add(new Label("Inventory"), 0, 2);
+        ui.add(new Label("Attack"), 0, 2);
+        ui.add(new Label("Inventory"), 0, 3);
         ui.add(healthLabel, 1, 1);
-        ui.add(inventory, 1, 2);
+        ui.add(attackLabel, 1, 2);
+        ui.add(inventory, 1, 3);
         ui.add(button, 0, 0);
         button.setFocusTraversable(false);
 
@@ -63,9 +66,11 @@ public class Main extends Application {
                 } else if (selectedCell.getType() == CellType.KEY) {
                     map.getPlayer().addItem(ItemType.KEY);
                     selectedCell.setType(CellType.FLOOR);
-
                 }
-                inventory.setText("" + map.getPlayer().getItemTypeList());
+//                for (int i = 0; i < map.getPlayer().getItemTypeList().size(); i++) {
+//                    inventory.setText("" + map.getPlayer().getItemTypeList().get(i) + "\n");
+//                }
+                inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
 
             }
         });
@@ -92,26 +97,22 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
-                map.getPlayer().lootEnemy();
-                map.getPlayer().move(0, -1);
+                getPlayerStats(0, -1);
                 enemyAction(true);
                 refresh();
                 break;
             case DOWN:
-                map.getPlayer().lootEnemy();
-                map.getPlayer().move(0, 1);
+                getPlayerStats(0, 1);
                 enemyAction(true);
                 refresh();
                 break;
             case LEFT:
-                map.getPlayer().lootEnemy();
-                map.getPlayer().move(-1, 0);
+                getPlayerStats(-1, 0);
                 enemyAction(true);
                 refresh();
                 break;
             case RIGHT:
-                map.getPlayer().lootEnemy();
-                map.getPlayer().move(1, 0);
+                getPlayerStats(1, 0);
                 enemyAction(true);
                 refresh();
                 break;
@@ -122,6 +123,12 @@ public class Main extends Application {
                 refresh();
                 break;
         }
+    }
+
+    private void getPlayerStats(int dx, int dy){
+        map.getPlayer().modifyPlayerStats();
+        map.getPlayer().lootEnemy();
+        map.getPlayer().move(dx, dy);
     }
 
     private void refresh() {
@@ -138,6 +145,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
+        inventory.setText("" + map.getPlayer().getAttack());
         inventory.setText("" + map.getPlayer().getItemTypeList());
     }
 
@@ -146,11 +154,9 @@ public class Main extends Application {
         for (Enemy enemy : enemyList) {
             if (!enemy.isCharacterAlive()){
                 enemy.attack();
-                if (doSomething)
+                if (doSomething && !enemy.isCharacterAlive())
                     enemy.move(Util.getRandomInt(), Util.getRandomInt());
             }
-            else
-                enemy.getCell().setType(CellType.FLOOR);
         }
     }
 }

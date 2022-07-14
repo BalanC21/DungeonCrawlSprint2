@@ -15,7 +15,6 @@ public class Skeleton extends Enemy {
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.PLAYER) && !nextCell.getType().equals(CellType.CLOSED_DOOR) && !nextCell.getType().equals(CellType.KEY) && !nextCell.getType().equals(CellType.SWORD)) {
-            System.out.println("it moves");
             this.getCell().setType(CellType.FLOOR);
             this.getCell().setActor(null);
             nextCell.setActor(this);
@@ -28,10 +27,8 @@ public class Skeleton extends Enemy {
     public void attack() {
         Optional<Player> optionalPlayer = Optional.ofNullable(getPLayer());
         if (optionalPlayer.isPresent()) {
-            System.out.println("is this ok");
-            if (optionalPlayer.get().getHealth() != 0) {
-                System.out.println("Enemy Attack");
-                optionalPlayer.get().reduceHealth(2);
+            if (optionalPlayer.get().getHealth() > 0) {
+                optionalPlayer.get().modifyHealth(2);
             } else
                 System.out.println("Player is Dead!");
         }
@@ -39,7 +36,7 @@ public class Skeleton extends Enemy {
 
     @Override
     boolean isAlive() {
-        return super.getHealth() != 0;
+        return super.getHealth() > 0;
     }
 
     @Override

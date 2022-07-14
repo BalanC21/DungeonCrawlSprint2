@@ -15,7 +15,7 @@ public class Sentinel extends Enemy {
     }
 
     boolean isAlive() {
-        return super.getHealth() != 0;
+        return super.getHealth() > 0;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class Sentinel extends Enemy {
 
 
     @Override
-    void reduceHealth(int value) {
+    void modifyHealth(int value) {
     }
 
     @Override
@@ -43,7 +43,6 @@ public class Sentinel extends Enemy {
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
-        System.out.println();
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
             System.out.println("it moves");
             this.getCell().setActor(null);

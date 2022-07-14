@@ -2,7 +2,8 @@ package com.codecool.dungeoncrawl.logic;
 
 public enum ItemType {
     SWORD("sword"),
-    KEY("key");
+    KEY("key"),
+    ARMOUR("armour");
 
     private final String tileName;
 
