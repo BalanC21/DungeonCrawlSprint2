@@ -23,7 +23,6 @@ public abstract class Actor implements Drawable {
         if (value > this.getHealth())
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);
-        System.out.println(this.getHealth());
     }
 
     public void setAlive(boolean alive) {
@@ -44,11 +43,9 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-
         }
         if (((Player) cell.getActor()).hasItem(ItemType.KEY)) {
-            System.out.println("Ana");
-            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3)) {
+            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
                 cell.setActor(null);
                 nextCell.setActor(this);
                 cell = nextCell;
@@ -56,7 +53,7 @@ public abstract class Actor implements Drawable {
         }
     }
 
-    abstract void attack();
+    public abstract void attack();
 
     abstract boolean isAlive();
 
@@ -81,6 +78,4 @@ public abstract class Actor implements Drawable {
     public int getY() {
         return cell.getY();
     }
-
-
 }

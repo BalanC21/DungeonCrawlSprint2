@@ -35,7 +35,7 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.SKELETON);
-                            new Skeleton(cell);
+                            map.getEnemyList().add(new Skeleton(cell));
                             break;
                         case '@':
                             cell.setType(CellType.PLAYER);
@@ -70,17 +70,17 @@ public class MapLoader {
         return map;
     }
 
-    public static void deleteCharacter(){
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
-        Scanner scanner = new Scanner(is);
-        int width = scanner.nextInt();
-        int height = scanner.nextInt();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-
-            }
-
-        }
-    }
+//    public static void deleteCharacter(){
+//        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+//        Scanner scanner = new Scanner(is);
+//        int width = scanner.nextInt();
+//        int height = scanner.nextInt();
+//        for (int i = 0; i < width; i++) {
+//            for (int j = 0; j < height; j++) {
+//
+//            }
+//
+//        }
+//    }
 
 }

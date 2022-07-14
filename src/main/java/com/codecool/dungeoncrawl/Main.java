@@ -1,6 +1,11 @@
 package com.codecool.dungeoncrawl;
+//Good
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.actors.Enemy;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,11 +19,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -31,7 +35,6 @@ public class Main extends Application {
     Button button = new Button("Pick Up");
 
 
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -42,18 +45,18 @@ public class Main extends Application {
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
         ui.add(new Label("Health: "), 0, 1);
-        ui.add(new Label("Inventory"), 0,2);
+        ui.add(new Label("Inventory"), 0, 2);
         ui.add(healthLabel, 1, 1);
-        ui.add(inventory, 1,2);
-        ui.add(button, 0,0 );
+        ui.add(inventory, 1, 2);
+        ui.add(button, 0, 0);
         button.setFocusTraversable(false);
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Cell playerCell =map.getPlayer().getCell();
+                Cell playerCell = map.getPlayer().getCell();
                 Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
-                if (selectedCell.getType() == CellType.SWORD){
+                if (selectedCell.getType() == CellType.SWORD) {
                     map.getPlayer().addItem(ItemType.SWORD);
                     selectedCell.setType(CellType.FLOOR);
                 } else if (selectedCell.getType() == CellType.KEY) {
@@ -88,24 +91,33 @@ public class Main extends Application {
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, -1);
+                enemyAction();
                 refresh();
                 break;
             case DOWN:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, 1);
+                enemyAction();
                 refresh();
                 break;
             case LEFT:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(-1, 0);
+                enemyAction();
                 refresh();
                 break;
             case RIGHT:
+                map.getPlayer().lootEnemy();
                 map.getPlayer().move(1, 0);
+                enemyAction();
                 refresh();
                 break;
             case W:
                 refresh();
                 map.getPlayer().attack();
+                enemyAction();
                 refresh();
                 break;
         }
@@ -126,5 +138,13 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         inventory.setText("" + map.getPlayer().getItemTypeList());
+    }
+
+    private void enemyAction() {
+        List<Enemy> enemyList = map.getEnemyList();
+        for (Enemy enemy : enemyList) {
+            enemy.attack();
+            refresh();
+        }
     }
 }

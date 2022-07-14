@@ -11,42 +11,58 @@ import com.codecool.dungeoncrawl.logic.ItemType;
 public class Player extends Actor {
     private List<ItemType> itemTypeList;
 
+    private CellType cellType;
+
     public Player(Cell cell) {
         super(cell, 10);
+        this.cellType = CellType.PLAYER;
         itemTypeList = new ArrayList<>();
+    }
+
+    public CellType getCellType() {
+        return cellType;
     }
 
     @Override
     public void attack() {
+        System.out.println(this.getCell().getType());
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {
-                if (enemy.getHealth() >= 5) {
+                if (enemy.getHealth() != 0)
                     enemy.reduceHealth(5);
-                }
-                if (!enemy.isAlive()) {
-                    enemy.getCell().setType(CellType.FLOOR);
-                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY()) {
-                        System.out.println(this.getHealth());
-                    }
-                }
             }
         }
     }
 
+    public void lootEnemy() {
+        List<Enemy> enemyList = getEnemyList();
+        // TODO: 13.07.2022 Try to repair this!
+        for (Enemy enemy : enemyList) {
+            if (!enemy.isAlive()) {
+                enemy.getCell().setType(CellType.FLOOR);
+                for (int i = -1; i < 2; i++) {
+                    if (i == 0)
+                        continue;
+                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY() + i)
+                        this.reduceHealth(-2);
+                    if (this.getCell().getX() == enemy.getX() - i && this.getCell().getY() == enemy.getY())
+                        this.reduceHealth(-2);
+                }
+            }
+        }
+    }
     @Override
     boolean isAlive() {
         return this.getHealth() != 0;
     }
 
-
     @Override
-    List<Enemy> getEnemyList() {
+    public List<Enemy> getEnemyList() {
         List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
-            if (i == 0) {
+            if (i == 0)
                 continue;
-            }
             if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.SKELETON))
                 enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
@@ -75,8 +91,6 @@ public class Player extends Actor {
         }
         return false;
     }
-
-
 
 
 }
