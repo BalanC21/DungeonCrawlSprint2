@@ -12,11 +12,12 @@ public class Archer extends Enemy{
 
     @Override
     public String getTileName() {
-        return null;
+        return "archer";
     }
 
     @Override
     boolean isAlive() {
+//        if ()
         return false;
     }
 
@@ -24,6 +25,7 @@ public class Archer extends Enemy{
     List<Enemy> getEnemyList() {
         return null;
     }
+
 
     @Override
     void attack() {

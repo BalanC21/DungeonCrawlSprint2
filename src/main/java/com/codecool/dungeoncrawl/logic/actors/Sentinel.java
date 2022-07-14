@@ -33,6 +33,6 @@ public class Sentinel extends Enemy{
 
     @Override
     public String getTileName() {
-        return null;
+        return "sentinel";
     }
 }

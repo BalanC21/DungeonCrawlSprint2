@@ -55,11 +55,11 @@ public class MapLoader {
                             break;
                         case 't':
                             cell.setType(CellType.SENTINEL);
-//                            new Sentinel(cell);
+                            new Sentinel(cell);
                             break;
                         case 'a':
                             cell.setType(CellType.ARCHER);
-//                            new Archer(cell);
+                            new Archer(cell);
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
