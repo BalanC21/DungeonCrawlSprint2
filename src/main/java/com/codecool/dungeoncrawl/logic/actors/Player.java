@@ -11,13 +11,21 @@ import com.codecool.dungeoncrawl.logic.ItemType;
 public class Player extends Actor {
     private List<ItemType> itemTypeList;
 
+    private CellType cellType;
+
     public Player(Cell cell) {
         super(cell);
+        this.cellType = CellType.PLAYER;
         itemTypeList = new ArrayList<>();
+    }
+
+    public CellType getCellType() {
+        return cellType;
     }
 
     @Override
     public void attack() {
+        System.out.println(this.getCell().getType());
         List<Enemy> enemyList = getEnemyList();
         if (enemyList.size() != 0) {
             for (Enemy enemy : enemyList) {

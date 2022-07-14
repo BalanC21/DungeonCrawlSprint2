@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Skeleton extends Enemy {
     public Skeleton(Cell cell) {
@@ -10,11 +11,12 @@ public class Skeleton extends Enemy {
     }
 
     public void attack() {
-        Player player = getPLayer();
-        if (player != null) {
-            if (player.getHealth() != 0)
-                player.reduceHealth(2);
-            else
+        Optional<Player> optionalPlayer = Optional.ofNullable(getPLayer());
+        if (optionalPlayer.isPresent()) {
+            if (optionalPlayer.get().getHealth() != 0) {
+                System.out.println("Enemy Attack");
+                optionalPlayer.get().reduceHealth(2);
+            } else
                 System.out.println("Player is Dead!");
         }
     }
@@ -22,14 +24,6 @@ public class Skeleton extends Enemy {
     @Override
     boolean isAlive() {
         return super.getHealth() != 0;
-    }
-
-    @Override
-    void reduceHealth(int value) {
-        if (this.isCharacterAlive())
-            this.setHealth(this.getHealth() - value);
-        else
-            this.setCharacterAlive(false);
     }
 
     @Override

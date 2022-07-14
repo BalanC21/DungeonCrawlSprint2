@@ -33,7 +33,7 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.SKELETON);
-                            new Skeleton(cell);
+                            map.getEnemyList().add(new Skeleton(cell));
                             break;
                         case '@':
                             cell.setType(CellType.PLAYER);

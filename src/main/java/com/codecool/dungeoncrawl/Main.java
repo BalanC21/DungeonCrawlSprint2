@@ -53,11 +53,9 @@ public class Main extends Application {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hi there! You clicked me!");
                 Cell playerCell = map.getPlayer().getCell();
                 Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
                 if (selectedCell.getType() == CellType.SWORD) {
-                    System.out.println("it works");
                     map.getPlayer().addItem(ItemType.SWORD);
                     selectedCell.setType(CellType.FLOOR);
                 } else if (selectedCell.getType() == CellType.KEY) {
@@ -65,7 +63,6 @@ public class Main extends Application {
                     selectedCell.setType(CellType.FLOOR);
 
                 }
-                System.out.println(map.getPlayer().getItemTypeList());
                 inventory.setText("" + map.getPlayer().getItemTypeList());
 
             }
@@ -95,21 +92,25 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, -1);
+                enemyAction();
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, 1);
+                enemyAction();
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(-1, 0);
+                enemyAction();
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(1, 0);
+                enemyAction();
                 refresh();
                 break;
             case W:
@@ -119,6 +120,7 @@ public class Main extends Application {
                 break;
         }
     }
+
 
     private void refresh() {
         context.setFill(Color.BLACK);
@@ -137,8 +139,11 @@ public class Main extends Application {
         inventory.setText("" + map.getPlayer().getItemTypeList());
     }
 
-    private void enemyAction(){
-        List<Enemy> enemyList = map.getPlayer().getEnemyList();
-    for (Enemy enemy : enemyList) enemy.attack();
+    private void enemyAction() {
+        List<Enemy> enemyList = map.getEnemyList();
+        for (Enemy enemy : enemyList) {
+            enemy.attack();
+            refresh();
+        }
     }
 }
