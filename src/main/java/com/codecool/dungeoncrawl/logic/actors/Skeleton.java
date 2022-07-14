@@ -30,7 +30,7 @@ public class Skeleton extends Enemy {
             if (optionalPlayer.get().getHealth() > 0) {
                 optionalPlayer.get().modifyHealth(2);
             } else
-                System.out.println("Player is Dead!");
+                System.exit(1);
         }
     }
 

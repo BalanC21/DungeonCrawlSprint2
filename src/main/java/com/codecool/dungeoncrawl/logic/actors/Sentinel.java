@@ -18,7 +18,7 @@ public class Sentinel extends Enemy {
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
-        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.PLAYER) && !nextCell.getType().equals(CellType.CLOSED_DOOR) && !nextCell.getType().equals(CellType.KEY) && !nextCell.getType().equals(CellType.SWORD)) {
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.PLAYER) && !nextCell.getType().equals(CellType.CLOSED_DOOR) && !nextCell.getType().equals(CellType.KEY) && !nextCell.getType().equals(CellType.ARCHER) && !nextCell.getType().equals(CellType.SWORD)) {
             this.getCell().setType(CellType.FLOOR);
             this.getCell().setActor(null);
             nextCell.setActor(this);

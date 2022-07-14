@@ -94,7 +94,14 @@ public class Player extends Actor {
                 enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
                 enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
-
+            if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.SENTINEL))
+                enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
+            if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SENTINEL))
+                enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
+            if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.ARCHER))
+                enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
+            if (this.getCell().getNeighbor(0, i).getType().equals(CellType.ARCHER))
+                enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
         }
         return enemyList;
     }
