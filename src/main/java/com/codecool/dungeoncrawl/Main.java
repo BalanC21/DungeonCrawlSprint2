@@ -144,8 +144,10 @@ public class Main extends Application {
     private void enemyAction() {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            if (enemy.isCharacterAlive())
+            if (!enemy.isCharacterAlive())
                 enemy.attack();
+            else
+                enemy.getCell().setType(CellType.FLOOR);
         }
     }
 }
