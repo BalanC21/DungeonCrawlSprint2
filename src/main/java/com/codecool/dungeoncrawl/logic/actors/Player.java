@@ -28,7 +28,9 @@ public class Player extends Actor {
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
-            this.getCell().setType(CellType.FLOOR);
+            if(this.getCell().getType().equals(CellType.PLAYER)){
+                    this.getCell().setType(CellType.FLOOR);
+                }
             this.getCell().setActor(null);
             nextCell.setActor(this);
             this.setCell(nextCell);
