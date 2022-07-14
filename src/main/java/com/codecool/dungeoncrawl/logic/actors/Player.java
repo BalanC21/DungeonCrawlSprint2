@@ -30,19 +30,16 @@ public class Player extends Actor {
     public void lootEnemy() {
         List<Enemy> enemyList = getEnemyList();
         // TODO: 13.07.2022 Try to repair this!
-
         for (Enemy enemy : enemyList) {
             if (!enemy.isAlive()) {
                 enemy.getCell().setType(CellType.FLOOR);
                 for (int i = -1; i < 2; i++) {
                     if (i == 0)
                         continue;
-                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY() + i) {
+                    if (this.getCell().getX() == enemy.getX() && this.getCell().getY() == enemy.getY() + i)
                         this.reduceHealth(-2);
-                    }
-                    if (this.getCell().getX() == enemy.getX() - i && this.getCell().getY() == enemy.getY()) {
+                    if (this.getCell().getX() == enemy.getX() - i && this.getCell().getY() == enemy.getY())
                         this.reduceHealth(-2);
-                    }
                 }
             }
         }
@@ -54,19 +51,11 @@ public class Player extends Actor {
     }
 
     @Override
-    void reduceHealth(int value) {
-        if (value > this.getHealth())
-            this.setAlive(false);
-        this.setHealth(this.getHealth() - value);
-    }
-
-    @Override
-    List<Enemy> getEnemyList() {
+    public List<Enemy> getEnemyList() {
         List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
-            if (i == 0) {
+            if (i == 0)
                 continue;
-            }
             if (this.getCell().getNeighbor(i, 0).getType().equals(CellType.SKELETON))
                 enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))

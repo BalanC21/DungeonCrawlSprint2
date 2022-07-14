@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl;
 
 import com.codecool.dungeoncrawl.logic.*;
+import com.codecool.dungeoncrawl.logic.actors.Enemy;
+import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +21,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.util.List;
 
 public class Main extends Application {
     GameMap map = MapLoader.loadMap();
@@ -111,6 +114,7 @@ public class Main extends Application {
                 break;
             case W:
                 map.getPlayer().attack();
+                enemyAction();
                 refresh();
                 break;
         }
@@ -131,5 +135,10 @@ public class Main extends Application {
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
         inventory.setText("" + map.getPlayer().getItemTypeList());
+    }
+
+    private void enemyAction(){
+        List<Enemy> enemyList = map.getPlayer().getEnemyList();
+    for (Enemy enemy : enemyList) enemy.attack();
     }
 }

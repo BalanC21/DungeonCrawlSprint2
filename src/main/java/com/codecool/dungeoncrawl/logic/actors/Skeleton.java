@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.List;
 
@@ -10,9 +9,14 @@ public class Skeleton extends Enemy {
         super(cell);
     }
 
-    @Override
-    void attack() {
-
+    public void attack() {
+        Player player = getPLayer();
+        if (player != null) {
+            if (player.getHealth() != 0)
+                player.reduceHealth(2);
+            else
+                System.out.println("Player is Dead!");
+        }
     }
 
     @Override
