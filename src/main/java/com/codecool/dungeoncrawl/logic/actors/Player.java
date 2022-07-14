@@ -85,7 +85,6 @@ public class Player extends Actor {
         return this.getHealth() > 0;
     }
 
-    @Override
     public List<Enemy> getEnemyList() {
         List<Enemy> enemyList = new ArrayList<>();
         for (int i = -1; i < 2; i++) {
@@ -95,6 +94,7 @@ public class Player extends Actor {
                 enemyList.add((Enemy) this.getCell().getNeighbor(i, 0).getActor());
             if (this.getCell().getNeighbor(0, i).getType().equals(CellType.SKELETON))
                 enemyList.add((Enemy) this.getCell().getNeighbor(0, i).getActor());
+
         }
         return enemyList;
     }
@@ -113,9 +113,9 @@ public class Player extends Actor {
     }
 
     private void getLifeModified() {
-        int elemNumber = (int) itemTypeList.parallelStream().filter(elem -> elem.equals(ItemType.ARMOUR)).count();
+        int elemNumber = (int) itemTypeList.parallelStream().filter(elem -> elem.equals(ItemType.HEALTH)).count();
         if (elemNumber != 0)
-            modifyHealth(-elemNumber * 10);
+            setHealth(getHealth() + 10);
     }
 
     private void getAttackModified() {

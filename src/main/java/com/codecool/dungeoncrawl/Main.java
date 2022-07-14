@@ -66,10 +66,10 @@ public class Main extends Application {
                 } else if (selectedCell.getType() == CellType.KEY) {
                     map.getPlayer().addItem(ItemType.KEY);
                     selectedCell.setType(CellType.FLOOR);
+                } else if (selectedCell.getType() == CellType.HEALTH) {
+                    map.getPlayer().addItem(ItemType.HEALTH);
+                    selectedCell.setType(CellType.FLOOR);
                 }
-//                for (int i = 0; i < map.getPlayer().getItemTypeList().size(); i++) {
-//                    inventory.setText("" + map.getPlayer().getItemTypeList().get(i) + "\n");
-//                }
                 inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
 
             }
@@ -125,10 +125,11 @@ public class Main extends Application {
         }
     }
 
-    private void getPlayerStats(int dx, int dy){
+    private void getPlayerStats(int dx, int dy) {
         map.getPlayer().modifyPlayerStats();
         map.getPlayer().lootEnemy();
         map.getPlayer().move(dx, dy);
+        refresh();
     }
 
     private void refresh() {
@@ -152,7 +153,7 @@ public class Main extends Application {
     private void enemyAction(boolean doSomething) {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            if (!enemy.isCharacterAlive()){
+            if (!enemy.isCharacterAlive()) {
                 enemy.attack();
                 if (doSomething && !enemy.isCharacterAlive())
                     enemy.move(Util.getRandomInt(), Util.getRandomInt());

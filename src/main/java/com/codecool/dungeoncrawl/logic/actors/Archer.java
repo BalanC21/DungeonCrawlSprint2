@@ -17,23 +17,14 @@ public class Archer extends Enemy {
 
     @Override
     public void move(int dx, int dy) {
-
     }
 
     @Override
     public void attack() {
-
     }
 
     @Override
     boolean isAlive() {
         return this.getHealth() > 0;
     }
-
-    @Override
-    List<Enemy> getEnemyList() {
-        return null;
-    }
-
-
 }

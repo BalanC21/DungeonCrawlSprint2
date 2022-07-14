@@ -50,16 +50,19 @@ public class MapLoader {
                         case 'o':
                             cell.setType(CellType.OPEN_DOOR);
                             break;
+                        case 'h':
+                            cell.setType(CellType.HEALTH);
+                            break;
                         case 'c':
                             cell.setType(CellType.CLOSED_DOOR);
                             break;
                         case 't':
                             cell.setType(CellType.SENTINEL);
-                            new Sentinel(cell);
+                            map.getEnemyList().add(new Sentinel(cell));
                             break;
                         case 'a':
                             cell.setType(CellType.ARCHER);
-                            new Archer(cell);
+                            map.getEnemyList().add(new Archer(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

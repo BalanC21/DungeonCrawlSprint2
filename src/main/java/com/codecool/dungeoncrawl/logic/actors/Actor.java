@@ -41,8 +41,6 @@ public abstract class Actor implements Drawable {
 
     abstract boolean isAlive();
 
-    abstract List<Enemy> getEnemyList();
-
     public int getHealth() {
         return health;
     }
