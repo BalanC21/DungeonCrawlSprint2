@@ -24,6 +24,23 @@ public class Player extends Actor {
     }
 
     @Override
+    public void move(int dx, int dy) {
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+        }
+        if (((Player) this.getCell().getActor()).hasItem(ItemType.KEY)) {
+            if (!nextCell.getType().equals(CellType.WALL) && !(this.getCell().getActor().getX() == 17 & this.getCell().getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
+                this.getCell().setActor(null);
+                nextCell.setActor(this);
+                this.setCell(nextCell);
+            }
+        }
+    }
+
+    @Override
     public void attack() {
         System.out.println(this.getCell().getType());
         List<Enemy> enemyList = getEnemyList();

@@ -16,6 +16,11 @@ public class Archer extends Enemy {
     }
 
     @Override
+    public void move(int dx, int dy) {
+
+    }
+
+    @Override
     public void attack() {
 
     }
