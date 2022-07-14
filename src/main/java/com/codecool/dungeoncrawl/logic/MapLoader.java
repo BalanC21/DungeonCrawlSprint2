@@ -69,18 +69,4 @@ public class MapLoader {
         }
         return map;
     }
-
-//    public static void deleteCharacter(){
-//        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
-//        Scanner scanner = new Scanner(is);
-//        int width = scanner.nextInt();
-//        int height = scanner.nextInt();
-//        for (int i = 0; i < width; i++) {
-//            for (int j = 0; j < height; j++) {
-//
-//            }
-//
-//        }
-//    }
-
 }

@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl;
 //Good
+
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -143,8 +144,8 @@ public class Main extends Application {
     private void enemyAction() {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            enemy.attack();
-            refresh();
+            if (enemy.isCharacterAlive())
+                enemy.attack();
         }
     }
 }
