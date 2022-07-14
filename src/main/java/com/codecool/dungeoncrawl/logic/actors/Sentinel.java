@@ -1,12 +1,17 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
+import com.codecool.dungeoncrawl.Util;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.ItemType;
 
 import java.util.List;
 
 public class Sentinel extends Enemy {
+
     public Sentinel(Cell cell) {
         super(cell, 20);
+
     }
 
     boolean isAlive() {
@@ -14,13 +19,13 @@ public class Sentinel extends Enemy {
     }
 
     @Override
-    public void move(int dx, int dy) {
-
+    List<Enemy> getEnemyList() {
+        return null;
     }
+
 
     @Override
     void reduceHealth(int value) {
-
     }
 
     @Override
@@ -28,13 +33,22 @@ public class Sentinel extends Enemy {
 
     }
 
-    @Override
-    List<Enemy> getEnemyList() {
-        return null;
-    }
+
 
     @Override
     public String getTileName() {
         return "sentinel";
+    }
+
+    @Override
+    public void move(int dx, int dy) {
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        System.out.println();
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            System.out.println("it moves");
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+        }
     }
 }

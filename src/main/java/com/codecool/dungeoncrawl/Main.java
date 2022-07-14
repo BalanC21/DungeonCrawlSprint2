@@ -94,31 +94,31 @@ public class Main extends Application {
             case UP:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, -1);
-                enemyAction();
+                enemyAction(true);
                 refresh();
                 break;
             case DOWN:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(0, 1);
-                enemyAction();
+                enemyAction(true);
                 refresh();
                 break;
             case LEFT:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(-1, 0);
-                enemyAction();
+                enemyAction(true);
                 refresh();
                 break;
             case RIGHT:
                 map.getPlayer().lootEnemy();
                 map.getPlayer().move(1, 0);
-                enemyAction();
+                enemyAction(true);
                 refresh();
                 break;
             case W:
                 refresh();
                 map.getPlayer().attack();
-                enemyAction();
+                enemyAction(false);
                 refresh();
                 break;
         }
@@ -141,11 +141,14 @@ public class Main extends Application {
         inventory.setText("" + map.getPlayer().getItemTypeList());
     }
 
-    private void enemyAction() {
+    private void enemyAction(boolean doSomething) {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            if (!enemy.isCharacterAlive())
+            if (!enemy.isCharacterAlive()){
                 enemy.attack();
+                if (doSomething)
+                    enemy.move(Util.getRandomInt(), Util.getRandomInt());
+            }
             else
                 enemy.getCell().setType(CellType.FLOOR);
         }

@@ -34,4 +34,6 @@ public class Archer extends Enemy {
     List<Enemy> getEnemyList() {
         return null;
     }
+
+
 }

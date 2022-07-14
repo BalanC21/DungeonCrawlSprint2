@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +13,22 @@ public class Skeleton extends Enemy {
 
     @Override
     public void move(int dx, int dy) {
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.PLAYER) && !nextCell.getType().equals(CellType.CLOSED_DOOR) && !nextCell.getType().equals(CellType.KEY) && !nextCell.getType().equals(CellType.SWORD)) {
+            System.out.println("it moves");
+            this.getCell().setType(CellType.FLOOR);
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+            this.getCell().setType(CellType.SKELETON);
 
+        }
     }
 
     public void attack() {
         Optional<Player> optionalPlayer = Optional.ofNullable(getPLayer());
         if (optionalPlayer.isPresent()) {
+            System.out.println("is this ok");
             if (optionalPlayer.get().getHealth() != 0) {
                 System.out.println("Enemy Attack");
                 optionalPlayer.get().reduceHealth(2);
@@ -35,6 +46,7 @@ public class Skeleton extends Enemy {
     List<Enemy> getEnemyList() {
         return null;
     }
+
 
     @Override
     public String getTileName() {
