@@ -33,7 +33,7 @@ public class MapLoader {
                             break;
                         case 's':
                             cell.setType(CellType.SKELETON);
-                            new Skeleton(cell);
+                            map.getEnemyList().add(new Skeleton(cell));
                             break;
                         case '@':
                             cell.setType(CellType.PLAYER);
@@ -50,8 +50,6 @@ public class MapLoader {
                             break;
                         case 'c':
                             cell.setType(CellType.CLOSED_DOOR);
-                            System.out.println(cell.getX());
-                            System.out.println(cell.getY());
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");

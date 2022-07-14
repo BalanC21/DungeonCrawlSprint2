@@ -18,6 +18,12 @@ public abstract class Actor implements Drawable {
         this.cell.setActor(this);
     }
 
+    void reduceHealth(int value) {
+        if (value > this.getHealth())
+            this.setAlive(false);
+        this.setHealth(this.getHealth() - value);
+    }
+
     public void setAlive(boolean alive) {
         isCharacterAlive = alive;
     }
@@ -36,20 +42,19 @@ public abstract class Actor implements Drawable {
             cell.setActor(null);
             nextCell.setActor(this);
             cell = nextCell;
-
         }
         if (((Player) cell.getActor()).hasItem(ItemType.KEY)) {
-            System.out.println("Ana");
-            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3)) {
+            if (!nextCell.getType().equals(CellType.WALL) && !(cell.getActor().getX() == 17 & cell.getActor().getY() == 3) && !nextCell.getType().equals(CellType.SKELETON)) {
                 cell.setActor(null);
                 nextCell.setActor(this);
                 cell = nextCell;
             }
         }
     }
-    abstract void attack();
+
+    public abstract void attack();
+
     abstract boolean isAlive();
-    abstract void reduceHealth(int value);
 
     abstract List<Enemy> getEnemyList();
 
