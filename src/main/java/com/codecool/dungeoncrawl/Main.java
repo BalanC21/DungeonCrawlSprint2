@@ -118,7 +118,7 @@ public class Main extends Application {
             case W:
                 refresh();
                 map.getPlayer().attack();
-                enemyAction();
+//                enemyAction();
                 refresh();
                 break;
         }
@@ -144,8 +144,11 @@ public class Main extends Application {
     private void enemyAction() {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            if (!enemy.isCharacterAlive())
+            if (!enemy.isCharacterAlive()){
                 enemy.attack();
+                System.out.println("Enemy acton");
+                enemy.move(Util.getRandomInt(), Util.getRandomInt());
+            }
             else
                 enemy.getCell().setType(CellType.FLOOR);
         }

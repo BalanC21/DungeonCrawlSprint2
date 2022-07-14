@@ -2,6 +2,8 @@ package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.Util;
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
+import com.codecool.dungeoncrawl.logic.ItemType;
 
 import java.util.List;
 
@@ -40,6 +42,13 @@ public class Sentinel extends Enemy {
 
     @Override
     public void move(int dx, int dy) {
-        getCell().getActor().move(Util.getRandomInt(), Util.getRandomInt());
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        System.out.println();
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            System.out.println("it moves");
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,14 @@ public class Skeleton extends Enemy {
 
     @Override
     public void move(int dx, int dy) {
-
+        Cell nextCell = this.getCell().getNeighbor(dx, dy);
+        if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.PLAYER) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
+            System.out.println("it moves");
+            this.getCell().setType(CellType.FLOOR);
+            this.getCell().setActor(null);
+            nextCell.setActor(this);
+            this.setCell(nextCell);
+        }
     }
 
     public void attack() {
