@@ -12,7 +12,7 @@ public class Player extends Actor {
     private List<ItemType> itemTypeList;
 
     public Player(Cell cell) {
-        super(cell);
+        super(cell, 10);
         itemTypeList = new ArrayList<>();
     }
 
@@ -39,13 +39,6 @@ public class Player extends Actor {
         return this.getHealth() != 0;
     }
 
-    @Override
-    void reduceHealth(int value) {
-        if (value > this.getHealth())
-            this.setAlive(false);
-        this.setHealth(this.getHealth() - value);
-        System.out.println(this.getHealth());
-    }
 
     @Override
     List<Enemy> getEnemyList() {

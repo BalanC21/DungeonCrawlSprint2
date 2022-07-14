@@ -1,25 +1,24 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.CellType;
 
 import java.util.List;
 
-public class Skeleton extends Enemy {
-    public Skeleton(Cell cell) {
-        super(cell,10);
+public class Archer extends Enemy{
+
+    public Archer(Cell cell) {
+        super(cell, 5);
     }
 
     @Override
-    void attack() {
-
+    public String getTileName() {
+        return null;
     }
 
     @Override
     boolean isAlive() {
-        return super.getHealth() != 0;
+        return false;
     }
-
 
     @Override
     List<Enemy> getEnemyList() {
@@ -27,7 +26,7 @@ public class Skeleton extends Enemy {
     }
 
     @Override
-    public String getTileName() {
-        return "skeleton";
+    void attack() {
+
     }
 }

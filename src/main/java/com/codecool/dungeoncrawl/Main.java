@@ -51,11 +51,9 @@ public class Main extends Application {
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hi there! You clicked me!");
                 Cell playerCell =map.getPlayer().getCell();
                 Cell selectedCell = map.getCell(playerCell.getX(), playerCell.getY());
                 if (selectedCell.getType() == CellType.SWORD){
-                    System.out.println("it works");
                     map.getPlayer().addItem(ItemType.SWORD);
                     selectedCell.setType(CellType.FLOOR);
                 } else if (selectedCell.getType() == CellType.KEY) {
@@ -63,7 +61,6 @@ public class Main extends Application {
                     selectedCell.setType(CellType.FLOOR);
 
                 }
-                System.out.println(map.getPlayer().getItemTypeList());
                 inventory.setText("" + map.getPlayer().getItemTypeList());
 
             }

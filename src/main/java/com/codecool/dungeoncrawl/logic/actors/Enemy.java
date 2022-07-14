@@ -5,8 +5,9 @@ import com.codecool.dungeoncrawl.logic.CellType;
 
 public abstract class Enemy extends Actor{
 
-    public Enemy(Cell cell) {
-        super(cell);
+
+    public Enemy(Cell cell, int health) {
+        super(cell, health);
     }
 
     @Override
