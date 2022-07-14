@@ -10,12 +10,20 @@ import java.util.List;
 public abstract class Actor implements Drawable {
     private Cell cell;
     private boolean isCharacterAlive;
-    private int health = 10;
+    private int health;
 
-    public Actor(Cell cell) {
+    public Actor(Cell cell, int health) {
         this.cell = cell;
         this.isCharacterAlive = true;
         this.cell.setActor(this);
+        this.health = health;
+    }
+
+    void reduceHealth(int value) {
+        if (value > this.getHealth())
+            this.setAlive(false);
+        this.setHealth(this.getHealth() - value);
+        System.out.println(this.getHealth());
     }
 
     void reduceHealth(int value) {

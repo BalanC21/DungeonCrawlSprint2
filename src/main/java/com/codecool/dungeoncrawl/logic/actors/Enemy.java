@@ -7,8 +7,9 @@ import java.util.Optional;
 
 public abstract class Enemy extends Actor {
 
-    public Enemy(Cell cell) {
-        super(cell);
+
+    public Enemy(Cell cell, int health) {
+        super(cell, health);
     }
 
     public Player getPLayer() {
