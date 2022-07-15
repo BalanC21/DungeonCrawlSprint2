@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class Main extends Application {
+
+    Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -74,19 +76,11 @@ public class Main extends Application {
         BorderPane borderPane = new BorderPane();
 
 
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
-        Scene scene = new Scene(borderPane);
+        scene = new Scene(borderPane);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
-
-        if (Player.newMap){
-            System.out.println("Moni");
-            map = MapLoader.loadMap("/map2.txt");
-            Player.newMap = false;
-            scene.setOnKeyPressed(this::onKeyPressed);
-        }
 
         primaryStage.setScene(scene);
         refresh();
@@ -123,7 +117,7 @@ public class Main extends Application {
                 refresh();
                 break;
             case W:
-                refresh();
+                getPlayerStats(0,0);
                 map.getPlayer().attack();
                 enemyAction(false);
                 refresh();
@@ -140,6 +134,13 @@ public class Main extends Application {
     }
 
     private void refresh() {
+
+        if (Player.newMap) {
+            map = MapLoader.loadMap("/map2.txt");
+            Player.newMap = false;
+            scene.setOnKeyPressed(this::onKeyPressed);
+        }
+
         context.setFill(Color.BLACK);
         context.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         for (int x = 0; x < map.getWidth(); x++) {

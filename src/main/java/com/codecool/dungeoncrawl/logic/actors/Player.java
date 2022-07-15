@@ -27,7 +27,6 @@ public class Player extends Actor {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
         if (!nextCell.getType().equals(CellType.WALL) && !nextCell.getType().equals(CellType.SKELETON) && !nextCell.getType().equals(CellType.CLOSED_DOOR)) {
             if (this.getCell().getType().equals(CellType.PLAYER)) {
-                System.out.println("It enters");
                 this.getCell().setType(CellType.FLOOR);
             }
             this.getCell().setActor(null);
