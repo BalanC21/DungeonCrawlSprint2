@@ -10,6 +10,7 @@ import java.util.Optional;
 import com.codecool.dungeoncrawl.logic.ItemType;
 
 public class Player extends Actor {
+    public static boolean newMap = false;
     private List<ItemType> itemTypeList;
     private CellType cellType;
     private int attack;
@@ -133,12 +134,17 @@ public class Player extends Actor {
         if (elemNumber != 0)
             attack += elemNumber * 5;
         itemTypeList.remove(ItemType.SWORD);
-        System.out.println(attack);
     }
 
     public void modifyPlayerStats() {
         getLifeModified();
         getAttackModified();
+    }
+
+    public void getNextMap() {
+        if (this.getCell().getX() == 20 && this.getCell().getY() == 19){
+            newMap = true;
+        }
     }
 
     public int getAttack() {

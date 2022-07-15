@@ -1,12 +1,10 @@
 package com.codecool.dungeoncrawl;
 //Good
 
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
-import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,11 +20,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.List;
 
 public class Main extends Application {
-    GameMap map = MapLoader.loadMap();
+    GameMap map = MapLoader.loadMap("/map.txt");
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -75,14 +72,23 @@ public class Main extends Application {
             }
         });
         BorderPane borderPane = new BorderPane();
+
+
+
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         Scene scene = new Scene(borderPane);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
 
-        primaryStage.setScene(scene);
+        if (Player.newMap){
+            System.out.println("Moni");
+            map = MapLoader.loadMap("/map2.txt");
+            Player.newMap = false;
+            scene.setOnKeyPressed(this::onKeyPressed);
+        }
 
+        primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
 
@@ -129,6 +135,7 @@ public class Main extends Application {
         map.getPlayer().modifyPlayerStats();
         map.getPlayer().lootEnemy();
         map.getPlayer().move(dx, dy);
+        map.getPlayer().getNextMap();
         refresh();
     }
 
@@ -146,7 +153,7 @@ public class Main extends Application {
             }
         }
         healthLabel.setText("" + map.getPlayer().getHealth());
-        inventory.setText("" + map.getPlayer().getAttack());
+        attackLabel.setText("" + map.getPlayer().getAttack());
         inventory.setText("" + map.getPlayer().getItemTypeList());
     }
 

@@ -9,8 +9,9 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(String gameMap) {
+        InputStream is = MapLoader.class.getResourceAsStream(gameMap);
+//        InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -55,6 +56,8 @@ public class MapLoader {
                             break;
                         case 'c':
                             cell.setType(CellType.CLOSED_DOOR);
+                            System.out.println(cell.getX());
+                            System.out.println(cell.getY());
                             break;
                         case 't':
                             cell.setType(CellType.SENTINEL);
