@@ -120,15 +120,20 @@ public class Player extends Actor {
     }
 
     private void getLifeModified() {
-        int elemNumber = (int) itemTypeList.parallelStream().filter(elem -> elem.equals(ItemType.HEALTH)).count();
+        List<ItemType> newItemList = new ArrayList<>(itemTypeList);
+        int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.HEALTH)).count();
         if (elemNumber != 0)
             setHealth(getHealth() + 10);
+        itemTypeList.remove(ItemType.HEALTH);
     }
 
     private void getAttackModified() {
-        int elemNumber = (int) itemTypeList.parallelStream().filter(elem -> elem.equals(ItemType.SWORD)).count();
+        List<ItemType> newItemList = new ArrayList<>(itemTypeList);
+        int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.SWORD)).count();
         if (elemNumber != 0)
             attack += elemNumber * 5;
+        itemTypeList.remove(ItemType.SWORD);
+        System.out.println(attack);
     }
 
     public void modifyPlayerStats() {
