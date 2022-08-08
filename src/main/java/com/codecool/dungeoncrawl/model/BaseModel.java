@@ -6,8 +6,8 @@ public class BaseModel {
     // null means not saved
     protected Integer id;
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public void setId(int id) {
@@ -23,9 +23,9 @@ public class BaseModel {
             try {
                 value = field.get(this);
                 if (value != null) {
-                    sb.append(field.getName() + ":" + value + ",");
+                    sb.append(field.getName()).append(":").append(value).append(",");
                 }
-            } catch (IllegalAccessException e) {
+            } catch (IllegalAccessException ignored) {
 
             }
         }

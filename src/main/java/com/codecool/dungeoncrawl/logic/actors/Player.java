@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.codecool.dungeoncrawl.logic.ItemType;
 
@@ -105,7 +106,6 @@ public class Player extends Actor {
         }
         return enemyList;
     }
-
     public boolean hasItem(ItemType item) {
         for (ItemType elem : itemTypeList) {
             if (item == elem) {
@@ -141,7 +141,7 @@ public class Player extends Actor {
     }
 
     public void getNextMap() {
-        if (this.getCell().getX() == 20 && this.getCell().getY() == 19){
+        if (this.getCell().getX() == 20 && this.getCell().getY() == 19) {
             newMap = true;
         }
     }
