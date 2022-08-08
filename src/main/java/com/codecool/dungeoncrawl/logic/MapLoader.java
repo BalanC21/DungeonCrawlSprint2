@@ -1,14 +1,17 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
-    public static GameMap loadMap() {
-        InputStream is = MapLoader.class.getResourceAsStream("/map.txt");
+    public static GameMap loadMap(String gameMap) {
+        InputStream is = MapLoader.class.getResourceAsStream(gameMap);
+//        InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -32,12 +35,35 @@ public class MapLoader {
                             cell.setType(CellType.FLOOR);
                             break;
                         case 's':
-                            cell.setType(CellType.FLOOR);
-                            new Skeleton(cell);
+                            cell.setType(CellType.SKELETON);
+                            map.getEnemyList().add(new Skeleton(cell));
                             break;
                         case '@':
-                            cell.setType(CellType.FLOOR);
-                            map.setPlayer(new Player(cell, "Player"));
+                            cell.setType(CellType.PLAYER);
+                            map.setPlayer(new Player(cell));
+                            break;
+                        case 'i':
+                            cell.setType(CellType.SWORD);
+                            break;
+                        case 'k':
+                            cell.setType(CellType.KEY);
+                            break;
+                        case 'o':
+                            cell.setType(CellType.OPEN_DOOR);
+                            break;
+                        case 'h':
+                            cell.setType(CellType.HEALTH);
+                            break;
+                        case 'c':
+                            cell.setType(CellType.CLOSED_DOOR);
+                            break;
+                        case 't':
+                            cell.setType(CellType.SENTINEL);
+                            map.getEnemyList().add(new Sentinel(cell));
+                            break;
+                        case 'a':
+                            cell.setType(CellType.ARCHER);
+                            map.getEnemyList().add(new Archer(cell));
                             break;
                         default:
                             throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
@@ -47,5 +73,4 @@ public class MapLoader {
         }
         return map;
     }
-
 }
