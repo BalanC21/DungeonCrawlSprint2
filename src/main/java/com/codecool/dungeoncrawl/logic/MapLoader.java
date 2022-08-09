@@ -4,6 +4,7 @@ import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -11,7 +12,6 @@ import java.util.Scanner;
 public class MapLoader {
     public static GameMap loadMap(String gameMap) {
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
-//        InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -40,6 +40,7 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.PLAYER);
+                            PlayerModel playerModel = new PlayerModel("Player", x, y);
                             map.setPlayer(new Player(cell));
                             break;
                         case 'i':
