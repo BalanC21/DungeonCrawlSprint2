@@ -107,7 +107,7 @@ public class Main extends Application {
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationSave.match(keyEvent)){
-            gameDatabaseManager.saveGame(txtMapFile);
+            gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
         }
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
