@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 public class BaseModel {
     // null means not saved
-    protected Integer id;
+    protected int id;
 
     public Integer getId() {
         return id;

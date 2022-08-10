@@ -35,6 +35,7 @@ public class Main extends Application {
 
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
+    String ana = "/map.txt";
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -115,7 +116,7 @@ public class Main extends Application {
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationSave.match(keyEvent)) {
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+            gameDatabaseManager.saveGame(ana, map.getPlayer());
         }
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
@@ -164,7 +165,7 @@ public class Main extends Application {
                     System.out.println("control and s");
                     gameDatabaseManager.setup();
                     gameDatabaseManager.savePlayer(map.getPlayer());
-                gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+                    gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
                 }
         }
     }
@@ -180,6 +181,7 @@ public class Main extends Application {
     private void refresh() {
 
         if (Player.newMap) {
+            ana = "/map2.txt";
             map = MapLoader.loadMap("/map2.txt");
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
