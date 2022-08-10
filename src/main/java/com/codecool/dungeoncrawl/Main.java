@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 //Good
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import com.codecool.dungeoncrawl.logic.*;
@@ -14,6 +15,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -21,6 +25,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.List;
+
+import static com.sun.javafx.application.PlatformImpl.exit;
 
 public class Main extends Application {
 
@@ -34,6 +40,8 @@ public class Main extends Application {
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
+
+    private GameDatabaseManager gameDatabaseManager;
 
 
     public static void main(String[] args) {
@@ -94,6 +102,22 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    private void onKeyReleased(KeyEvent keyEvent) {
+        KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
+        KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
+        KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
+        if (exitCombinationSave.match(keyEvent)){
+            gameDatabaseManager.saveGame(txtMapFile);
+        }
+        if (exitCombinationMac.match(keyEvent)
+                || exitCombinationWin.match(keyEvent)
+                || keyEvent.getCode() == KeyCode.ESCAPE
+                || exitCombinationSave.match(keyEvent)) {
+            exit();
+        }
+    }
+
+
     private void onKeyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getCode()) {
             case UP:
@@ -122,6 +146,8 @@ public class Main extends Application {
                 enemyAction(false);
                 refresh();
                 break;
+            case CONTROL:
+                System.out.println("Ana");
         }
     }
 
