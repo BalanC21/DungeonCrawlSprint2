@@ -6,8 +6,8 @@ public class BaseModel {
     // null means not saved
     protected Integer id;
 
-    public String getId() {
-        return id.toString();
+    public Integer getId() {
+        return id;
     }
 
     public void setId(int id) {

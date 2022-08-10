@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.sun.javafx.application.PlatformImpl.exit;
@@ -126,6 +127,8 @@ public class Main extends Application {
 
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
+        List<KeyCode> keyCodes = new ArrayList<>();
+
         switch (keyEvent.getCode()) {
             case UP:
                 getPlayerStats(0, -1);
@@ -154,13 +157,15 @@ public class Main extends Application {
                 refresh();
                 break;
             case CONTROL:
+                keyCodes.add(KeyCode.CONTROL);
                 System.out.println("Ana");
-                for (Method method : gameDatabaseManager.getClass().getDeclaredMethods()) {
-                    if (method.isAnnotationPresent(RunNow.class)) {
-                        method.invoke(gameDatabaseManager);
-                    }
+            case S:
+                if (keyCodes.contains(KeyCode.CONTROL)) {
+                    System.out.println("control and s");
+                    gameDatabaseManager.setup();
+                    gameDatabaseManager.savePlayer(map.getPlayer());
+                gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
                 }
-                gameDatabaseManager.savePlayer(map.getPlayer());
         }
     }
 

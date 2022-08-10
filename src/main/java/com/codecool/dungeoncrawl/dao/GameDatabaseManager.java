@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.dao;
 
 import annotation.RunNow;
 import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.manager.ApplicationProperties;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -27,8 +28,13 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
+    public PlayerModel getPlayerById(int playerId) {
+        return playerDao.get(playerId);
+    }
+
     public void saveGame(String currentMap, Player player) {
         PlayerModel model = new PlayerModel(player);
+        model.setId(1);
         LocalDate localDate = LocalDate.now();
         Date date = Date.valueOf(localDate);
         GameState gameState = new GameState(currentMap, date, model);
@@ -37,13 +43,11 @@ public class GameDatabaseManager {
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        String dbName = "dungeon";
-        String user = "balanc";
-        String password = "pass";
+        ApplicationProperties properties= new ApplicationProperties();
 
-        dataSource.setDatabaseName(dbName);
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
+        dataSource.setDatabaseName(properties.readProperty("database"));
+        dataSource.setUser(properties.readProperty("user"));
+        dataSource.setPassword(properties.readProperty("password"));
 
         System.out.println("Trying to connect");
         dataSource.getConnection().close();
