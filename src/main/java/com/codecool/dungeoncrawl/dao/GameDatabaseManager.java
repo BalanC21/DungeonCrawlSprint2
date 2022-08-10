@@ -16,6 +16,7 @@ public class GameDatabaseManager {
 
     public void setup() throws SQLException {
         DataSource dataSource = connect();
+        gameStateDao = new GameStateDaoJdbc(dataSource);
         playerDao = new PlayerDaoJdbc(dataSource);
     }
 
@@ -28,8 +29,8 @@ public class GameDatabaseManager {
         PlayerModel model = new PlayerModel(player);
         LocalDate localDate = LocalDate.now();
         Date date = Date.valueOf(localDate);
-        GameState ana = new GameState(currentMap, date, model);
-        gameStateDao.add(ana);
+        GameState gameState = new GameState(currentMap, date, model);
+        gameStateDao.add(gameState);
     }
 
     private DataSource connect() throws SQLException {
