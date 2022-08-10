@@ -161,7 +161,7 @@ public class Main extends Application {
                     }
                 }
                 gameDatabaseManager.savePlayer(map.getPlayer());
-//                gameDatabaseManager.saveGame(ana,map.getPlayer());
+                gameDatabaseManager.saveGame(ana, map.getPlayer());
         }
     }
 
