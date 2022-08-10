@@ -1,6 +1,7 @@
 package com.codecool.dungeoncrawl;
 //Good
 
+import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
@@ -15,10 +16,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.TextField;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -43,7 +42,6 @@ public class Main extends Application {
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
-
     private GameDatabaseManager gameDatabaseManager;
 
 
