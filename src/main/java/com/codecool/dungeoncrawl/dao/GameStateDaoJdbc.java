@@ -15,7 +15,9 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public void add(GameState state) {
+        int id = 0;
         try (Connection conn = dataSource.getConnection()) {
+            state.setId(id++);
             String sql = "INSERT INTO game_state (current_map, player_id, saved_at) VALUES (?, ?, ?)";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, state.getCurrentMap());
@@ -25,7 +27,7 @@ public class GameStateDaoJdbc implements GameStateDao {
             rs.next();
             state.setId(rs.getInt(1));
         } catch (SQLException throwables) {
-            throw new RuntimeException("Error while adding new Author.", throwables);
+            throw new RuntimeException("Error while", throwables);
         }
     }
 

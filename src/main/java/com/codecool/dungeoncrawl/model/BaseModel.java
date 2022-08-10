@@ -4,10 +4,10 @@ import java.lang.reflect.Field;
 
 public class BaseModel {
     // null means not saved
-    protected Integer id;
+    protected int id;
 
     public String getId() {
-        return id.toString();
+        return String.valueOf(id);
     }
 
     public void setId(int id) {

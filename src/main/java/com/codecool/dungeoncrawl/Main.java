@@ -34,6 +34,7 @@ public class Main extends Application {
 
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
+    String ana = "/map.txt";
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -114,7 +115,7 @@ public class Main extends Application {
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
         if (exitCombinationSave.match(keyEvent)) {
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+            gameDatabaseManager.saveGame(ana, map.getPlayer());
         }
         if (exitCombinationMac.match(keyEvent)
                 || exitCombinationWin.match(keyEvent)
@@ -154,13 +155,13 @@ public class Main extends Application {
                 refresh();
                 break;
             case CONTROL:
-                System.out.println("Ana");
                 for (Method method : gameDatabaseManager.getClass().getDeclaredMethods()) {
                     if (method.isAnnotationPresent(RunNow.class)) {
                         method.invoke(gameDatabaseManager);
                     }
                 }
                 gameDatabaseManager.savePlayer(map.getPlayer());
+//                gameDatabaseManager.saveGame(ana,map.getPlayer());
         }
     }
 
@@ -175,6 +176,7 @@ public class Main extends Application {
     private void refresh() {
 
         if (Player.newMap) {
+            ana = "/map2.txt";
             map = MapLoader.loadMap("/map2.txt");
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
