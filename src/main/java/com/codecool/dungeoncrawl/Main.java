@@ -24,6 +24,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.List;
 
 import static com.sun.javafx.application.PlatformImpl.exit;
@@ -50,6 +53,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        gameDatabaseManager = new GameDatabaseManager();
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -92,8 +96,13 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         refresh();
-        scene.setOnKeyPressed(this::onKeyPressed);
-
+        scene.setOnKeyPressed(keyEvent -> {
+            try {
+                onKeyPressed(keyEvent);
+            } catch (InvocationTargetException | IllegalAccessException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         primaryStage.setTitle("Dungeon Crawl");
 
@@ -106,7 +115,7 @@ public class Main extends Application {
         KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
         KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
         KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
-        if (exitCombinationSave.match(keyEvent)){
+        if (exitCombinationSave.match(keyEvent)) {
             gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
         }
         if (exitCombinationMac.match(keyEvent)
@@ -118,7 +127,7 @@ public class Main extends Application {
     }
 
 
-    private void onKeyPressed(KeyEvent keyEvent) {
+    private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
         switch (keyEvent.getCode()) {
             case UP:
                 getPlayerStats(0, -1);
@@ -141,13 +150,19 @@ public class Main extends Application {
                 refresh();
                 break;
             case W:
-                getPlayerStats(0,0);
+                getPlayerStats(0, 0);
                 map.getPlayer().attack();
                 enemyAction(false);
                 refresh();
                 break;
             case CONTROL:
                 System.out.println("Ana");
+                for (Method method : gameDatabaseManager.getClass().getDeclaredMethods()) {
+                    if (method.isAnnotationPresent(RunNow.class)) {
+                        method.invoke(gameDatabaseManager);
+                    }
+                }
+                gameDatabaseManager.savePlayer(map.getPlayer());
         }
     }
 
@@ -164,7 +179,13 @@ public class Main extends Application {
         if (Player.newMap) {
             map = MapLoader.loadMap("/map2.txt");
             Player.newMap = false;
-            scene.setOnKeyPressed(this::onKeyPressed);
+            scene.setOnKeyPressed(keyEvent -> {
+                try {
+                    onKeyPressed(keyEvent);
+                } catch (InvocationTargetException | IllegalAccessException | SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         context.setFill(Color.BLACK);
