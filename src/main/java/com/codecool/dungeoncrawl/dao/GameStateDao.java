@@ -10,6 +10,6 @@ public interface GameStateDao {
     void update(GameState state);
     GameState get(int id);
 
-    String getName(String name);
+    String getSaveName(String name);
     List<GameState> getAll();
 }

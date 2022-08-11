@@ -45,7 +45,7 @@ public class GameDatabaseManager {
 
     public String getName(String name){
         System.out.println("good");
-        return gameStateDao.getName(name);
+        return gameStateDao.getSaveName(name);
     }
 
     private DataSource connect() throws SQLException {
