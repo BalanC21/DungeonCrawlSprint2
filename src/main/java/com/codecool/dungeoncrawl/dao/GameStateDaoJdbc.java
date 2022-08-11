@@ -51,6 +51,29 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
+    public String getSaveName(String name) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "select name from game_state where name ilike ? limit 1";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setString(2, name);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            String nameValue = rs.getString(1);
+            System.out.println("printing st  " + nameValue);
+
+        } catch (SQLException throwables) {
+//            throw new RuntimeException("Error while", throwables.getCause());
+            System.out.println(throwables.getMessage());
+        }
+        return "namer";
+    }
+
+
+
+    @Override
     public List<GameState> getAll() {
         return null;
     }

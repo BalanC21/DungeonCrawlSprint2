@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -105,45 +106,30 @@ public class Main extends Application {
                 throw new RuntimeException(e);
             }
         });
-
         primaryStage.setTitle("Dungeon Crawl");
-
-        Cell cell = map.getCell(10, 10);
-
         primaryStage.show();
     }
-
-//    private void onKeyReleased(KeyEvent keyEvent) {
-//        KeyCombination exitCombinationPopup = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
-//        if (exitCombinationPopup.match(keyEvent)) {
-//            gameDatabaseManager.saveGame(ana, map.getPlayer());
-//        }
-//        if (exitCombinationMac.match(keyEvent)
-//                || exitCombinationWin.match(keyEvent)
-//                || keyEvent.getCode() == KeyCode.ESCAPE
-//                || exitCombinationSave.match(keyEvent)) {
-//            exit();
-//        }
-//    }
 
     public void showStage(GameDatabaseManager gameDatabaseManager) {
         Stage newStage = new Stage();
         newStage.setTitle("Save");
         VBox comp = new VBox();
         GridPane ui = new GridPane();
-        ui.setHgap(10);
-        ui.setVgap(10);
+        ui.setAlignment(Pos.CENTER_LEFT);
+//        ui.setHgap(2);
+//        ui.setVgap(2);
         ui.setPadding(new Insets(10, 10, 10, 10)); //margins around the whole grid
-//        ui.setPrefWidth(200);
-
 
         TextField nameField = new TextField("Name");
         Button saveBtn = new Button("Save");
         Button cancelBtn = new Button("Cancel");
+//        Button openBtn = new Button("Open");
+
 
         ui.add(nameField, 0, 0);
-        ui.add(saveBtn, 0, 1);
-        ui.add(cancelBtn, 1, 1);
+        ui.add(saveBtn, 1, 0);
+        ui.add(cancelBtn, 0, 1);
+//        ui.add(openBtn, 1, 1);
 
         comp.getChildren().add(ui);
 
@@ -153,16 +139,21 @@ public class Main extends Application {
         newStage.setScene(stageScene);
         newStage.show();
         saveBtn.setOnAction(event -> {
+            String input = String.valueOf(nameField.getText());
             try {
                 gameDatabaseManager.setup();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            String input = String.valueOf(nameField.getText());
+            gameDatabaseManager.getName(input);
+
+
+
             System.out.println(input);
             //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer());
             gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), input);
+            newStage.hide();
 
         });
         cancelBtn.setOnAction(actionEvent -> {
@@ -210,8 +201,6 @@ public class Main extends Application {
                     System.out.println("control and s");
                     showStage(gameDatabaseManager);
                     keyCodes.clear();
-
-
                 }
         }
     }

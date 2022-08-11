@@ -43,6 +43,11 @@ public class GameDatabaseManager {
         gameStateDao.add(gameState);
     }
 
+    public String getName(String name){
+        System.out.println("good");
+        return gameStateDao.getName(name);
+    }
+
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         ApplicationProperties properties= new ApplicationProperties();
