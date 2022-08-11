@@ -147,7 +147,6 @@ public class Main extends Application {
 
         comp.getChildren().add(ui);
 
-
         Scene stageScene = new Scene(comp, 300, 100);
         stageScene.getRoot().setStyle("-fx-font-family: 'serif'");
 
@@ -159,8 +158,11 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+            String input = String.valueOf(nameField.getText());
+            System.out.println(input);
+            //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer());
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+            gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), input);
 
         });
         cancelBtn.setOnAction(actionEvent -> {

@@ -10,7 +10,10 @@ import org.postgresql.ds.PGSimpleDataSource;
 import javax.sql.DataSource;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -32,12 +35,11 @@ public class GameDatabaseManager {
         return playerDao.get(playerId);
     }
 
-    public void saveGame(String currentMap, Player player) {
+    public void saveGame(String currentMap, Player player, String name) {
         PlayerModel model = new PlayerModel(player);
         model.setId(1);
-        LocalDate localDate = LocalDate.now();
-        Date date = Date.valueOf(localDate);
-        GameState gameState = new GameState(currentMap, date, model);
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        GameState gameState = new GameState(currentMap, date, model, name);
         gameStateDao.add(gameState);
     }
 

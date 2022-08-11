@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS public.game_state;
 CREATE TABLE public.game_state (
     id serial NOT NULL PRIMARY KEY,
+    name text NOT NULL ,
     current_map text NOT NULL,
-    saved_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    saved_at date DEFAULT CURRENT_DATE NOT NULL,
     player_id integer NOT NULL
 );
 
