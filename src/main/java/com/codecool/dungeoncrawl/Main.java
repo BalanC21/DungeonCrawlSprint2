@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -94,6 +95,7 @@ public class Main extends Application {
         scene = new Scene(borderPane);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
 
+
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(keyEvent -> {
@@ -111,19 +113,60 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void onKeyReleased(KeyEvent keyEvent) {
-        KeyCombination exitCombinationMac = new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN);
-        KeyCombination exitCombinationWin = new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN);
-        KeyCombination exitCombinationSave = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
-        if (exitCombinationSave.match(keyEvent)) {
-            gameDatabaseManager.saveGame(ana, map.getPlayer());
-        }
-        if (exitCombinationMac.match(keyEvent)
-                || exitCombinationWin.match(keyEvent)
-                || keyEvent.getCode() == KeyCode.ESCAPE
-                || exitCombinationSave.match(keyEvent)) {
-            exit();
-        }
+//    private void onKeyReleased(KeyEvent keyEvent) {
+//        KeyCombination exitCombinationPopup = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_ANY);
+//        if (exitCombinationPopup.match(keyEvent)) {
+//            gameDatabaseManager.saveGame(ana, map.getPlayer());
+//        }
+//        if (exitCombinationMac.match(keyEvent)
+//                || exitCombinationWin.match(keyEvent)
+//                || keyEvent.getCode() == KeyCode.ESCAPE
+//                || exitCombinationSave.match(keyEvent)) {
+//            exit();
+//        }
+//    }
+
+    public void showStage(GameDatabaseManager gameDatabaseManager) {
+        Stage newStage = new Stage();
+        newStage.setTitle("Save");
+        VBox comp = new VBox();
+        GridPane ui = new GridPane();
+        ui.setHgap(10);
+        ui.setVgap(10);
+        ui.setPadding(new Insets(10, 10, 10, 10)); //margins around the whole grid
+//        ui.setPrefWidth(200);
+
+
+        TextField nameField = new TextField("Name");
+        Button saveBtn = new Button("Save");
+        Button cancelBtn = new Button("Cancel");
+
+        ui.add(nameField, 0, 0);
+        ui.add(saveBtn, 0, 1);
+        ui.add(cancelBtn, 1, 1);
+
+        comp.getChildren().add(ui);
+
+
+        Scene stageScene = new Scene(comp, 300, 100);
+        stageScene.getRoot().setStyle("-fx-font-family: 'serif'");
+
+        newStage.setScene(stageScene);
+        newStage.show();
+        saveBtn.setOnAction(event -> {
+            try {
+                gameDatabaseManager.setup();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            gameDatabaseManager.savePlayer(map.getPlayer());
+            gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+
+        });
+        cancelBtn.setOnAction(actionEvent -> {
+            newStage.hide();
+
+        });
     }
 
 
@@ -163,9 +206,10 @@ public class Main extends Application {
             case S:
                 if (keyCodes.contains(KeyCode.CONTROL)) {
                     System.out.println("control and s");
-                    gameDatabaseManager.setup();
-                    gameDatabaseManager.savePlayer(map.getPlayer());
-                    gameDatabaseManager.saveGame("/map.txt", map.getPlayer());
+                    showStage(gameDatabaseManager);
+                    keyCodes.clear();
+
+
                 }
         }
     }

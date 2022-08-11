@@ -33,7 +33,8 @@ public class GameStateDaoJdbc implements GameStateDao {
             rs.next();
             state.setId(rs.getInt(1));
         } catch (SQLException throwables) {
-            throw new RuntimeException("Error while", throwables.getCause());
+//            throw new RuntimeException("Error while", throwables.getCause());
+            System.out.println(throwables.getMessage());
         }
     }
 
