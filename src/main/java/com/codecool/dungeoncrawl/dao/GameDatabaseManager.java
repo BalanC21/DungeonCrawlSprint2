@@ -42,11 +42,11 @@ public class GameDatabaseManager {
             GameState gameState = new GameState(currentMap, date, model, name);
             gameStateDao.add(gameState);
         } else {
-            update();
+            DataBaseUpdate();
         }
     }
 
-    private void update() {
+    private void DataBaseUpdate() {
         System.out.println("Update not done yet! :)) Haha Lol!");
     }
 

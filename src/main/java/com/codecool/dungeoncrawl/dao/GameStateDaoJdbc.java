@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -68,7 +67,6 @@ public class GameStateDaoJdbc implements GameStateDao {
         }
         return nameValue;
     }
-
 
     @Override
     public List<GameState> getAll() {
