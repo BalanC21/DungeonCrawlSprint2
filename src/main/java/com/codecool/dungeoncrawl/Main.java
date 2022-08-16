@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl;
 //Good
 
-import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
@@ -26,12 +25,9 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sun.javafx.application.PlatformImpl.exit;
 
 public class Main extends Application {
 
@@ -89,13 +85,11 @@ public class Main extends Application {
         });
         BorderPane borderPane = new BorderPane();
 
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
         scene = new Scene(borderPane);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
-
 
         primaryStage.setScene(scene);
         refresh();
@@ -146,12 +140,12 @@ public class Main extends Application {
                 throw new RuntimeException(e);
             }
             gameDatabaseManager.getName(input);
+            // TODO: 16.08.2022 Vezi ce e cu asta si cum il iei din db
 
 
-
-            System.out.println(input);
+            System.out.println(input + " Text");
             //TODO save name for save entry
-            gameDatabaseManager.savePlayer(map.getPlayer());
+            gameDatabaseManager.savePlayer(map.getPlayer(), input);
             gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), input);
             newStage.hide();
 
@@ -161,7 +155,6 @@ public class Main extends Application {
 
         });
     }
-
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
         List<KeyCode> keyCodes = new ArrayList<>();
@@ -195,7 +188,6 @@ public class Main extends Application {
                 break;
             case CONTROL:
                 keyCodes.add(KeyCode.CONTROL);
-                System.out.println("Ana");
             case S:
                 if (keyCodes.contains(KeyCode.CONTROL)) {
                     System.out.println("control and s");

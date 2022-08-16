@@ -8,12 +8,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -26,8 +21,9 @@ public class GameDatabaseManager {
         playerDao = new PlayerDaoJdbc(dataSource);
     }
 
-    public void savePlayer(Player player) {
+    public void savePlayer(Player player, String input) {
         PlayerModel model = new PlayerModel(player);
+        model.setPlayerName(input);
         playerDao.add(model);
     }
 

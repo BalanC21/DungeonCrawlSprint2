@@ -40,7 +40,6 @@ public class MapLoader {
                             break;
                         case '@':
                             cell.setType(CellType.PLAYER);
-                            PlayerModel playerModel = new PlayerModel("Player", x, y);
                             map.setPlayer(new Player(cell));
                             break;
                         case 'i':

@@ -6,7 +6,6 @@ import com.codecool.dungeoncrawl.logic.CellType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import com.codecool.dungeoncrawl.logic.ItemType;
 
@@ -15,12 +14,14 @@ public class Player extends Actor {
     private List<ItemType> itemTypeList;
     private CellType cellType;
     private int attack;
+    private String name;
 
     public Player(Cell cell) {
         super(cell, 10);
         this.cellType = CellType.PLAYER;
         attack = 5;
         itemTypeList = new ArrayList<>();
+        name = "";
     }
 
     @Override
@@ -106,6 +107,7 @@ public class Player extends Actor {
         }
         return enemyList;
     }
+
     public boolean hasItem(ItemType item) {
         for (ItemType elem : itemTypeList) {
             if (item == elem) {
@@ -162,8 +164,11 @@ public class Player extends Actor {
         return itemTypeList;
     }
 
-
     public String getName() {
         return "Ana";
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
