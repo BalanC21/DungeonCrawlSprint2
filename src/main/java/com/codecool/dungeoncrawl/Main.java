@@ -1,5 +1,4 @@
 package com.codecool.dungeoncrawl;
-//Good
 
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -30,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
-
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
     String mapName = "/map.txt";
@@ -134,9 +132,7 @@ public class Main extends Application {
                 throw new RuntimeException(e);
             }
             gameDatabaseManager.getName(input);
-            // TODO: 16.08.2022 Vezi ce e cu asta si cum il iei din db
 
-            //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
             gameDatabaseManager.saveGame(mapName, map.getPlayer(), input);
             newStage.hide();
@@ -185,6 +181,7 @@ public class Main extends Application {
                     System.out.println("control and s");
                     showStage(gameDatabaseManager);
                     keyCodes.clear();
+                    // TODO: 16.08.2022 Nu merge CTRL + S!
                 }
         }
     }

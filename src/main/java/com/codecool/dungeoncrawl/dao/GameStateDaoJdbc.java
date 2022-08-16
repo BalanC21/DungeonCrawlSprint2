@@ -60,7 +60,7 @@ public class GameStateDaoJdbc implements GameStateDao {
                 return null;
             }
             nameValue = rs.getString(1);
-            System.out.println("Sa mori tu  " + nameValue);
+            System.out.println("Name Already Exist " + nameValue);
 
         } catch (SQLException throwables) {
 //            throw new RuntimeException("Error while", throwables.getCause());
