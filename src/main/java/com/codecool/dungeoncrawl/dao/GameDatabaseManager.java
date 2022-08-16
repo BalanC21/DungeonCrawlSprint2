@@ -22,10 +22,12 @@ public class GameDatabaseManager {
     }
 
     public void savePlayer(Player player, String input) {
-        player.setName(input);
-        PlayerModel model = new PlayerModel(player);
-        model.setPlayerName(input);
-        playerDao.add(model);
+        if (getName(player.getName())) {
+            player.setName(input);
+            PlayerModel model = new PlayerModel(player);
+            model.setPlayerName(input);
+            playerDao.add(model);
+        }
     }
 
     public PlayerModel getPlayerById(int playerId) {
