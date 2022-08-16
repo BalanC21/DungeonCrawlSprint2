@@ -146,7 +146,7 @@ public class Main extends Application {
             System.out.println(input + " Text");
             //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), input);
+            gameDatabaseManager.saveGame(ana, map.getPlayer(), input);
             newStage.hide();
 
         });
