@@ -1,6 +1,8 @@
 package com.codecool.dungeoncrawl.dao;
 
 import annotation.RunNow;
+import com.codecool.dungeoncrawl.dao.repositories.GameStateDao;
+import com.codecool.dungeoncrawl.dao.repositories.PlayerDao;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.manager.ApplicationProperties;
 import com.codecool.dungeoncrawl.model.GameState;

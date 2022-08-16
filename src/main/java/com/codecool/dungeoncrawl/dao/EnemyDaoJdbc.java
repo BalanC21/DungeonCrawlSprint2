@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
+import com.codecool.dungeoncrawl.dao.repositories.EnemyDao;
 import com.codecool.dungeoncrawl.model.EnemyModel;
 
 import java.util.List;
