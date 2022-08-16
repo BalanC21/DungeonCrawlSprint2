@@ -33,7 +33,7 @@ public class Main extends Application {
 
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
-    String ana = "/map.txt";
+    String mapName = "/map.txt";
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -138,7 +138,7 @@ public class Main extends Application {
 
             //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
-            gameDatabaseManager.saveGame(ana, map.getPlayer(), input);
+            gameDatabaseManager.saveGame(mapName, map.getPlayer(), input);
             newStage.hide();
 
         });
@@ -200,7 +200,7 @@ public class Main extends Application {
     private void refresh() {
 
         if (Player.newMap) {
-            ana = "/map2.txt";
+            mapName = "/map2.txt";
             map = MapLoader.loadMap("/map2.txt");
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
