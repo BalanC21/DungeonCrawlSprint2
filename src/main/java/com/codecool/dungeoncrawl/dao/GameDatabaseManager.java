@@ -14,8 +14,6 @@ public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
 
-    private String input;
-
     @RunNow
     public void setup() throws SQLException {
         DataSource dataSource = connect();
@@ -41,7 +39,7 @@ public class GameDatabaseManager {
             java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
             GameState gameState = new GameState(currentMap, date, model, name);
             gameStateDao.add(gameState);
-        }else {
+        } else {
             update();
         }
     }
