@@ -165,7 +165,7 @@ public class Player extends Actor {
     }
 
     public String getName() {
-        return "Ana";
+        return name;
     }
 
     public void setName(String name) {

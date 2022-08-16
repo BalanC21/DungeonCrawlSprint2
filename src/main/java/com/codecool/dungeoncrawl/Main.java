@@ -80,7 +80,6 @@ public class Main extends Application {
                     selectedCell.setType(CellType.FLOOR);
                 }
                 inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
-
             }
         });
         BorderPane borderPane = new BorderPane();
@@ -110,20 +109,15 @@ public class Main extends Application {
         VBox comp = new VBox();
         GridPane ui = new GridPane();
         ui.setAlignment(Pos.CENTER_LEFT);
-//        ui.setHgap(2);
-//        ui.setVgap(2);
         ui.setPadding(new Insets(10, 10, 10, 10)); //margins around the whole grid
 
         TextField nameField = new TextField("Name");
         Button saveBtn = new Button("Save");
         Button cancelBtn = new Button("Cancel");
-//        Button openBtn = new Button("Open");
-
 
         ui.add(nameField, 0, 0);
         ui.add(saveBtn, 1, 0);
         ui.add(cancelBtn, 0, 1);
-//        ui.add(openBtn, 1, 1);
 
         comp.getChildren().add(ui);
 
@@ -142,8 +136,6 @@ public class Main extends Application {
             gameDatabaseManager.getName(input);
             // TODO: 16.08.2022 Vezi ce e cu asta si cum il iei din db
 
-
-            System.out.println(input + " Text");
             //TODO save name for save entry
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
             gameDatabaseManager.saveGame(ana, map.getPlayer(), input);

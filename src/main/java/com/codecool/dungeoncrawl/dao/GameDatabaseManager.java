@@ -14,6 +14,8 @@ public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
 
+    private String input;
+
     @RunNow
     public void setup() throws SQLException {
         DataSource dataSource = connect();
@@ -22,6 +24,7 @@ public class GameDatabaseManager {
     }
 
     public void savePlayer(Player player, String input) {
+        player.setName(input);
         PlayerModel model = new PlayerModel(player);
         model.setPlayerName(input);
         playerDao.add(model);
@@ -32,21 +35,29 @@ public class GameDatabaseManager {
     }
 
     public void saveGame(String currentMap, Player player, String name) {
-        PlayerModel model = new PlayerModel(player);
-        model.setId(1);
-        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        GameState gameState = new GameState(currentMap, date, model, name);
-        gameStateDao.add(gameState);
+        if (getName(player.getName())) {
+            PlayerModel model = new PlayerModel(player);
+            model.setId(1);
+            java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+            GameState gameState = new GameState(currentMap, date, model, name);
+            gameStateDao.add(gameState);
+        }else {
+            update();
+        }
+
     }
 
-    public String getName(String name){
-        System.out.println("good");
-        return gameStateDao.getSaveName(name);
+    private void update() {
+        System.out.println("Update not done yet! :)) Haha Lol!");
+    }
+
+    public boolean getName(String name) {
+        return gameStateDao.getSaveName(name) == null;
     }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        ApplicationProperties properties= new ApplicationProperties();
+        ApplicationProperties properties = new ApplicationProperties();
 
         dataSource.setDatabaseName(properties.readProperty("database"));
         dataSource.setUser(properties.readProperty("user"));

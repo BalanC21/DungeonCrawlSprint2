@@ -22,9 +22,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             LocalDate localDate = LocalDate.now();
             Date date = Date.valueOf(localDate);
-            System.out.println(state.getCurrentMap() + " Map");
-            System.out.println(date + " Date");
-            System.out.println(state.getPlayer().getId() + " UUID");
             st.setString(1, state.getCurrentMap());
             st.setDate(2, state.getSavedAt());
             st.setInt(3, state.getPlayer().getId());
@@ -52,25 +49,25 @@ public class GameStateDaoJdbc implements GameStateDao {
 
     @Override
     public String getSaveName(String name) {
+        String nameValue = "";
         try (Connection conn = dataSource.getConnection()) {
             String sql = "select name from game_state where name ilike ? limit 1";
             PreparedStatement st = conn.prepareStatement(sql);
 
-            st.setString(2, name);
+            st.setString(1, name);
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }
-            String nameValue = rs.getString(1);
-            System.out.println("printing st  " + nameValue);
+            nameValue = rs.getString(1);
+            System.out.println("Sa mori tu  " + nameValue);
 
         } catch (SQLException throwables) {
 //            throw new RuntimeException("Error while", throwables.getCause());
             System.out.println(throwables.getMessage());
         }
-        return "namer";
+        return nameValue;
     }
-
 
 
     @Override
