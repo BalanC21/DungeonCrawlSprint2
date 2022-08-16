@@ -26,7 +26,7 @@ public class PlayerModel extends BaseModel {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
+    public void tsetPlayerName(String playerName) {
         this.playerName = playerName;
     }
 

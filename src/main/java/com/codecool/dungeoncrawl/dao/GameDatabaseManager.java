@@ -44,7 +44,6 @@ public class GameDatabaseManager {
         }else {
             update();
         }
-
     }
 
     private void update() {
