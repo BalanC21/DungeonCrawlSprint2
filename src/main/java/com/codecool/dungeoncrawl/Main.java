@@ -136,13 +136,11 @@ public class Main extends Application {
 
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
             gameDatabaseManager.saveGame(mapName, map.getPlayer(), input);
-            saveEnemy(map.getEnemyList());
+            saveEnemy(map.getEnemyList(), input);
             newStage.hide();
-
         });
         cancelBtn.setOnAction(actionEvent -> {
             newStage.hide();
-
         });
     }
 
@@ -197,7 +195,6 @@ public class Main extends Application {
     }
 
     private void refresh() {
-
         if (Player.newMap) {
             mapName = "/map2.txt";
             map = MapLoader.loadMap("/map2.txt");
@@ -228,20 +225,21 @@ public class Main extends Application {
         inventory.setText("" + map.getPlayer().getItemTypeList());
     }
 
-    private void saveEnemy(List<Enemy> enemyList){
-        for (Enemy enemy : enemyList) {
-            gameDatabaseManager.saveEnemy(enemy);
-        }
-    }
-
     private void enemyAction(boolean doSomething) {
         List<Enemy> enemyList = map.getEnemyList();
         for (Enemy enemy : enemyList) {
-            if (!enemy.isCharacterAlive()) {
+            if (enemy.isCharacterAlive()) {
                 enemy.attack();
-                if (doSomething && !enemy.isCharacterAlive())
+                if (doSomething && enemy.isCharacterAlive())
                     enemy.move(Util.getRandomInt(), Util.getRandomInt());
             }
+        }
+    }
+
+    private void saveEnemy(List<Enemy> enemyList, String input) {
+        for (Enemy enemy : enemyList) {
+            if (enemy.isCharacterAlive())
+                gameDatabaseManager.saveEnemy(enemy, input);
         }
     }
 }

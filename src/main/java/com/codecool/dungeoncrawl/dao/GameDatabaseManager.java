@@ -54,10 +54,9 @@ public class GameDatabaseManager {
         }
     }
 
-    public void saveEnemy(Enemy enemy){
+    public void saveEnemy(Enemy enemy, String input) {
         EnemyModel model = new EnemyModel(enemy);
-//        model.setId(1);
-        enemyDao.add(model);
+        enemyDao.add(model, input);
     }
 
     private void dataBaseUpdate() {

@@ -12,6 +12,12 @@ public class EnemyModel extends BaseModel{
         this.x = enemy.getX();
         this.y = enemy.getY();
         this.hp = enemy.getHealth();
+        this.enemyName = enemy.getTileName();
+        System.out.println(enemyName);
+    }
+
+    public String getEnemyName() {
+        return enemyName;
     }
 
     public int getX() {

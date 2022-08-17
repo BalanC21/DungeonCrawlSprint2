@@ -21,10 +21,12 @@ CREATE TABLE public.player
 DROP TABLE IF EXISTS public.enemy;
 CREATE TABLE public.enemy
 (
-    id         serial  NOT NULL PRIMARY KEY,
-    hp         integer NOT NULL,
-    x          integer NOT NULL,
-    y          integer NOT NULL
+    id        serial  NOT NULL PRIMARY KEY,
+    save_name text    NOT NULL,
+    enemy_type text    NOT NULL,
+    hp        integer NOT NULL,
+    x         integer NOT NULL,
+    y         integer NOT NULL
 );
 
 ALTER TABLE ONLY public.game_state

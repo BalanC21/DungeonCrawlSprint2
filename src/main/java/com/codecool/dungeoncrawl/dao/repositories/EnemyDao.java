@@ -6,7 +6,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import java.util.List;
 
 public interface EnemyDao {
-    void add(EnemyModel enemy);
+    void add(EnemyModel enemy, String input);
 
     void update(EnemyModel enemy);
 
