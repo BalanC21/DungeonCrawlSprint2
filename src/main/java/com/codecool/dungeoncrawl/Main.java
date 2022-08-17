@@ -131,13 +131,7 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-
-//            saveEnemy(map.getEnemyList(), saveName);
-//            gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
-//            gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
-//            gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
-
-            dataBaseWWork(saveName);
+            saveToBase(saveName);
 
             newStage.hide();
         });
@@ -146,11 +140,15 @@ public class Main extends Application {
         });
     }
 
-    private void dataBaseWWork(String saveName) {
+    private void saveToBase(String saveName) {
         saveEnemy(map.getEnemyList(), saveName);
         gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
+    }
+
+    private void loadFromDataBase(String saveName) {
+        // TODO: 17.08.2022 How can Load??
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
@@ -187,8 +185,6 @@ public class Main extends Application {
                 keyCodes.add(KeyCode.CONTROL);
             case S:
                 if (keyCodes.contains(KeyCode.CONTROL)) {
-                    System.out.println("control and s");
-//                    showStage(gameDatabaseManager);
                     showStage();
                     keyCodes.clear();
                     // TODO: 16.08.2022 Nu merge CTRL + S!
