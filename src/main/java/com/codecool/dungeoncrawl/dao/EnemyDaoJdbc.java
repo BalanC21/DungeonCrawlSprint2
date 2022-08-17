@@ -35,7 +35,17 @@ public class EnemyDaoJdbc implements EnemyDao {
 
     @Override
     public void update(EnemyModel enemy) {
-
+        String sql = "UPDATE enemy SET hp = ?, x = ?, y = ? WHERE save_name = ?";
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, enemy.getHp());
+            st.setInt(2, enemy.getX());
+            st.setInt(3, enemy.getY());
+            st.setString(4, enemy.getEnemyName());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

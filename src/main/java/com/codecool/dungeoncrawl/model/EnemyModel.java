@@ -3,7 +3,7 @@ package com.codecool.dungeoncrawl.model;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
 
 public class EnemyModel extends BaseModel{
-    private String enemyName;
+    private final String enemyName;
     private int hp;
     private int x;
     private int y;
@@ -13,7 +13,6 @@ public class EnemyModel extends BaseModel{
         this.y = enemy.getY();
         this.hp = enemy.getHealth();
         this.enemyName = enemy.getTileName();
-        System.out.println(enemyName);
     }
 
     public String getEnemyName() {

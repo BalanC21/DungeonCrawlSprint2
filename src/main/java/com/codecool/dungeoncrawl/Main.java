@@ -125,18 +125,18 @@ public class Main extends Application {
         newStage.setScene(stageScene);
         newStage.show();
         saveBtn.setOnAction(event -> {
-            String input = String.valueOf(nameField.getText());
+            String saveName = String.valueOf(nameField.getText());
             try {
                 gameDatabaseManager.setup();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
             // TODO: 17.08.2022 Vezi cum faci asta!
-//            gameDatabaseManager.getName(input);
+//            gameDatabaseManager.getName(saveName);
 
-            gameDatabaseManager.savePlayer(map.getPlayer(), input);
-            gameDatabaseManager.saveGame(mapName, map.getPlayer(), input);
-            saveEnemy(map.getEnemyList(), input);
+            gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
+            gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
+            saveEnemy(map.getEnemyList(), saveName);
             newStage.hide();
         });
         cancelBtn.setOnAction(actionEvent -> {
