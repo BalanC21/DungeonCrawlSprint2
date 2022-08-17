@@ -31,7 +31,6 @@ public class EnemyDaoJdbc implements EnemyDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
