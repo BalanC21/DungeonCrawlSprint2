@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Main extends Application {
     Scene scene;
-    GameMap map = MapLoader.loadMap("/map.txt");
+    GameMap map = MapLoader.loadMap("/map.txt", false);
     String mapName = "/map.txt";
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
@@ -203,7 +203,7 @@ public class Main extends Application {
     private void refresh() {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = MapLoader.loadMap("/map2.txt");
+            map = MapLoader.loadMap("/map2.txt", false);
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
                 try {
@@ -226,9 +226,13 @@ public class Main extends Application {
                 }
             }
         }
-        healthLabel.setText("" + map.getPlayer().getHealth());
-        attackLabel.setText("" + map.getPlayer().getAttack());
-        inventory.setText("" + map.getPlayer().getItemTypeList());
+        try {
+            healthLabel.setText("" + map.getPlayer().getHealth());
+            attackLabel.setText("" + map.getPlayer().getAttack());
+            inventory.setText("" + map.getPlayer().getItemTypeList());
+        }catch (Exception e){
+            System.out.println();
+        }
     }
 
     private void enemyAction(boolean doSomething) {
