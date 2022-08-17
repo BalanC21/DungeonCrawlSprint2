@@ -133,10 +133,12 @@ public class Main extends Application {
             }
             // TODO: 17.08.2022 Vezi cum faci asta!
 //            gameDatabaseManager.getName(saveName);
+            // TODO: 17.08.2022 Aici!
 
+            saveEnemy(map.getEnemyList(), saveName);
             gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
             gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
-            saveEnemy(map.getEnemyList(), saveName);
+
             newStage.hide();
         });
         cancelBtn.setOnAction(actionEvent -> {
@@ -236,10 +238,10 @@ public class Main extends Application {
         }
     }
 
-    private void saveEnemy(List<Enemy> enemyList, String input) {
+    private void saveEnemy(List<Enemy> enemyList, String playerName) {
         for (Enemy enemy : enemyList) {
             if (enemy.isCharacterAlive())
-                gameDatabaseManager.saveEnemy(enemy, input);
+                gameDatabaseManager.saveEnemy(enemy, playerName);
         }
     }
 }

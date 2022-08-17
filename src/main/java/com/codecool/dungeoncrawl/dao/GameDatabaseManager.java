@@ -34,7 +34,7 @@ public class GameDatabaseManager {
     }
 
     public void saveGame(String currentMap, Player player, String name) {
-        if (getName(player.getName())) {
+        if (getName(name)) {
             PlayerModel model = new PlayerModel(player);
             model.setId(1);
             java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
@@ -45,18 +45,24 @@ public class GameDatabaseManager {
         }
     }
 
-    public void savePlayer(Player player, String input) {
-        if (getName(player.getName())) {
-            player.setName(input);
+    public void savePlayer(Player player, String playerName) {
+        if (getName(playerName)) {
+            player.setName(playerName);
             PlayerModel model = new PlayerModel(player);
-            model.setPlayerName(input);
+            model.setPlayerName(playerName);
             playerDao.add(model);
+        } else {
+            dataBaseUpdate();
         }
     }
 
-    public void saveEnemy(Enemy enemy, String input) {
-        EnemyModel model = new EnemyModel(enemy);
-        enemyDao.add(model, input);
+    public void saveEnemy(Enemy enemy, String playerName) {
+        if (getName(playerName)) {
+            EnemyModel model = new EnemyModel(enemy);
+            enemyDao.add(model, playerName);
+        } else {
+            dataBaseUpdate();
+        }
     }
 
     private void dataBaseUpdate() {
@@ -64,7 +70,7 @@ public class GameDatabaseManager {
     }
 
     private boolean getName(String name) {
-        return gameStateDao.getSaveName(name) == null;
+        return gameStateDao.getSaveNameGameState(name) == null;
     }
 
     private DataSource connect() throws SQLException {

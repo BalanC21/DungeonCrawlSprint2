@@ -15,11 +15,11 @@ public class EnemyDaoJdbc implements EnemyDao {
     }
 
     @Override
-    public void add(EnemyModel enemy, String input) {
+    public void add(EnemyModel enemy, String playerName) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO enemy (save_name, enemy_type, hp, x, y) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, input);
+            statement.setString(1, playerName);
             statement.setString(2, enemy.getEnemyName());
             statement.setInt(3, enemy.getHp());
             statement.setInt(4, enemy.getX());

@@ -48,7 +48,7 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public String getSaveName(String name) {
+    public String getSaveNameGameState(String name) {
         String nameValue = "";
         try (Connection conn = dataSource.getConnection()) {
             String sql = "select name from game_state where name ilike ? limit 1";

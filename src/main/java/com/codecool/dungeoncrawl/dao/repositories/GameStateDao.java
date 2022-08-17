@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.dao.repositories;
 
 import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.util.List;
 
@@ -10,6 +9,6 @@ public interface GameStateDao {
     void update(GameState state);
     GameState get(int id);
 
-    String getSaveName(String name);
+    String getSaveNameGameState(String name);
     List<GameState> getAll();
 }

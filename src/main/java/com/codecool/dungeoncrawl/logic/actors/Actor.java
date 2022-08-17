@@ -18,17 +18,17 @@ public abstract class Actor implements Drawable {
     public abstract void move(int dx, int dy);
 
     void modifyHealth(int value) {
-        if (value > this.getHealth())
+        if (value > health)
             this.setAlive(false);
         this.setHealth(this.getHealth() - value);
     }
 
-    public void setAlive(boolean alive) {
-        isCharacterAlive = alive;
-    }
-
     public boolean isCharacterAlive() {
         return health > 0;
+    }
+
+    public void setAlive(boolean alive) {
+        isCharacterAlive = alive;
     }
 
     public void setCharacterAlive(boolean characterAlive) {
