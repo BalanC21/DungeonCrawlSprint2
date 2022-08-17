@@ -12,6 +12,7 @@ import com.codecool.dungeoncrawl.logic.ItemType;
 public class Player extends Actor {
     public static boolean newMap = false;
     private List<ItemType> itemTypeList;
+    private List<ItemType> allItems;
     private CellType cellType;
     private int attack;
     private String name;
@@ -21,6 +22,7 @@ public class Player extends Actor {
         this.cellType = CellType.PLAYER;
         attack = 5;
         itemTypeList = new ArrayList<>();
+        allItems = new ArrayList<>();
         name = "";
     }
 
@@ -148,6 +150,10 @@ public class Player extends Actor {
         }
     }
 
+    public List<ItemType> getAllItems() {
+        return allItems;
+    }
+
     public int getAttack() {
         return attack;
     }
@@ -158,6 +164,7 @@ public class Player extends Actor {
 
     public void addItem(ItemType itemType) {
         itemTypeList.add(itemType);
+        allItems.add(itemType);
     }
 
     public List<ItemType> getItemTypeList() {

@@ -20,8 +20,6 @@ public class GameStateDaoJdbc implements GameStateDao {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO game_state (current_map, saved_at, player_id, name) VALUES (?, ?, ?, ?)";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            LocalDate localDate = LocalDate.now();
-            Date date = Date.valueOf(localDate);
             st.setString(1, state.getCurrentMap());
             st.setDate(2, state.getSavedAt());
             st.setInt(3, state.getPlayer().getId());

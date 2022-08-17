@@ -3,12 +3,15 @@ package com.codecool.dungeoncrawl.dao;
 import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.repositories.EnemyDao;
 import com.codecool.dungeoncrawl.dao.repositories.GameStateDao;
+import com.codecool.dungeoncrawl.dao.repositories.InventoryDao;
 import com.codecool.dungeoncrawl.dao.repositories.PlayerDao;
+import com.codecool.dungeoncrawl.logic.ItemType;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.databasemanager.ApplicationProperties;
 import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.InventoryRecord;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -18,8 +21,11 @@ import java.sql.SQLException;
 public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
-
     private EnemyDao enemyDao;
+
+    private InventoryDao inventoryDao;
+
+
 
     @RunNow
     public void setup() throws SQLException {
@@ -27,10 +33,32 @@ public class GameDatabaseManager {
         gameStateDao = new GameStateDaoJdbc(dataSource);
         playerDao = new PlayerDaoJdbc(dataSource);
         enemyDao = new EnemyDaoJdbc(dataSource);
+        inventoryDao = new InventoryDaoJdbc(dataSource);
     }
 
     public PlayerModel getPlayerById(int playerId) {
         return playerDao.get(playerId);
+    }
+
+    public void saveInventory(Player player, String saveName){
+        if (getName(saveName)){
+            for (ItemType itemType: player.getAllItems()) {
+                InventoryRecord inventoryRecord = new InventoryRecord(itemType.getTileName(), saveName);
+                inventoryDao.add(inventoryRecord);
+            }
+        }else
+            dataBaseUpdate();
+    }
+
+    public void savePlayer(Player player, String playerName) {
+        if (getName(playerName)) {
+            player.setName(playerName);
+            PlayerModel model = new PlayerModel(player);
+            model.setPlayerName(playerName);
+            playerDao.add(model);
+        } else {
+            dataBaseUpdate();
+        }
     }
 
     public void saveGame(String currentMap, Player player, String name) {
@@ -40,17 +68,6 @@ public class GameDatabaseManager {
             java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
             GameState gameState = new GameState(currentMap, date, model, name);
             gameStateDao.add(gameState);
-        } else {
-            dataBaseUpdate();
-        }
-    }
-
-    public void savePlayer(Player player, String playerName) {
-        if (getName(playerName)) {
-            player.setName(playerName);
-            PlayerModel model = new PlayerModel(player);
-            model.setPlayerName(playerName);
-            playerDao.add(model);
         } else {
             dataBaseUpdate();
         }

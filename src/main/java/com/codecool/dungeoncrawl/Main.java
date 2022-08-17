@@ -136,6 +136,7 @@ public class Main extends Application {
             // TODO: 17.08.2022 Aici!
 
             saveEnemy(map.getEnemyList(), saveName);
+            gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
             gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
             gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
 
