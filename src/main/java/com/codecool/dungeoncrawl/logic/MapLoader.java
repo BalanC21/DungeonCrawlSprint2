@@ -25,48 +25,31 @@ public class MapLoader {
                 if (x < line.length()) {
                     Cell cell = map.getCell(x, y);
                     switch (line.charAt(x)) {
-                        case ' ':
-                            cell.setType(CellType.EMPTY);
-                            break;
-                        case '#':
-                            cell.setType(CellType.WALL);
-                            break;
-                        case '.':
-                            cell.setType(CellType.FLOOR);
-                            break;
-                        case 's':
+                        case ' ' -> cell.setType(CellType.EMPTY);
+                        case '#' -> cell.setType(CellType.WALL);
+                        case '.' -> cell.setType(CellType.FLOOR);
+                        case 's' -> {
                             cell.setType(CellType.SKELETON);
                             map.getEnemyList().add(new Skeleton(cell));
-                            break;
-                        case '@':
+                        }
+                        case '@' -> {
                             cell.setType(CellType.PLAYER);
                             map.setPlayer(new Player(cell));
-                            break;
-                        case 'i':
-                            cell.setType(CellType.SWORD);
-                            break;
-                        case 'k':
-                            cell.setType(CellType.KEY);
-                            break;
-                        case 'o':
-                            cell.setType(CellType.OPEN_DOOR);
-                            break;
-                        case 'h':
-                            cell.setType(CellType.HEALTH);
-                            break;
-                        case 'c':
-                            cell.setType(CellType.CLOSED_DOOR);
-                            break;
-                        case 't':
+                        }
+                        case 'i' -> cell.setType(CellType.SWORD);
+                        case 'k' -> cell.setType(CellType.KEY);
+                        case 'o' -> cell.setType(CellType.OPEN_DOOR);
+                        case 'h' -> cell.setType(CellType.HEALTH);
+                        case 'c' -> cell.setType(CellType.CLOSED_DOOR);
+                        case 't' -> {
                             cell.setType(CellType.SENTINEL);
                             map.getEnemyList().add(new Sentinel(cell));
-                            break;
-                        case 'a':
+                        }
+                        case 'a' -> {
                             cell.setType(CellType.ARCHER);
                             map.getEnemyList().add(new Archer(cell));
-                            break;
-                        default:
-                            throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
+                        }
+                        default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                     }
                 }
             }
