@@ -8,36 +8,10 @@ public class EnemyModel extends BaseModel{
     private int x;
     private int y;
 
-    public EnemyModel(String enemyName, int x, int y) {
-        this.enemyName = enemyName;
-        this.x = x;
-        this.y = y;
-    }
-
     public EnemyModel(Enemy enemy) {
         this.x = enemy.getX();
         this.y = enemy.getY();
         this.hp = enemy.getHealth();
-    }
-
-    public String getPlayerName() {
-        return enemyName;
-    }
-
-    public void setPlayerName(String enemyName) {
-        this.enemyName = enemyName;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setX(int x) {
-        this.x = x;
     }
 
     public int getX() {
@@ -48,10 +22,23 @@ public class EnemyModel extends BaseModel{
         return y;
     }
 
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public void setY(int y) {
         this.y = y;
     }
 
     public void setId(int anInt) {
+        this.id = anInt;
     }
 }

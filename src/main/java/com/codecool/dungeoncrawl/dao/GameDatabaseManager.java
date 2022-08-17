@@ -1,10 +1,13 @@
 package com.codecool.dungeoncrawl.dao;
 
 import annotation.RunNow;
+import com.codecool.dungeoncrawl.dao.repositories.EnemyDao;
 import com.codecool.dungeoncrawl.dao.repositories.GameStateDao;
 import com.codecool.dungeoncrawl.dao.repositories.PlayerDao;
+import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-import com.codecool.dungeoncrawl.manager.ApplicationProperties;
+import com.codecool.dungeoncrawl.databasemanager.ApplicationProperties;
+import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.GameState;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
@@ -16,20 +19,14 @@ public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
 
+    private EnemyDao enemyDao;
+
     @RunNow
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         gameStateDao = new GameStateDaoJdbc(dataSource);
         playerDao = new PlayerDaoJdbc(dataSource);
-    }
-
-    public void savePlayer(Player player, String input) {
-        if (getName(player.getName())) {
-            player.setName(input);
-            PlayerModel model = new PlayerModel(player);
-            model.setPlayerName(input);
-            playerDao.add(model);
-        }
+        enemyDao = new EnemyDaoJdbc(dataSource);
     }
 
     public PlayerModel getPlayerById(int playerId) {
@@ -44,15 +41,30 @@ public class GameDatabaseManager {
             GameState gameState = new GameState(currentMap, date, model, name);
             gameStateDao.add(gameState);
         } else {
-            DataBaseUpdate();
+            dataBaseUpdate();
         }
     }
 
-    private void DataBaseUpdate() {
+    public void savePlayer(Player player, String input) {
+        if (getName(player.getName())) {
+            player.setName(input);
+            PlayerModel model = new PlayerModel(player);
+            model.setPlayerName(input);
+            playerDao.add(model);
+        }
+    }
+
+    public void saveEnemy(Enemy enemy){
+        EnemyModel model = new EnemyModel(enemy);
+//        model.setId(1);
+        enemyDao.add(model);
+    }
+
+    private void dataBaseUpdate() {
         System.out.println("Update not done yet! :)) Haha Lol!");
     }
 
-    public boolean getName(String name) {
+    private boolean getName(String name) {
         return gameStateDao.getSaveName(name) == null;
     }
 

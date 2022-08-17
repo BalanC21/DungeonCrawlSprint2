@@ -131,10 +131,12 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            gameDatabaseManager.getName(input);
+            // TODO: 17.08.2022 Vezi cum faci asta!
+//            gameDatabaseManager.getName(input);
 
             gameDatabaseManager.savePlayer(map.getPlayer(), input);
             gameDatabaseManager.saveGame(mapName, map.getPlayer(), input);
+            saveEnemy(map.getEnemyList());
             newStage.hide();
 
         });
@@ -224,6 +226,12 @@ public class Main extends Application {
         healthLabel.setText("" + map.getPlayer().getHealth());
         attackLabel.setText("" + map.getPlayer().getAttack());
         inventory.setText("" + map.getPlayer().getItemTypeList());
+    }
+
+    private void saveEnemy(List<Enemy> enemyList){
+        for (Enemy enemy : enemyList) {
+            gameDatabaseManager.saveEnemy(enemy);
+        }
     }
 
     private void enemyAction(boolean doSomething) {

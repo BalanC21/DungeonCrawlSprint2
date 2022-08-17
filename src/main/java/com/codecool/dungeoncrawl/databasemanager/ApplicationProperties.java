@@ -1,4 +1,4 @@
-package com.codecool.dungeoncrawl.manager;
+package com.codecool.dungeoncrawl.databasemanager;
 
 import java.io.IOException;
 import java.util.Properties;
