@@ -101,7 +101,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public void showStage(GameDatabaseManager gameDatabaseManager) {
+    public void showStage() {
         Stage newStage = new Stage();
         newStage.setTitle("Save");
         VBox comp = new VBox();
@@ -131,20 +131,26 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            // TODO: 17.08.2022 Vezi cum faci asta!
-//            gameDatabaseManager.getName(saveName);
-            // TODO: 17.08.2022 Aici!
 
-            saveEnemy(map.getEnemyList(), saveName);
-            gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
-            gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
-            gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
+//            saveEnemy(map.getEnemyList(), saveName);
+//            gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
+//            gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
+//            gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
+
+            dataBaseWWork(saveName);
 
             newStage.hide();
         });
         cancelBtn.setOnAction(actionEvent -> {
             newStage.hide();
         });
+    }
+
+    private void dataBaseWWork(String saveName) {
+        saveEnemy(map.getEnemyList(), saveName);
+        gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
+        gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
+        gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
@@ -182,7 +188,8 @@ public class Main extends Application {
             case S:
                 if (keyCodes.contains(KeyCode.CONTROL)) {
                     System.out.println("control and s");
-                    showStage(gameDatabaseManager);
+//                    showStage(gameDatabaseManager);
+                    showStage();
                     keyCodes.clear();
                     // TODO: 16.08.2022 Nu merge CTRL + S!
                 }

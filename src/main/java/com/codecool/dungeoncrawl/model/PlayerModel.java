@@ -8,6 +8,7 @@ import java.util.List;
 public class PlayerModel extends BaseModel {
     private String playerName;
     private int hp;
+    private int attack;
     private int x;
     private int y;
 
@@ -24,6 +25,7 @@ public class PlayerModel extends BaseModel {
         this.x = player.getX();
         this.y = player.getY();
         this.hp = player.getHealth();
+        this.attack = player.getAttack();
         this.itemTypeList = player.getAllItems();
         System.out.println(itemTypeList);
     }
@@ -42,6 +44,14 @@ public class PlayerModel extends BaseModel {
 
     public void setHp(int hp) {
         this.hp = hp;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
     }
 
     public int getX() {
