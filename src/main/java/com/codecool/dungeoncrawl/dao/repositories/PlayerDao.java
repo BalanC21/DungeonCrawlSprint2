@@ -21,6 +21,5 @@ public interface PlayerDao {
 
     public int getIdByName(String playerName);
 
-    public String getMap(int id);
     public PlayerModel playerStatsByPlayerName(String playerName);
 }

@@ -4,8 +4,7 @@ CREATE TABLE public.game_state
     id          serial                    NOT NULL PRIMARY KEY,
     name        text                      NOT NULL,
     current_map text                      NOT NULL,
-    saved_at    date DEFAULT CURRENT_DATE NOT NULL,
-    player_id   integer                   NOT NULL
+    saved_at    date DEFAULT CURRENT_DATE NOT NULL
 );
 
 DROP TABLE IF EXISTS public.player;
@@ -38,5 +37,3 @@ CREATE TABLE public.items
     inventory_type text   NOT NULL
 );
 
-ALTER TABLE ONLY public.game_state
-    ADD CONSTRAINT fk_player_id FOREIGN KEY (player_id) REFERENCES public.player (id);

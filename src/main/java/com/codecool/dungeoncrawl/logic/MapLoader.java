@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -8,6 +9,7 @@ import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class MapLoader {
@@ -17,10 +19,12 @@ public class MapLoader {
 
     public MapLoader(GameDatabaseManager gameDatabaseManager) {
         this.gameDatabaseManager = gameDatabaseManager;
-        this.playerModel = gameDatabaseManager.getPlayerModel(gameDatabaseManager.getSaveName());
+//        this.playerModel = gameDatabaseManager.getPlayerModel(gameDatabaseManager.getSaveName());
     }
 
-    public GameMap loadMap(String gameMap, boolean loadFromDb) {
+    public GameMap loadMap(String gameMap, boolean loadFromDb) throws SQLException {
+        if (gameDatabaseManager != null)
+            gameDatabaseManager.setup("Lulu");
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -93,8 +97,8 @@ public class MapLoader {
             }
         } else {
             System.out.println("Ana are mere!");
-            PlayerModel playerModel1 = gameDatabaseManager.getPlayerModel(playerModel.getPlayerName());
-            System.out.println(playerModel1);
+            playerModel = gameDatabaseManager.getPlayerModel("lol");
+            System.out.println(playerModel);
         }
         return map;
     }

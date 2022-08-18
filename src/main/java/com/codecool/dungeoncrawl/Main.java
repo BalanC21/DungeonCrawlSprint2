@@ -36,7 +36,7 @@ public class Main extends Application {
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
-    private GameDatabaseManager gameDatabaseManager;
+    private GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
     GameMap map = mapLoader.loadMap("/map.txt", true);
@@ -44,7 +44,10 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    String playerName;
+    static String playerName;
+
+    public Main() throws SQLException {
+    }
 
 
     public static void main(String[] args) {
@@ -105,6 +108,10 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    public static String getPlayerName() {
+        return playerName;
+    }
+
     public void showStage() {
         Stage newStage = new Stage();
         newStage.setTitle("Save");
@@ -130,7 +137,7 @@ public class Main extends Application {
         newStage.show();
         saveBtn.setOnAction(event -> {
             String saveName = String.valueOf(nameField.getText());
-            this.playerName = saveName;
+            playerName = saveName;
             try {
                 gameDatabaseManager.setup(saveName);
             } catch (SQLException e) {
@@ -147,8 +154,8 @@ public class Main extends Application {
 
     private void saveToBase(String saveName) {
         saveEnemy(map.getEnemyList(), saveName);
-        gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
+        gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
     }
 
@@ -197,7 +204,7 @@ public class Main extends Application {
         }
     }
 
-    private void getPlayerStats(int dx, int dy) {
+    private void getPlayerStats(int dx, int dy) throws SQLException {
         map.getPlayer().modifyPlayerStats();
         map.getPlayer().lootEnemy();
         map.getPlayer().move(dx, dy);
@@ -205,10 +212,10 @@ public class Main extends Application {
         refresh();
     }
 
-    private void refresh() {
+    private void refresh() throws SQLException {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = mapLoader.loadMap("/map2.txt", true);
+            map = mapLoader.loadMap("/map2.txt", false);
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
                 try {

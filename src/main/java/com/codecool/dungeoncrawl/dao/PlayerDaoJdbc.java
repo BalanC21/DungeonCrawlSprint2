@@ -97,34 +97,21 @@ public class PlayerDaoJdbc implements PlayerDao {
 
     @Override
     public PlayerModel playerStatsByPlayerName(String playerName) {
+        PlayerModel playerModel = null;
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id, hp, attack, x, y from player where player_name = ?";
+            String sql = "SELECT player_name, id, hp, attack, x, y from player where player_name = ?";
             PreparedStatement st = conn.prepareStatement(sql);
 
             st.setString(1, playerName);
             ResultSet rs = st.executeQuery();
             if (!rs.next())
                 return new PlayerModel("Don't Exist", 0, 0, 0, 0);
-            return new PlayerModel(rs.getString("player_name"), rs.getInt("hp"), rs.getInt("attack"), rs.getInt("x"), rs.getInt("y"), rs.getInt("'id"));
+            playerModel = new PlayerModel(rs.getString("player_name"), rs.getInt("hp"), rs.getInt("attack"), rs.getInt("x"), rs.getInt("y"));
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
-    }
-
-    @Override
-    public String getMap(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT current_map FROM game_state WHERE player_id = ?";
-            PreparedStatement st = conn.prepareStatement(sql);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            if (!rs.next()) {
-                return null;
-            }
-            return rs.getString(1);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return playerModel;
     }
 
     private int prepareStatementMethod(int id, Connection conn, String sql) throws SQLException {
