@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
@@ -8,16 +9,15 @@ import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class MapLoader {
 
     private GameDatabaseManager gameDatabaseManager;
-    private PlayerModel playerModel;
 
     public MapLoader(GameDatabaseManager gameDatabaseManager) {
         this.gameDatabaseManager = gameDatabaseManager;
-        this.playerModel = gameDatabaseManager.getPlayerModel(gameDatabaseManager.getSaveName());
     }
 
     public GameMap loadMap(String gameMap, boolean loadFromDb) {
@@ -67,7 +67,8 @@ public class MapLoader {
                                 case '@' -> {
                                     cell.setType(CellType.PLAYER);
                                     map.setPlayer(new Player(cell));
-                                    System.out.println(map.getPlayer().getHealth());
+                                    Optional<PlayerModel> playerModel = gameDatabaseManager.getPlayerModel(Main.getSaveName());
+                                    System.out.println(playerModel);
                                 }
                                 case 's' -> {
                                     cell.setType(CellType.SKELETON);
@@ -89,12 +90,10 @@ public class MapLoader {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Ana are mere" + e);
+                System.out.println("Exception " + e);
             }
         } else {
             System.out.println("Ana are mere!");
-            PlayerModel playerModel1 = gameDatabaseManager.getPlayerModel(playerModel.getPlayerName());
-            System.out.println(playerModel1);
         }
         return map;
     }

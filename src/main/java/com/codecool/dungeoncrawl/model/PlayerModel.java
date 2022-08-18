@@ -11,12 +11,6 @@ public class PlayerModel extends BaseModel {
     private int attack;
     private int x;
     private int y;
-    private int id;
-
-    public Integer getId() {
-        return id;
-    }
-
     private List<ItemType> itemTypeList;
 
     public PlayerModel(String playerName, int hp, int attack, int x, int y) {

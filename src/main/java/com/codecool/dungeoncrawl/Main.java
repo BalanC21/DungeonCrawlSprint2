@@ -36,15 +36,15 @@ public class Main extends Application {
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
-    private GameDatabaseManager gameDatabaseManager;
+    private final GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();;
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
-    GameMap map = mapLoader.loadMap("/map.txt", true);
+    GameMap map = mapLoader.loadMap("/map.txt", false);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
-    String playerName;
+    private static String playerName;
 
 
     public static void main(String[] args) {
@@ -53,7 +53,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        gameDatabaseManager = new GameDatabaseManager();
+        gameDatabaseManager.setup("Random");
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -130,7 +130,7 @@ public class Main extends Application {
         newStage.show();
         saveBtn.setOnAction(event -> {
             String saveName = String.valueOf(nameField.getText());
-            this.playerName = saveName;
+            playerName = saveName;
             try {
                 gameDatabaseManager.setup(saveName);
             } catch (SQLException e) {
@@ -150,10 +150,6 @@ public class Main extends Application {
         gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
-    }
-
-    private void loadFromDataBase(String saveName) {
-        // TODO: 17.08.2022 How can Load??
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
@@ -208,7 +204,7 @@ public class Main extends Application {
     private void refresh() {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = mapLoader.loadMap("/map2.txt", true);
+            map = mapLoader.loadMap("/map2.txt", false);
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
                 try {
@@ -257,4 +253,8 @@ public class Main extends Application {
                 gameDatabaseManager.saveEnemy(enemy, playerName);
         }
     }
+    public static String getSaveName(){
+        return playerName;
+    }
+
 }

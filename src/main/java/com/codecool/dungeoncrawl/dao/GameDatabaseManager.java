@@ -17,6 +17,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -87,8 +88,8 @@ public class GameDatabaseManager {
         System.out.println("Update not done yet! :)) Haha Lol!");
     }
 
-    public PlayerModel getPlayerModel(String playerName) {
-        return playerDao.playerStatsByPlayerName(playerName);
+    public Optional<PlayerModel> getPlayerModel(String playerName) {
+        return Optional.of(playerDao.playerStatsByPlayerName(playerName));
     }
 
     private boolean getName(String name) {
