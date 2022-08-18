@@ -3,6 +3,7 @@ package com.codecool.dungeoncrawl;
 
 import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
+import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import com.codecool.dungeoncrawl.logic.*;
@@ -10,26 +11,28 @@ import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.sun.javafx.application.PlatformImpl.exit;
 
@@ -45,9 +48,14 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label attackLabel = new Label();
     Label inventory = new Label();
-    Button button = new Button("Pick Up");
-    private GameDatabaseManager gameDatabaseManager;
 
+    private GameDatabaseManager gameDatabaseManager;
+    List<KeyCode> keyCodes = new ArrayList<>();
+    GridPane ui = new GridPane();
+
+
+
+    BorderPane upperPanel = new BorderPane();
 
     public static void main(String[] args) {
         launch(args);
@@ -56,19 +64,46 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         gameDatabaseManager = new GameDatabaseManager();
-        GridPane ui = new GridPane();
+
+        Button pickUpButton = new Button("Pick Up");
+        Button openButton = new Button("Open");
+
+        pickUpButton.setFocusTraversable(false);
+        openButton.setFocusTraversable(false);
+
+
+
+        //BorderPane for the pick up button
+        upperPanel.setPadding(new Insets(5));
+        upperPanel.setLeft(pickUpButton);
+
+        //Add elements to Grid
+        ui.add(upperPanel, 0, 0);
         ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
+        ui.setPadding(new Insets(5, 5, 5, 5));
         ui.add(new Label("Health: "), 0, 1);
         ui.add(new Label("Attack"), 0, 2);
         ui.add(new Label("Inventory"), 0, 3);
         ui.add(healthLabel, 1, 1);
         ui.add(attackLabel, 1, 2);
         ui.add(inventory, 1, 3);
-        ui.add(button, 0, 0);
-        button.setFocusTraversable(false);
+        ui.setVgap(5);
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
+
+        Label userName = new Label("Name");
+        ui.setHalignment(userName, HPos.CENTER);
+        ui.add(userName, 0, 12);
+        TextField openTextField = new TextField();
+        openTextField.setFocusTraversable(false);
+        openTextField.setAlignment(Pos.BOTTOM_LEFT);
+        ui.add(openTextField, 1, 12);
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(openButton);
+        ui.add(hbBtn, 1, 13);
+
+
+        pickUpButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Cell playerCell = map.getPlayer().getCell();
@@ -87,9 +122,16 @@ public class Main extends Application {
 
             }
         });
+
+        openButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String input = String.valueOf(openTextField.getText());
+                System.out.println("open buttton  " + input);
+            }
+        });
+
         BorderPane borderPane = new BorderPane();
-
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
@@ -110,26 +152,50 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+
+    public void openSavedGamePopUp() {
+        Stage openStage = new Stage();
+        openStage.setTitle("Open");
+
+        TilePane tilePane = new TilePane();
+        Scene sc = new Scene(tilePane, 200, 200);
+        sc.getRoot().setStyle("-fx-font-family: 'serif'");
+
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Open");
+        alert.setAlertType(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Do you want to open the game saved with this name?");
+        alert.getDialogPane().setStyle("-fx-font-family: 'serif'");
+
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        ButtonType button = result.orElse(ButtonType.CANCEL);
+
+        if (button == ButtonType.OK) {
+            System.out.println("Ok pressed");
+        } else {
+            System.out.println("canceled");
+        }
+    }
+
     public void showStage(GameDatabaseManager gameDatabaseManager) {
         Stage newStage = new Stage();
         newStage.setTitle("Save");
         VBox comp = new VBox();
         GridPane ui = new GridPane();
         ui.setAlignment(Pos.CENTER_LEFT);
-//        ui.setHgap(2);
-//        ui.setVgap(2);
+
         ui.setPadding(new Insets(10, 10, 10, 10)); //margins around the whole grid
 
         TextField nameField = new TextField("Name");
         Button saveBtn = new Button("Save");
         Button cancelBtn = new Button("Cancel");
-//        Button openBtn = new Button("Open");
 
 
         ui.add(nameField, 0, 0);
         ui.add(saveBtn, 1, 0);
         ui.add(cancelBtn, 0, 1);
-//        ui.add(openBtn, 1, 1);
 
         comp.getChildren().add(ui);
 
@@ -145,14 +211,13 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            gameDatabaseManager.getName(input);
 
+            if (gameDatabaseManager.entryAlreadySaved(input)) {
+                openSavedGamePopUp();
+            } else
+                gameDatabaseManager.savePlayer(map.getPlayer());
 
-
-            System.out.println(input);
-            //TODO save name for save entry
-            gameDatabaseManager.savePlayer(map.getPlayer());
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), input);
+            gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), map.getEnemyList(), input, map.getMap());
             newStage.hide();
 
         });
@@ -164,7 +229,6 @@ public class Main extends Application {
 
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
-        List<KeyCode> keyCodes = new ArrayList<>();
 
         switch (keyEvent.getCode()) {
             case UP:
@@ -194,14 +258,26 @@ public class Main extends Application {
                 refresh();
                 break;
             case CONTROL:
+                System.out.println("CONTROL start");
                 keyCodes.add(KeyCode.CONTROL);
                 System.out.println("Ana");
+                System.out.println(keyCodes);
+                System.out.println("CONTROL end");
+                break;
             case S:
+                System.out.println("S start");
+                keyCodes.add(KeyCode.S);
+                System.out.println(keyCodes);
                 if (keyCodes.contains(KeyCode.CONTROL)) {
-                    System.out.println("control and s");
-                    showStage(gameDatabaseManager);
-                    keyCodes.clear();
+                    if (keyCodes.contains(KeyCode.S)) {
+                        System.out.println("control and s");
+                        showStage(gameDatabaseManager);
+                        keyCodes.clear();
+                    }
                 }
+                System.out.println("S end");
+                break;
+
         }
     }
 

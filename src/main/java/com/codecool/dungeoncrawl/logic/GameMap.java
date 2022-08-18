@@ -26,6 +26,8 @@ public class GameMap {
         }
     }
 
+
+
     public List<Enemy> getEnemyList() {
         return enemyList;
     }
@@ -51,4 +53,11 @@ public class GameMap {
     public int getHeight() {
         return height;
     }
+
+
+    public Cell[][] getMap() {
+        return cells;
+    }
+
+//    openTextField
 }

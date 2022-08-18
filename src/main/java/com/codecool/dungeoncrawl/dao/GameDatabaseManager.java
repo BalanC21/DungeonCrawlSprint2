@@ -1,9 +1,13 @@
 package com.codecool.dungeoncrawl.dao;
 
 import annotation.RunNow;
+import com.codecool.dungeoncrawl.logic.Cell;
+import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.manager.ApplicationProperties;
+import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.GameState;
+import com.codecool.dungeoncrawl.model.ItemModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
@@ -14,16 +18,23 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
     private GameStateDao gameStateDao;
+    private EnemiesDao enemiesDao;
+    private ItemsDao itemsDao;
+
 
     @RunNow
     public void setup() throws SQLException {
         DataSource dataSource = connect();
         gameStateDao = new GameStateDaoJdbc(dataSource);
         playerDao = new PlayerDaoJdbc(dataSource);
+        enemiesDao = new EnemiesDaoJdbc(dataSource);
+        itemsDao = new ItemsDaoJdbc(dataSource);
     }
 
     public void savePlayer(Player player) {
@@ -35,18 +46,41 @@ public class GameDatabaseManager {
         return playerDao.get(playerId);
     }
 
-    public void saveGame(String currentMap, Player player, String name) {
-        PlayerModel model = new PlayerModel(player);
-        model.setId(1);
-        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        GameState gameState = new GameState(currentMap, date, model, name);
-        gameStateDao.add(gameState);
+
+    public boolean entryAlreadySaved(String input){
+        return gameStateDao.checkIfSavedInstanceExists(input);
+
     }
 
-    public String getName(String name){
-        System.out.println("good");
-        return gameStateDao.getSaveName(name);
+
+    public void saveGame(String currentMap, Player player, List<Enemy> enemies,  String name, Cell[][] gamemap) {
+        PlayerModel playerModel = new PlayerModel(player);
+        playerDao.add(playerModel);
+
+        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
+        GameState gameState = new GameState(currentMap, date, playerModel, name);
+
+        gameStateDao.add(gameState);
+
+
+        List<EnemyModel> enemyModelList = new ArrayList<>();
+        for (Enemy enemy: enemies) {
+            enemyModelList.add(new EnemyModel(enemy));
+        }
+        enemiesDao.add(enemyModelList, gameState.getId());
+
+        ItemModel itemModel = new ItemModel(gamemap);
+        List<Cell> itemList = itemModel.getItemList();
+        for (Cell cell: itemList) {
+            System.out.println(cell.getTileName());
+            System.out.println(cell.getX());
+            System.out.println( cell.getY());
+        }
+        System.out.println(gameState.getId() + "   this is the game stat");
+        itemsDao.add(itemList, gameState.getId());
+
     }
+
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();

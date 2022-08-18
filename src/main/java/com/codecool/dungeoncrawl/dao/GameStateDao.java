@@ -8,8 +8,6 @@ import java.util.List;
 public interface GameStateDao {
     void add(GameState state);
     void update(GameState state);
-    GameState get(int id);
-
-    String getSaveName(String name);
-    List<GameState> getAll();
+    GameState get(String name);
+boolean checkIfSavedInstanceExists(String input);
 }

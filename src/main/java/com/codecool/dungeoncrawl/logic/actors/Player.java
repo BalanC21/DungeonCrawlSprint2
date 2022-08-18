@@ -106,6 +106,7 @@ public class Player extends Actor {
         }
         return enemyList;
     }
+
     public boolean hasItem(ItemType item) {
         for (ItemType elem : itemTypeList) {
             if (item == elem) {
@@ -115,24 +116,19 @@ public class Player extends Actor {
         return false;
     }
 
-    public CellType getCellType() {
-        return cellType;
-    }
 
     private void getLifeModified() {
-        List<ItemType> newItemList = new ArrayList<>(itemTypeList);
-        int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.HEALTH)).count();
-        if (elemNumber != 0)
+        if (itemTypeList.contains(ItemType.HEALTH)) {
             setHealth(getHealth() + 10);
-        itemTypeList.remove(ItemType.HEALTH);
+            itemTypeList.remove(ItemType.HEALTH);
+        }
     }
 
     private void getAttackModified() {
-        List<ItemType> newItemList = new ArrayList<>(itemTypeList);
-        int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.SWORD)).count();
-        if (elemNumber != 0)
-            attack += elemNumber * 5;
-        itemTypeList.remove(ItemType.SWORD);
+        if (itemTypeList.contains(ItemType.SWORD)) {
+            attack += 5;
+            itemTypeList.remove(ItemType.SWORD);
+        }
     }
 
     public void modifyPlayerStats() {

@@ -15,6 +15,28 @@ public class GameStateDaoJdbc implements GameStateDao {
         this.dataSource = dataSource;
     }
 
+    public boolean checkIfSavedInstanceExists(String name) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "select id from game_state where name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                if (id == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            return false;
+
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+        }
+        return false;
+    }
+
     @Override
     public void add(GameState state) {
         try (Connection conn = dataSource.getConnection()) {
@@ -46,35 +68,9 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public GameState get(int id) {
+    public GameState get(String name) {
         return null;
     }
 
-    @Override
-    public String getSaveName(String name) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "select name from game_state where name ilike ? limit 1";
-            PreparedStatement st = conn.prepareStatement(sql);
 
-            st.setString(2, name);
-            ResultSet rs = st.executeQuery();
-            if (!rs.next()) {
-                return null;
-            }
-            String nameValue = rs.getString(1);
-            System.out.println("printing st  " + nameValue);
-
-        } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
-            System.out.println(throwables.getMessage());
-        }
-        return "namer";
-    }
-
-
-
-    @Override
-    public List<GameState> getAll() {
-        return null;
-    }
 }

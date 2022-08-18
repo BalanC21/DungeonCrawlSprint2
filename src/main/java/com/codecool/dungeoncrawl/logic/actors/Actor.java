@@ -3,8 +3,6 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
-import java.util.List;
-
 public abstract class Actor implements Drawable {
     private Cell cell;
     private boolean isCharacterAlive;
@@ -52,6 +50,11 @@ public abstract class Actor implements Drawable {
     public Cell getCell() {
         return cell;
     }
+
+    public String getCellType() {
+        return cell.getType().getTileName();
+    }
+
 
     public void setCell(Cell cell) {
         this.cell = cell;
