@@ -1,5 +1,6 @@
 package com.codecool.dungeoncrawl.logic;
 
+import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
@@ -9,6 +10,9 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class MapLoader {
+
+    private GameDatabaseManager gameDatabaseManager;
+
     public static GameMap loadMap(String gameMap, boolean loadFromDb) {
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
@@ -81,7 +85,12 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            System.out.println("Ana");
+            for (int i = 0; i < width; i++) {
+
+                for (int j = 0; j < height; j++) {
+                    System.out.println("Ana");
+                }
+            }
 //                return map;
         }
         return map;

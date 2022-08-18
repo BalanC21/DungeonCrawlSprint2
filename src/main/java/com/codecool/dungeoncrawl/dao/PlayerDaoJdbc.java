@@ -49,6 +49,46 @@ public class PlayerDaoJdbc implements PlayerDao {
     }
 
     @Override
+    public int getDbX(int id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT x FROM player WHERE id = ?";
+            return prepareStatementMethod(id, conn, sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getDbY(int id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT y FROM player WHERE id = ?";
+            return prepareStatementMethod(id, conn, sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int getDbHp(int id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT hp FROM player WHERE id = ?";
+            return prepareStatementMethod(id, conn, sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int prepareStatementMethod(int id, Connection conn, String sql) throws SQLException {
+        PreparedStatement st = conn.prepareStatement(sql);
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
+        if (!rs.next()) {
+            return 0;
+        }
+        return rs.getInt(1);
+    }
+
+    @Override
     public PlayerModel get(int id) {
         return null;
     }
@@ -57,4 +97,5 @@ public class PlayerDaoJdbc implements PlayerDao {
     public List<PlayerModel> getAll() {
         return null;
     }
+
 }
