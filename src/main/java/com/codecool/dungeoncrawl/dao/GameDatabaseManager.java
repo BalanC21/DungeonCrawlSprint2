@@ -17,6 +17,7 @@ import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GameDatabaseManager {
     private PlayerDao playerDao;
@@ -60,6 +61,14 @@ public class GameDatabaseManager {
         } else {
             dataBaseUpdate();
         }
+    }
+
+    public List<EnemyModel> getAllEnemies(String playerName) {
+        List<EnemyModel> enemyModels = null;
+        if (getName(playerName)) {
+            enemyModels = enemyDao.getAll();
+        }
+        return enemyModels;
     }
 
     public void saveGame(String currentMap, Player player, String name) {

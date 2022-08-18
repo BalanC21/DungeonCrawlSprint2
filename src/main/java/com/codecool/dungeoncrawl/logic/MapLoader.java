@@ -1,20 +1,21 @@
 package com.codecool.dungeoncrawl.logic;
 
-import com.codecool.dungeoncrawl.Main;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MapLoader {
 
-    private GameDatabaseManager gameDatabaseManager;
+    private final GameDatabaseManager gameDatabaseManager;
     private PlayerModel playerModel;
 
     public MapLoader(GameDatabaseManager gameDatabaseManager) {
@@ -33,7 +34,7 @@ public class MapLoader {
         scanner.nextLine(); // empty line
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
-
+//        GameMap map = new GameMap(width, height, CellType.FLOOR);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
@@ -46,7 +47,7 @@ public class MapLoader {
                         case 'o' -> cell.setType(CellType.OPEN_DOOR);
                         case 'c' -> cell.setType(CellType.CLOSED_DOOR);
 
-                        default -> System.out.println("First");
+                        default -> System.out.print("");
                     }
                 }
             }
@@ -85,9 +86,8 @@ public class MapLoader {
                                     cell.setType(CellType.ARCHER);
                                     map.getEnemyList().add(new Archer(cell));
                                 }
-                                default -> System.out.println();
+                                default -> System.out.print("");
 //                            default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
-
                             }
                         }
                     }
@@ -96,8 +96,10 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            playerModel = gameDatabaseManager.getPlayerModel("lol");
+            playerModel = gameDatabaseManager.getPlayerModel("codecool");
+            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("codecool");
             loadPlayerFromDataBase(map, playerModel);
+            loadEnemiesFromDataBase(map, enemyModels);
         }
         return map;
     }
@@ -109,6 +111,25 @@ public class MapLoader {
         player.setHealth(playerModel.getHp());
         player.setAttack(playerModel.getAttack());
         map.setPlayer(player);
+    }
+
+    private void loadEnemiesFromDataBase(GameMap map, List<EnemyModel> enemyModels) {
+        for (EnemyModel enemyModel : enemyModels) {
+            Cell cell = map.getCell(enemyModel.getX(), enemyModel.getY());
+            if (enemyModel.getEnemyName().equals("sentinel")) {
+                cell.setType(CellType.SENTINEL);
+                map.getEnemyList().add(new Sentinel(cell));
+            }
+            if (enemyModel.getEnemyName().equals("archer")) {
+                cell.setType(CellType.ARCHER);
+                map.getEnemyList().add(new Archer(cell));
+            }
+            if (enemyModel.getEnemyName().equals("skeleton")) {
+                cell.setType(CellType.SKELETON);
+                map.getEnemyList().add(new Skeleton(cell));
+            }
+
+        }
     }
 }
 
