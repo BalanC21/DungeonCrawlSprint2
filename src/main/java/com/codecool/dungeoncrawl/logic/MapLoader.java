@@ -96,9 +96,12 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            System.out.println("Ana are mere!");
             playerModel = gameDatabaseManager.getPlayerModel("lol");
-            System.out.println(playerModel);
+            Cell cell = map.getCell(playerModel.getX(), playerModel.getY());
+            Player player = new Player(cell);
+            player.setHealth(playerModel.getHp());
+            player.setAttack(playerModel.getAttack());
+            map.setPlayer(player);
         }
         return map;
     }

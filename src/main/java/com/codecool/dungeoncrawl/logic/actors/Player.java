@@ -26,6 +26,10 @@ public class Player extends Actor {
         name = "";
     }
 
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     @Override
     public void move(int dx, int dy) {
         Cell nextCell = this.getCell().getNeighbor(dx, dy);
