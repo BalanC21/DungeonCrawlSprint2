@@ -67,14 +67,10 @@ public class EnemyDaoJdbc implements EnemyDao {
 
             ResultSet rs = st.executeQuery();
 
-            if (!rs.next())
-                return new ArrayList<>(List.of(new EnemyModel("Enemy is null", 0, 0, 0)));
-
             while (rs.next()) {
                 enemyModel = new EnemyModel(rs.getString("enemy_type"), rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"));
                 enemyModels.add(enemyModel);
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
 //            throw new RuntimeException(e);

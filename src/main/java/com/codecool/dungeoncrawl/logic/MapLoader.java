@@ -45,7 +45,6 @@ public class MapLoader {
                         case '.' -> cell.setType(CellType.FLOOR);
                         case 'o' -> cell.setType(CellType.OPEN_DOOR);
                         case 'c' -> cell.setType(CellType.CLOSED_DOOR);
-
                         default -> System.out.print("");
                     }
                 }
@@ -56,6 +55,7 @@ public class MapLoader {
                 is = MapLoader.class.getResourceAsStream(gameMap);
                 assert is != null; // HahaLol :))
                 scanner = new Scanner(is);
+                scanner.nextLine();
 //                map = new GameMap(width, height, CellType.EMPTY);
                 for (int j = 0; j < height; j++) {
                     String line = scanner.nextLine();
@@ -95,8 +95,8 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            playerModel = gameDatabaseManager.getPlayerModel("codecool");
-            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("codecool");
+            playerModel = gameDatabaseManager.getPlayerModel("cancel");
+            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("cancel");
             loadPlayerFromDataBase(map, playerModel);
             loadEnemiesFromDataBase(map, enemyModels);
         }

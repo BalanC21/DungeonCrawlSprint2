@@ -8,6 +8,7 @@ import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -31,6 +33,9 @@ import java.util.List;
 public class Main extends Application {
 
     Scene scene;
+
+    List<KeyCode> keyCodes = new ArrayList<>();
+
     String mapName = "/map.txt";
     Label healthLabel = new Label();
     Label attackLabel = new Label();
@@ -58,16 +63,34 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         gameDatabaseManager = new GameDatabaseManager();
         GridPane ui = new GridPane();
+        BorderPane upperPanel = new BorderPane();
+        upperPanel.setPadding(new Insets(5));
+        upperPanel.setLeft(button);
+        Button openButton = new Button("LoadGame");
+        openButton.setFocusTraversable(false);
+        ui.add(upperPanel, 0, 0);
         ui.setPrefWidth(200);
-        ui.setPadding(new Insets(10));
+        ui.setPadding(new Insets(5));
         ui.add(new Label("Health: "), 0, 1);
         ui.add(new Label("Attack"), 0, 2);
         ui.add(new Label("Inventory"), 0, 3);
         ui.add(healthLabel, 1, 1);
         ui.add(attackLabel, 1, 2);
         ui.add(inventory, 1, 3);
-        ui.add(button, 0, 0);
+        ui.setVgap(5);
         button.setFocusTraversable(false);
+
+        Label userName = new Label("Name");
+        ui.setHalignment(userName, HPos.CENTER);
+        ui.add(userName, 0, 12);
+        TextField openTextField = new TextField();
+        openTextField.setFocusTraversable(false);
+        openTextField.setAlignment(Pos.BOTTOM_LEFT);
+        ui.add(openTextField, 1, 12);
+        HBox hbBtn = new HBox(10);
+        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+        hbBtn.getChildren().add(openButton);
+        ui.add(hbBtn, 1, 13);
 
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -87,6 +110,16 @@ public class Main extends Application {
                 inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
             }
         });
+        openButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // TODO: 18.08.2022 Aici logica penrtru load
+                String input = String.valueOf(openTextField.getText());
+                System.out.println("open button  " + input);
+                canvas.requestFocus();
+            }
+        });
+
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
@@ -164,43 +197,45 @@ public class Main extends Application {
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
-        List<KeyCode> keyCodes = new ArrayList<>();
 
         switch (keyEvent.getCode()) {
-            case UP:
+            case UP -> {
                 getPlayerStats(0, -1);
                 enemyAction(true);
                 refresh();
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 getPlayerStats(0, 1);
                 enemyAction(true);
                 refresh();
-                break;
-            case LEFT:
+            }
+            case LEFT -> {
                 getPlayerStats(-1, 0);
                 enemyAction(true);
                 refresh();
-                break;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 getPlayerStats(1, 0);
                 enemyAction(true);
                 refresh();
-                break;
-            case W:
+            }
+            case W -> {
                 getPlayerStats(0, 0);
                 map.getPlayer().attack();
                 enemyAction(false);
                 refresh();
-                break;
-            case CONTROL:
-                keyCodes.add(KeyCode.CONTROL);
-            case S:
+            }
+            case CONTROL -> keyCodes.add(KeyCode.CONTROL);
+            case S -> {
+                keyCodes.add(KeyCode.S);
                 if (keyCodes.contains(KeyCode.CONTROL)) {
-                    showStage();
-                    keyCodes.clear();
+                    if (keyCodes.contains(KeyCode.S)) {
+                        showStage();
+                        keyCodes.clear();
+                    }
                     // TODO: 16.08.2022 Nu merge CTRL + S!
                 }
+            }
         }
     }
 
