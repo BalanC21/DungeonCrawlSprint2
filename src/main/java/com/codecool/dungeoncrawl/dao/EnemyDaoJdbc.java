@@ -72,6 +72,7 @@ public class EnemyDaoJdbc implements EnemyDao {
 
             while (rs.next()) {
                 enemyModel = new EnemyModel(rs.getString("enemy_name"), rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"));
+                System.out.println(enemyModels);
                 enemyModels.add(enemyModel);
             }
 

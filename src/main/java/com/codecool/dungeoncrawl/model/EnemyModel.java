@@ -2,7 +2,7 @@ package com.codecool.dungeoncrawl.model;
 
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
 
-public class EnemyModel extends BaseModel{
+public class EnemyModel extends BaseModel {
     private final String enemyName;
     private int hp;
     private int x;
@@ -52,5 +52,15 @@ public class EnemyModel extends BaseModel{
 
     public void setId(int anInt) {
         this.id = anInt;
+    }
+
+    @Override
+    public String toString() {
+        return "EnemyModel{" +
+                "enemyName='" + enemyName + '\'' +
+                ", hp=" + hp +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
     }
 }
