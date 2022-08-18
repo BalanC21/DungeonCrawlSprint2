@@ -98,15 +98,14 @@ public class PlayerDaoJdbc implements PlayerDao {
     @Override
     public PlayerModel playerStatsByPlayerName(String playerName) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT player_name, hp, attack, x, y from player where id = ?";
+            String sql = "SELECT id, hp, attack, x, y from player where player_name = ?";
             PreparedStatement st = conn.prepareStatement(sql);
 
             st.setString(1, playerName);
             ResultSet rs = st.executeQuery();
-            if (!rs.next()) {
-                return new PlayerModel("Don't Exist", 0, 0);
-            }
-            return new PlayerModel(rs.getString("player_name"), rs.getInt("hp"), rs.getInt("hp"));
+            if (!rs.next())
+                return new PlayerModel("Don't Exist", 0, 0, 0, 0);
+            return new PlayerModel(rs.getString("player_name"), rs.getInt("hp"), rs.getInt("attack"), rs.getInt("x"), rs.getInt("y"), rs.getInt("'id"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

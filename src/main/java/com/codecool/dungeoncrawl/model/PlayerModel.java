@@ -11,13 +11,29 @@ public class PlayerModel extends BaseModel {
     private int attack;
     private int x;
     private int y;
+    private int id;
+
+    public Integer getId() {
+        return id;
+    }
 
     private List<ItemType> itemTypeList;
 
-    public PlayerModel(String playerName, int x, int y) {
+    public PlayerModel(String playerName, int hp, int attack, int x, int y) {
         this.playerName = playerName;
         this.x = x;
         this.y = y;
+        this.hp = hp;
+        this.attack = attack;
+    }
+
+    public PlayerModel(String playerName, int hp, int attack, int x, int y, int id) {
+        this.playerName = playerName;
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+        this.attack = attack;
+        this.id = id;
     }
 
     public PlayerModel(Player player) {
@@ -69,4 +85,18 @@ public class PlayerModel extends BaseModel {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerModel{" +
+                "playerName='" + playerName + '\'' +
+                ", hp=" + hp +
+                ", attack=" + attack +
+                ", x=" + x +
+                ", y=" + y +
+                ", id=" + id +
+                ", itemTypeList=" + itemTypeList +
+                '}';
+    }
 }
+

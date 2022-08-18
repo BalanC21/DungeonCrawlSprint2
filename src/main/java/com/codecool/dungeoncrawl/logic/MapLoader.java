@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -12,9 +13,11 @@ import java.util.Scanner;
 public class MapLoader {
 
     private GameDatabaseManager gameDatabaseManager;
+    private PlayerModel playerModel;
 
     public MapLoader(GameDatabaseManager gameDatabaseManager) {
         this.gameDatabaseManager = gameDatabaseManager;
+        this.playerModel = gameDatabaseManager.getPlayerModel(gameDatabaseManager.getSaveName());
     }
 
     public GameMap loadMap(String gameMap, boolean loadFromDb) {
@@ -78,7 +81,7 @@ public class MapLoader {
                                     cell.setType(CellType.ARCHER);
                                     map.getEnemyList().add(new Archer(cell));
                                 }
-                                default -> System.out.println("Second");
+                                default -> System.out.println();
 //                            default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
 
                             }
@@ -89,13 +92,9 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            for (int i = 0; i < width; i++) {
-
-                for (int j = 0; j < height; j++) {
-                    System.out.println("Ana");
-                }
-            }
-//                return map;
+            System.out.println("Ana are mere!");
+            PlayerModel playerModel1 = gameDatabaseManager.getPlayerModel(playerModel.getPlayerName());
+            System.out.println(playerModel1);
         }
         return map;
     }

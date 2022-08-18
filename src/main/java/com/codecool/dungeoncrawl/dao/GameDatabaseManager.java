@@ -25,10 +25,11 @@ public class GameDatabaseManager {
 
     private InventoryDao inventoryDao;
 
-
+    private String saveName;
 
     @RunNow
-    public void setup() throws SQLException {
+    public void setup(String saveName) throws SQLException {
+        this.saveName = saveName;
         DataSource dataSource = connect();
         gameStateDao = new GameStateDaoJdbc(dataSource);
         playerDao = new PlayerDaoJdbc(dataSource);
@@ -40,13 +41,13 @@ public class GameDatabaseManager {
         return playerDao.get(playerId);
     }
 
-    public void saveInventory(Player player, String saveName){
-        if (getName(saveName)){
-            for (ItemType itemType: player.getAllItems()) {
+    public void saveInventory(Player player, String saveName) {
+        if (getName(saveName)) {
+            for (ItemType itemType : player.getAllItems()) {
                 InventoryRecord inventoryRecord = new InventoryRecord(itemType.getTileName(), saveName);
                 inventoryDao.add(inventoryRecord);
             }
-        }else
+        } else
             dataBaseUpdate();
     }
 
@@ -86,6 +87,10 @@ public class GameDatabaseManager {
         System.out.println("Update not done yet! :)) Haha Lol!");
     }
 
+    public PlayerModel getPlayerModel(String playerName) {
+        return playerDao.playerStatsByPlayerName(playerName);
+    }
+
     private boolean getName(String name) {
         return gameStateDao.getSaveNameGameState(name) == null;
     }
@@ -103,5 +108,9 @@ public class GameDatabaseManager {
         System.out.println("Connection ok.");
 
         return dataSource;
+    }
+
+    public String getSaveName() {
+        return saveName;
     }
 }

@@ -39,11 +39,12 @@ public class Main extends Application {
     private GameDatabaseManager gameDatabaseManager;
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
-    GameMap map = mapLoader.loadMap("/map.txt", false);
+    GameMap map = mapLoader.loadMap("/map.txt", true);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+    String playerName;
 
 
     public static void main(String[] args) {
@@ -129,8 +130,9 @@ public class Main extends Application {
         newStage.show();
         saveBtn.setOnAction(event -> {
             String saveName = String.valueOf(nameField.getText());
+            this.playerName = saveName;
             try {
-                gameDatabaseManager.setup();
+                gameDatabaseManager.setup(saveName);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -206,7 +208,7 @@ public class Main extends Application {
     private void refresh() {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = mapLoader.loadMap("/map2.txt", false);
+            map = mapLoader.loadMap("/map2.txt", true);
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
                 try {
