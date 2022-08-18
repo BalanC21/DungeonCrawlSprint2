@@ -36,7 +36,8 @@ public class Main extends Application {
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
-    private final GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();;
+    private final GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();
+    ;
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
     GameMap map = mapLoader.loadMap("/map.txt", false);
@@ -46,6 +47,9 @@ public class Main extends Application {
     GraphicsContext context = canvas.getGraphicsContext2D();
     private static String playerName;
 
+    public Main() throws SQLException {
+    }
+
 
     public static void main(String[] args) {
         launch(args);
@@ -53,7 +57,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        gameDatabaseManager.setup("Random");
+
+        try {
+            gameDatabaseManager.setup("Random");
+        } catch (Exception e) {
+            System.out.println("Cannot connect to database!");
+        }
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -193,7 +202,7 @@ public class Main extends Application {
         }
     }
 
-    private void getPlayerStats(int dx, int dy) {
+    private void getPlayerStats(int dx, int dy) throws SQLException {
         map.getPlayer().modifyPlayerStats();
         map.getPlayer().lootEnemy();
         map.getPlayer().move(dx, dy);
@@ -201,7 +210,7 @@ public class Main extends Application {
         refresh();
     }
 
-    private void refresh() {
+    private void refresh() throws SQLException {
         if (Player.newMap) {
             mapName = "/map2.txt";
             map = mapLoader.loadMap("/map2.txt", false);
@@ -231,7 +240,7 @@ public class Main extends Application {
             healthLabel.setText("" + map.getPlayer().getHealth());
             attackLabel.setText("" + map.getPlayer().getAttack());
             inventory.setText("" + map.getPlayer().getItemTypeList());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println();
         }
     }
@@ -253,7 +262,8 @@ public class Main extends Application {
                 gameDatabaseManager.saveEnemy(enemy, playerName);
         }
     }
-    public static String getSaveName(){
+
+    public static String getSaveName() {
         return playerName;
     }
 

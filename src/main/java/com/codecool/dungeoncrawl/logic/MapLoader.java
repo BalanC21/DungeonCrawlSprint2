@@ -9,6 +9,8 @@ import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.IllegalFormatCodePointException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -20,7 +22,8 @@ public class MapLoader {
         this.gameDatabaseManager = gameDatabaseManager;
     }
 
-    public GameMap loadMap(String gameMap, boolean loadFromDb) {
+    public GameMap loadMap(String gameMap, boolean loadFromDb) throws SQLException {
+        gameDatabaseManager.setup("Redundant");
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
@@ -42,7 +45,7 @@ public class MapLoader {
                         case 'o' -> cell.setType(CellType.OPEN_DOOR);
                         case 'c' -> cell.setType(CellType.CLOSED_DOOR);
 
-                        default -> System.out.println("First");
+                        default -> System.out.print("0");
                     }
                 }
             }
@@ -67,8 +70,8 @@ public class MapLoader {
                                 case '@' -> {
                                     cell.setType(CellType.PLAYER);
                                     map.setPlayer(new Player(cell));
-                                    Optional<PlayerModel> playerModel = gameDatabaseManager.getPlayerModel(Main.getSaveName());
-                                    System.out.println(playerModel);
+                                    PlayerModel playerModel = gameDatabaseManager.getPlayerModel("Lol");
+                                    System.out.println(playerModel.toString());
                                 }
                                 case 's' -> {
                                     cell.setType(CellType.SKELETON);
@@ -82,7 +85,7 @@ public class MapLoader {
                                     cell.setType(CellType.ARCHER);
                                     map.getEnemyList().add(new Archer(cell));
                                 }
-                                default -> System.out.println();
+                                default -> System.out.print("a");
 //                            default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
 
                             }

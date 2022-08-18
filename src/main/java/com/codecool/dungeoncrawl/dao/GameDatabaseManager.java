@@ -88,8 +88,10 @@ public class GameDatabaseManager {
         System.out.println("Update not done yet! :)) Haha Lol!");
     }
 
-    public Optional<PlayerModel> getPlayerModel(String playerName) {
-        return Optional.of(playerDao.playerStatsByPlayerName(playerName));
+    public PlayerModel getPlayerModel(String playerName) {
+        System.out.println(playerName);
+        return playerDao.playerStatsByPlayerName(playerName);
+
     }
 
     private boolean getName(String name) {
