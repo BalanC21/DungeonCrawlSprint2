@@ -71,13 +71,13 @@ public class EnemyDaoJdbc implements EnemyDao {
                 return new ArrayList<>(List.of(new EnemyModel("Enemy is null", 0, 0, 0)));
 
             while (rs.next()) {
-                enemyModel = new EnemyModel(rs.getString("enemy_name"), rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"));
-                System.out.println(enemyModels);
+                enemyModel = new EnemyModel(rs.getString("enemy_type"), rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"));
                 enemyModels.add(enemyModel);
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
         }
         System.out.println(enemyModels.size() + " size enemyModels");
         return enemyModels;
