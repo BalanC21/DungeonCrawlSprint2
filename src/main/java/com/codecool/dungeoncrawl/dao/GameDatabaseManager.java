@@ -54,6 +54,10 @@ public class GameDatabaseManager {
         }
     }
 
+    public List<MapItemsRecord> getMapItemsRecordsFromDb(String saveName){
+        return mapItemsDao.getAll(saveName);
+    }
+
     public void savePlayer(Player player, String playerName) {
         if (getName(playerName)) {
             player.setName(playerName);

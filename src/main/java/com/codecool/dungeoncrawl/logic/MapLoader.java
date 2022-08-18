@@ -7,10 +7,12 @@ import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.InventoryRecord;
+import com.codecool.dungeoncrawl.model.MapItemsRecord;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,7 +29,7 @@ public class MapLoader {
         if (gameDatabaseManager != null)
             gameDatabaseManager.setup("Lulu");
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
-        
+
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -96,8 +98,10 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            playerModel = gameDatabaseManager.getPlayerModel("cancel");
-            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("cancel");
+            playerModel = gameDatabaseManager.getPlayerModel("ana");
+            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("ana");
+            List<MapItemsRecord> mapItemsRecords = gameDatabaseManager.getMapItemsRecordsFromDb("ana");
+            loadItemsFromDataBase(map, mapItemsRecords);
             loadPlayerFromDataBase(map, playerModel);
             loadEnemiesFromDataBase(map, enemyModels);
         }
@@ -131,9 +135,18 @@ public class MapLoader {
         }
     }
 
-    private void loadItemsFromDataBase(GameMap map, List<InventoryRecord> inventoryRecords) {
-        for (InventoryRecord inventoryRecord : inventoryRecords) {
-            if (inventoryRecord.itemName().equals("sword"));
+    private void loadItemsFromDataBase(GameMap map, List<MapItemsRecord> mapItemsRecords) {
+        for (MapItemsRecord mapItemsRecord : mapItemsRecords) {
+            Cell cell = map.getCell(mapItemsRecord.x(), mapItemsRecord.y());
+            if (mapItemsRecord.itemType().equals("sword")) {
+                cell.setType(CellType.SWORD);
+            }
+            if (mapItemsRecord.itemType().equals("key")) {
+                cell.setType(CellType.KEY);
+            }
+            if (mapItemsRecord.itemType().equals("health")) {
+                cell.setType(CellType.HEALTH);
+            }
         }
     }
 }

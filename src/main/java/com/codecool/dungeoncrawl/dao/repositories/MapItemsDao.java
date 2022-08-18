@@ -12,5 +12,5 @@ public interface MapItemsDao {
 
     MapItemsRecord get(int id);
 
-    List<MapItemsRecord> getAll();
+    List<MapItemsRecord> getAll(String saveName);
 }

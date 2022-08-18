@@ -45,7 +45,7 @@ public class Main extends Application {
     private GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
-    GameMap map = mapLoader.loadMap("/map.txt", false);
+    GameMap map = mapLoader.loadMap("/map.txt", true);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);

@@ -1,10 +1,12 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.dao.repositories.MapItemsDao;
+import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.MapItemsRecord;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapItemsDaoJdbc implements MapItemsDao {
@@ -46,7 +48,26 @@ public class MapItemsDaoJdbc implements MapItemsDao {
     }
 
     @Override
-    public List<MapItemsRecord> getAll() {
-        return null;
+    public List<MapItemsRecord> getAll(String saveName) {
+        MapItemsRecord mapItemsRecord = null;
+        List<MapItemsRecord> mapItemsRecords = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+
+            String sql = "select * from mapitems where save_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, saveName);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                mapItemsRecord = new MapItemsRecord(rs.getString("save_name"), rs.getString("inventory_type"), rs.getInt("x"), rs.getInt("y"));
+                mapItemsRecords.add(mapItemsRecord);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
+        }
+        System.out.println(mapItemsRecords.size() + " size mapItemsRecords");
+        return mapItemsRecords;
     }
 }
