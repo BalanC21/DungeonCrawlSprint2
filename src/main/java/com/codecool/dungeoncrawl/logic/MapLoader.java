@@ -6,6 +6,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.EnemyModel;
+import com.codecool.dungeoncrawl.model.InventoryRecord;
 import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
@@ -26,6 +27,7 @@ public class MapLoader {
         if (gameDatabaseManager != null)
             gameDatabaseManager.setup("Lulu");
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
+        
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();
         int height = scanner.nextInt();
@@ -71,7 +73,6 @@ public class MapLoader {
                                 case '@' -> {
                                     cell.setType(CellType.PLAYER);
                                     map.setPlayer(new Player(cell));
-                                    System.out.println(map.getPlayer().getHealth());
                                 }
                                 case 's' -> {
                                     cell.setType(CellType.SKELETON);
@@ -127,6 +128,12 @@ public class MapLoader {
                 cell.setType(CellType.SKELETON);
                 map.getEnemyList().add(new Skeleton(cell));
             }
+        }
+    }
+
+    private void loadItemsFromDataBase(GameMap map, List<InventoryRecord> inventoryRecords) {
+        for (InventoryRecord inventoryRecord : inventoryRecords) {
+            if (inventoryRecord.itemName().equals("sword"));
         }
     }
 }

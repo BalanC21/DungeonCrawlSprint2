@@ -5,6 +5,7 @@ import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
+import com.codecool.dungeoncrawl.model.MapItemsRecord;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,7 +45,7 @@ public class Main extends Application {
     private GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
-    GameMap map = mapLoader.loadMap("/map.txt", true);
+    GameMap map = mapLoader.loadMap("/map.txt", false);
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -187,6 +188,7 @@ public class Main extends Application {
 
     private void saveToBase(String saveName) {
         saveEnemy(map.getEnemyList(), saveName);
+        saveMapItems(saveName);
         gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
         gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
@@ -277,7 +279,7 @@ public class Main extends Application {
             healthLabel.setText("" + map.getPlayer().getHealth());
             attackLabel.setText("" + map.getPlayer().getAttack());
             inventory.setText("" + map.getPlayer().getItemTypeList());
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println();
         }
     }
@@ -297,6 +299,26 @@ public class Main extends Application {
         for (Enemy enemy : enemyList) {
             if (enemy.isCharacterAlive())
                 gameDatabaseManager.saveEnemy(enemy, playerName);
+        }
+    }
+
+    private void saveMapItems(String saveName) {
+        for (int i = 0; i < 25; i++) {
+            for (int j = 0; j < 20; j++) {
+                if (map.getCell(i, j).getTileName().equals("sword")) {
+                    MapItemsRecord mapItemsRecord = new MapItemsRecord(saveName, map.getCell(i, j).getTileName(), i, j);
+                    gameDatabaseManager.saveMapInventory(mapItemsRecord);
+                }
+                if (map.getCell(i, j).getTileName().equals("key")) {
+                    MapItemsRecord mapItemsRecord = new MapItemsRecord(saveName, map.getCell(i, j).getTileName(), i, j);
+                    gameDatabaseManager.saveMapInventory(mapItemsRecord);
+                }
+                if (map.getCell(i, j).getTileName().equals("health")) {
+                    MapItemsRecord mapItemsRecord = new MapItemsRecord(saveName, map.getCell(i, j).getTileName(), i, j);
+                    gameDatabaseManager.saveMapInventory(mapItemsRecord);
+                }
+            }
+
         }
     }
 }

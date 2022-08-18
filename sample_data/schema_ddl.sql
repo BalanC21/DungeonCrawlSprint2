@@ -37,3 +37,13 @@ CREATE TABLE public.items
     inventory_type text   NOT NULL
 );
 
+DROP TABLE IF EXISTS public.mapItems;
+CREATE TABLE public.mapItems
+(
+    id             serial NOT NULL PRIMARY KEY,
+    save_name      text   NOT NULL,
+    inventory_type text   NOT NULL,
+    x          integer NOT NULL,
+    y          integer NOT NULL
+);
+

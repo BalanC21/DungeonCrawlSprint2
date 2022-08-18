@@ -1,27 +1,29 @@
 package com.codecool.dungeoncrawl.dao;
 
-import com.codecool.dungeoncrawl.dao.repositories.InventoryDao;
-import com.codecool.dungeoncrawl.logic.ItemType;
-import com.codecool.dungeoncrawl.model.InventoryRecord;
+import com.codecool.dungeoncrawl.dao.repositories.MapItemsDao;
+import com.codecool.dungeoncrawl.model.MapItemsRecord;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
-public class InventoryDaoJdbc implements InventoryDao {
+public class MapItemsDaoJdbc implements MapItemsDao {
+
     private DataSource dataSource;
 
-    public InventoryDaoJdbc(DataSource dataSource) {
+    public MapItemsDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-    public void add(InventoryRecord item) {
+    public void add(MapItemsRecord item) {
         try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO items (save_name, inventory_type) VALUES (?, ?)";
+            String sql = "INSERT INTO mapitems (save_name, inventory_type, x, y) VALUES (?, ?, ? , ?)";
             PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             st.setString(1, item.saveName());
-            st.setString(2, item.itemName());
+            st.setString(2, item.itemType());
+            st.setInt(3, item.x());
+            st.setInt(4, item.y());
 
             st.executeUpdate();
             ResultSet rs = st.getGeneratedKeys();
@@ -34,17 +36,17 @@ public class InventoryDaoJdbc implements InventoryDao {
     }
 
     @Override
-    public void update(InventoryRecord item) {
+    public void update(MapItemsRecord item) {
 
     }
 
     @Override
-    public InventoryRecord get(int id) {
+    public MapItemsRecord get(int id) {
         return null;
     }
 
     @Override
-    public List<InventoryRecord> getAll() {
+    public List<MapItemsRecord> getAll() {
         return null;
     }
 }

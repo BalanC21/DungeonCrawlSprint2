@@ -1,18 +1,12 @@
 package com.codecool.dungeoncrawl.dao;
 
 import annotation.RunNow;
-import com.codecool.dungeoncrawl.dao.repositories.EnemyDao;
-import com.codecool.dungeoncrawl.dao.repositories.GameStateDao;
-import com.codecool.dungeoncrawl.dao.repositories.InventoryDao;
-import com.codecool.dungeoncrawl.dao.repositories.PlayerDao;
+import com.codecool.dungeoncrawl.dao.repositories.*;
 import com.codecool.dungeoncrawl.logic.ItemType;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.databasemanager.ApplicationProperties;
-import com.codecool.dungeoncrawl.model.EnemyModel;
-import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.InventoryRecord;
-import com.codecool.dungeoncrawl.model.PlayerModel;
+import com.codecool.dungeoncrawl.model.*;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -25,6 +19,7 @@ public class GameDatabaseManager {
     private EnemyDao enemyDao;
 
     private InventoryDao inventoryDao;
+    private MapItemsDao mapItemsDao;
 
     private String saveName;
 
@@ -36,6 +31,7 @@ public class GameDatabaseManager {
         playerDao = new PlayerDaoJdbc(dataSource);
         enemyDao = new EnemyDaoJdbc(dataSource);
         inventoryDao = new InventoryDaoJdbc(dataSource);
+        mapItemsDao = new MapItemsDaoJdbc(dataSource);
     }
 
     public PlayerModel getPlayerById(int playerId) {
@@ -50,6 +46,12 @@ public class GameDatabaseManager {
             }
         } else
             dataBaseUpdate();
+    }
+
+    public void saveMapInventory(MapItemsRecord itemsRecord) {
+        if (getName(saveName)) {
+            mapItemsDao.add(itemsRecord);
+        }
     }
 
     public void savePlayer(Player player, String playerName) {
