@@ -66,7 +66,7 @@ public class GameDatabaseManager {
     public List<EnemyModel> getAllEnemies(String playerName) {
         List<EnemyModel> enemyModels = null;
         if (getName(playerName)) {
-            enemyModels = enemyDao.getAll();
+            enemyModels = enemyDao.getAll(playerName);
         }
         return enemyModels;
     }

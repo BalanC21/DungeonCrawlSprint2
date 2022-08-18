@@ -15,6 +15,13 @@ public class EnemyModel extends BaseModel{
         this.enemyName = enemy.getTileName();
     }
 
+    public EnemyModel(String enemyName, int hp, int x, int y) {
+        this.enemyName = enemyName;
+        this.hp = hp;
+        this.x = x;
+        this.y = y;
+    }
+
     public String getEnemyName() {
         return enemyName;
     }

@@ -20,7 +20,6 @@ public class MapLoader {
 
     public MapLoader(GameDatabaseManager gameDatabaseManager) {
         this.gameDatabaseManager = gameDatabaseManager;
-//        this.playerModel = gameDatabaseManager.getPlayerModel(gameDatabaseManager.getSaveName());
     }
 
     public GameMap loadMap(String gameMap, boolean loadFromDb) throws SQLException {
@@ -128,7 +127,6 @@ public class MapLoader {
                 cell.setType(CellType.SKELETON);
                 map.getEnemyList().add(new Skeleton(cell));
             }
-
         }
     }
 }

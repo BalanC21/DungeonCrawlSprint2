@@ -2,9 +2,11 @@ package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.dao.repositories.EnemyDao;
 import com.codecool.dungeoncrawl.model.EnemyModel;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyDaoJdbc implements EnemyDao {
@@ -54,7 +56,29 @@ public class EnemyDaoJdbc implements EnemyDao {
     }
 
     @Override
-    public List<EnemyModel> getAll() {
-        return null;
+    public List<EnemyModel> getAll(String saveName) {
+        EnemyModel enemyModel = null;
+        List<EnemyModel> enemyModels = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+
+            String sql = "select * from enemy where save_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, saveName);
+
+            ResultSet rs = st.executeQuery();
+
+            if (!rs.next())
+                return new ArrayList<>(List.of(new EnemyModel("Enemy is null", 0, 0, 0)));
+
+            while (rs.next()) {
+                enemyModel = new EnemyModel(rs.getString("enemy_name"), rs.getInt("hp"), rs.getInt("x"), rs.getInt("y"));
+                enemyModels.add(enemyModel);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(enemyModels.size() + " size enemyModels");
+        return enemyModels;
     }
 }

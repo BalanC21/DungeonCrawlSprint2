@@ -12,5 +12,5 @@ public interface EnemyDao {
 
     EnemyModel get(int id);
 
-    List<EnemyModel> getAll();
+    public List<EnemyModel> getAll(String saveName);
 }
