@@ -10,10 +10,17 @@ public interface PlayerDao {
     void update(PlayerModel player);
 
     public int getDbX(int id);
+
     public int getDbY(int id);
 
     public int getDbHp(int id);
+
     PlayerModel get(int id);
 
     List<PlayerModel> getAll();
+
+    public int getIdByName(String playerName);
+
+    public String getMap(int id);
+    public PlayerModel playerStatsByPlayerName(String playerName);
 }

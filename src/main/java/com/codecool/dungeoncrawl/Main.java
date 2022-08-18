@@ -29,18 +29,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main extends Application {
+
     Scene scene;
-    GameMap map = MapLoader.loadMap("/map.txt", false);
     String mapName = "/map.txt";
-    Canvas canvas = new Canvas(
-            map.getWidth() * Tiles.TILE_WIDTH,
-            map.getHeight() * Tiles.TILE_WIDTH);
-    GraphicsContext context = canvas.getGraphicsContext2D();
     Label healthLabel = new Label();
     Label attackLabel = new Label();
     Label inventory = new Label();
     Button button = new Button("Pick Up");
     private GameDatabaseManager gameDatabaseManager;
+
+    MapLoader mapLoader = new MapLoader(gameDatabaseManager);
+    GameMap map = mapLoader.loadMap("/map.txt", false);
+    Canvas canvas = new Canvas(
+            map.getWidth() * Tiles.TILE_WIDTH,
+            map.getHeight() * Tiles.TILE_WIDTH);
+    GraphicsContext context = canvas.getGraphicsContext2D();
 
 
     public static void main(String[] args) {
@@ -203,7 +206,7 @@ public class Main extends Application {
     private void refresh() {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = MapLoader.loadMap("/map2.txt", false);
+            map = mapLoader.loadMap("/map2.txt", false);
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
                 try {

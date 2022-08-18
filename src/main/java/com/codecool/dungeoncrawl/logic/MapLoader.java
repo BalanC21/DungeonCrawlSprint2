@@ -13,7 +13,11 @@ public class MapLoader {
 
     private GameDatabaseManager gameDatabaseManager;
 
-    public static GameMap loadMap(String gameMap, boolean loadFromDb) {
+    public MapLoader(GameDatabaseManager gameDatabaseManager) {
+        this.gameDatabaseManager = gameDatabaseManager;
+    }
+
+    public GameMap loadMap(String gameMap, boolean loadFromDb) {
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
         Scanner scanner = new Scanner(is);
         int width = scanner.nextInt();

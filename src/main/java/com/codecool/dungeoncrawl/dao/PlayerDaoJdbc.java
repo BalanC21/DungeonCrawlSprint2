@@ -78,6 +78,56 @@ public class PlayerDaoJdbc implements PlayerDao {
         }
     }
 
+    @Override
+    public int getIdByName(String playerName) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT id FROM player WHERE player_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setString(1, playerName);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return Integer.parseInt(null);
+            }
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public PlayerModel playerStatsByPlayerName(String playerName) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT player_name, hp, attack, x, y from player where id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setString(1, playerName);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return new PlayerModel("Don't Exist", 0, 0);
+            }
+            return new PlayerModel(rs.getString("player_name"), rs.getInt("hp"), rs.getInt("hp"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String getMap(int id) {
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT current_map FROM game_state WHERE player_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            return rs.getString(1);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private int prepareStatementMethod(int id, Connection conn, String sql) throws SQLException {
         PreparedStatement st = conn.prepareStatement(sql);
         st.setInt(1, id);
