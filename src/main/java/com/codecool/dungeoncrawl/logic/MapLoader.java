@@ -98,9 +98,10 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            playerModel = gameDatabaseManager.getPlayerModel("ana");
-            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies("ana");
-            List<MapItemsRecord> mapItemsRecords = gameDatabaseManager.getMapItemsRecordsFromDb("ana");
+            String saveName = "cearta";
+            playerModel = gameDatabaseManager.getPlayerModel(saveName);
+            List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies(saveName);
+            List<MapItemsRecord> mapItemsRecords = gameDatabaseManager.getMapItemsRecordsFromDb(saveName);
             loadItemsFromDataBase(map, mapItemsRecords);
             loadPlayerFromDataBase(map, playerModel);
             loadEnemiesFromDataBase(map, enemyModels);

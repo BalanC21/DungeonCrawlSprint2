@@ -1,7 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.dao.repositories.MapItemsDao;
-import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.MapItemsRecord;
 
 import javax.sql.DataSource;
