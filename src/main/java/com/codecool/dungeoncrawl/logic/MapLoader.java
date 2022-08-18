@@ -97,18 +97,18 @@ public class MapLoader {
             }
         } else {
             playerModel = gameDatabaseManager.getPlayerModel("lol");
-            Cell cell = map.getCell(playerModel.getX(), playerModel.getY());
-            Player player = new Player(cell);
-            player.setHealth(playerModel.getHp());
-            player.setAttack(playerModel.getAttack());
-            map.setPlayer(player);
+            loadPlayerFromDataBase(map, playerModel);
         }
         return map;
     }
 
 
-    public static GameMap loadFromDataBase(GameMap map) {
-        return map;
+    private void loadPlayerFromDataBase(GameMap map, PlayerModel playerModel) {
+        Cell cell = map.getCell(playerModel.getX(), playerModel.getY());
+        Player player = new Player(cell);
+        player.setHealth(playerModel.getHp());
+        player.setAttack(playerModel.getAttack());
+        map.setPlayer(player);
     }
 }
 
