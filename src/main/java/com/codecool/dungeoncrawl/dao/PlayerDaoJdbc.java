@@ -5,7 +5,6 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.List;
 
 public class PlayerDaoJdbc implements PlayerDao {
     private final DataSource dataSource;
@@ -49,53 +48,6 @@ public class PlayerDaoJdbc implements PlayerDao {
     }
 
     @Override
-    public int getDbX(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT x FROM player WHERE id = ?";
-            return prepareStatementMethod(id, conn, sql);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int getDbY(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT y FROM player WHERE id = ?";
-            return prepareStatementMethod(id, conn, sql);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int getDbHp(int id) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT hp FROM player WHERE id = ?";
-            return prepareStatementMethod(id, conn, sql);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public int getIdByName(String playerName) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "SELECT id FROM player WHERE player_name = ?";
-            PreparedStatement st = conn.prepareStatement(sql);
-
-            st.setString(1, playerName);
-            ResultSet rs = st.executeQuery();
-            if (!rs.next()) {
-                return Integer.parseInt(null);
-            }
-            return rs.getInt(1);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public PlayerModel playerStatsByPlayerName(String playerName) {
         PlayerModel playerModel = null;
         try (Connection conn = dataSource.getConnection()) {
@@ -113,25 +65,4 @@ public class PlayerDaoJdbc implements PlayerDao {
         }
         return playerModel;
     }
-
-    private int prepareStatementMethod(int id, Connection conn, String sql) throws SQLException {
-        PreparedStatement st = conn.prepareStatement(sql);
-        st.setInt(1, id);
-        ResultSet rs = st.executeQuery();
-        if (!rs.next()) {
-            return 0;
-        }
-        return rs.getInt(1);
-    }
-
-    @Override
-    public PlayerModel get(int id) {
-        return null;
-    }
-
-    @Override
-    public List<PlayerModel> getAll() {
-        return null;
-    }
-
 }

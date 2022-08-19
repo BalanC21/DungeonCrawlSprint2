@@ -35,16 +35,6 @@ public class InventoryDaoJdbc implements InventoryDao {
     }
 
     @Override
-    public void update(InventoryRecord item) {
-
-    }
-
-    @Override
-    public InventoryRecord get(int id) {
-        return null;
-    }
-
-    @Override
     public List<InventoryRecord> getAll(String saveName) {
         InventoryRecord inventoryRecord = null;
         List<InventoryRecord> inventoryRecords = new ArrayList<>();

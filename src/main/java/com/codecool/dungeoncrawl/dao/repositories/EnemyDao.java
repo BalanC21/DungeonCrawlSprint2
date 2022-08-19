@@ -10,7 +10,5 @@ public interface EnemyDao {
 
     void update(EnemyModel enemy);
 
-    EnemyModel get(int id);
-
     public List<EnemyModel> getAll(String saveName);
 }

@@ -51,11 +51,6 @@ public class EnemyDaoJdbc implements EnemyDao {
     }
 
     @Override
-    public EnemyModel get(int id) {
-        return null;
-    }
-
-    @Override
     public List<EnemyModel> getAll(String saveName) {
         EnemyModel enemyModel = null;
         List<EnemyModel> enemyModels = new ArrayList<>();

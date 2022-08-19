@@ -36,16 +36,6 @@ public class MapItemsDaoJdbc implements MapItemsDao {
     }
 
     @Override
-    public void update(MapItemsRecord item) {
-
-    }
-
-    @Override
-    public MapItemsRecord get(int id) {
-        return null;
-    }
-
-    @Override
     public List<MapItemsRecord> getAll(String saveName) {
         MapItemsRecord mapItemsRecord = null;
         List<MapItemsRecord> mapItemsRecords = new ArrayList<>();

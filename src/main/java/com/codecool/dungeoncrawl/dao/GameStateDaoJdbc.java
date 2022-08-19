@@ -5,8 +5,6 @@ import com.codecool.dungeoncrawl.model.GameState;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.List;
 
 public class GameStateDaoJdbc implements GameStateDao {
     private final DataSource dataSource;
@@ -34,16 +32,6 @@ public class GameStateDaoJdbc implements GameStateDao {
     }
 
     @Override
-    public void update(GameState state) {
-
-    }
-
-    @Override
-    public GameState get(int id) {
-        return null;
-    }
-
-    @Override
     public String getSaveNameGameState(String name) {
         String nameValue = "";
         try (Connection conn = dataSource.getConnection()) {
@@ -62,11 +50,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             System.out.println(throwables.getMessage());
         }
         return nameValue;
-    }
-
-    @Override
-    public List<GameState> getAll() {
-        return null;
     }
 
     @Override
