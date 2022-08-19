@@ -5,7 +5,6 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
-
 public class PlayerDaoJdbc implements PlayerDao {
     private final DataSource dataSource;
 

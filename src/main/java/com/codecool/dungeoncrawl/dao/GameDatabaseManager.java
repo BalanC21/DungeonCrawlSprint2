@@ -34,10 +34,6 @@ public class GameDatabaseManager {
         mapItemsDao = new MapItemsDaoJdbc(dataSource);
     }
 
-    public PlayerModel getPlayerById(int playerId) {
-        return playerDao.get(playerId);
-    }
-
     public void saveInventory(Player player, String saveName) {
         if (getName(saveName)) {
             for (ItemType itemType : player.getAllItems()) {
