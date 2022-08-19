@@ -110,26 +110,23 @@ public class Main extends Application {
                     selectedCell.setType(CellType.FLOOR);
                 }
                 inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
-            }
-        });
-        openButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                // TODO: 18.08.2022 Aici logica penrtru load
-                playerInput = String.valueOf(openTextField.getText());
-                loadFromDataBase = true;
-
                 try {
                     refresh();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-                //                try {
-//                    gameDatabaseManager.setup(playerInput);
-//                } catch (SQLException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                loadGameFromDb();
+            }
+        });
+        openButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                playerInput = String.valueOf(openTextField.getText());
+                loadFromDataBase = true;
+                try {
+                    refresh();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 canvas.requestFocus();
             }
         });
@@ -153,10 +150,6 @@ public class Main extends Application {
         });
         primaryStage.setTitle("Dungeon Crawl");
         primaryStage.show();
-    }
-
-    public static String getPlayerName() {
-        return playerName;
     }
 
     public void showStage() {
@@ -205,11 +198,6 @@ public class Main extends Application {
         gameDatabaseManager.savePlayer(map.getPlayer(), saveName);
         gameDatabaseManager.saveInventory(map.getPlayer(), saveName);
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
-    }
-
-    private void loadFromDataBase(String saveName) throws SQLException {
-        String gameMap = gameDatabaseManager.getMap(saveName);
-        mapLoader.loadMap(gameMap, loadFromDataBase, saveName);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
@@ -269,7 +257,7 @@ public class Main extends Application {
             changeMapsLogic();
         }
 
-        if (loadFromDataBase){
+        if (loadFromDataBase) {
             gameDatabaseManager.setup(playerInput);
             mapName = gameDatabaseManager.getMap(playerInput);
             changeMapsLogic();
