@@ -120,9 +120,9 @@ public class Main extends Application {
         openButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                playerInput = String.valueOf(openTextField.getText());
-                loadFromDataBase = true;
                 try {
+                    playerInput = String.valueOf(openTextField.getText());
+                    loadFromDataBase = true;
                     refresh();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
