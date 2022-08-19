@@ -11,5 +11,5 @@ public interface InventoryDao {
 
     InventoryRecord get(int id);
 
-    List<InventoryRecord> getAll();
+    List<InventoryRecord> getAll(String saveName);
 }

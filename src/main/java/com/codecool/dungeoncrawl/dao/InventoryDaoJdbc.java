@@ -2,10 +2,12 @@ package com.codecool.dungeoncrawl.dao;
 
 import com.codecool.dungeoncrawl.dao.repositories.InventoryDao;
 import com.codecool.dungeoncrawl.logic.ItemType;
+import com.codecool.dungeoncrawl.model.EnemyModel;
 import com.codecool.dungeoncrawl.model.InventoryRecord;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryDaoJdbc implements InventoryDao {
@@ -44,7 +46,27 @@ public class InventoryDaoJdbc implements InventoryDao {
     }
 
     @Override
-    public List<InventoryRecord> getAll() {
-        return null;
+    public List<InventoryRecord> getAll(String saveName) {
+        InventoryRecord inventoryRecord = null;
+        List<InventoryRecord> inventoryRecords = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+
+            String sql = "select * from items where save_name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setString(1, saveName);
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                inventoryRecord = new InventoryRecord(rs.getString("inventory_type"), rs.getString("save_name"));
+                System.out.println(inventoryRecord.itemName());
+                inventoryRecords.add(inventoryRecord);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+//            throw new RuntimeException(e);
+        }
+        System.out.println(inventoryRecords.size() + " size inventoryRecords");
+        return inventoryRecords;
     }
 }

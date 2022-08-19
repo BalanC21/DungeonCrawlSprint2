@@ -98,24 +98,35 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-//            String saveName = "cearta";
             playerModel = gameDatabaseManager.getPlayerModel(saveName);
             List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies(saveName);
             List<MapItemsRecord> mapItemsRecords = gameDatabaseManager.getMapItemsRecordsFromDb(saveName);
             loadItemsFromDataBase(map, mapItemsRecords);
-            loadPlayerFromDataBase(map, playerModel);
+            loadPlayerFromDataBase(map, playerModel, saveName);
             loadEnemiesFromDataBase(map, enemyModels);
         }
         return map;
     }
 
 
-    private void loadPlayerFromDataBase(GameMap map, PlayerModel playerModel) {
+    private void loadPlayerFromDataBase(GameMap map, PlayerModel playerModel, String saveName) {
         Cell cell = map.getCell(playerModel.getX(), playerModel.getY());
         Player player = new Player(cell);
         player.setHealth(playerModel.getHp());
         player.setAttack(playerModel.getAttack());
         map.setPlayer(player);
+        fillPlayerInventory(player, saveName);
+        System.out.println(player.getAllItems());
+        System.out.println(player.getItemTypeList());
+    }
+
+    private void fillPlayerInventory(Player player, String saveName){
+        for (InventoryRecord inventoryRecord: gameDatabaseManager.getInventory(saveName)) {
+            if (inventoryRecord.itemName().equals("key"))
+                player.addItem(ItemType.KEY);
+//            if (inventoryRecord.itemName().equals("sword"))
+//                player.addItem(ItemType.SWORD);
+        }
     }
 
     private void loadEnemiesFromDataBase(GameMap map, List<EnemyModel> enemyModels) {

@@ -54,6 +54,10 @@ public class GameDatabaseManager {
         }
     }
 
+    public List<InventoryRecord> getInventory(String saveName){
+        return inventoryDao.getAll(saveName);
+    }
+
     public List<MapItemsRecord> getMapItemsRecordsFromDb(String saveName){
         return mapItemsDao.getAll(saveName);
     }
