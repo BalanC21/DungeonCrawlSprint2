@@ -69,7 +69,6 @@ public class Player extends Actor {
     public void lootEnemy() {
         List<Enemy> enemyList = getEnemyList();
         Optional<Enemy> enemyOptional;
-        // TODO: 13.07.2022 Try to repair this!
         for (Enemy enemy : enemyList) {
             enemyOptional = Optional.ofNullable(enemy);
             if (enemyOptional.isPresent()) {

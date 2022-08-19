@@ -237,7 +237,6 @@ public class Main extends Application {
                         showStage();
                         keyCodes.clear();
                     }
-                    // TODO: 16.08.2022 Nu merge CTRL + S!
                 }
             }
         }

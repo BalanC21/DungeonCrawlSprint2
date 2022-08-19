@@ -31,7 +31,6 @@ public class MapItemsDaoJdbc implements MapItemsDao {
             rs.next();
 
         } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
             System.out.println(throwables.getMessage());
         }
     }
@@ -64,7 +63,6 @@ public class MapItemsDaoJdbc implements MapItemsDao {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-//            throw new RuntimeException(e);
         }
         System.out.println(mapItemsRecords.size() + " size mapItemsRecords");
         return mapItemsRecords;

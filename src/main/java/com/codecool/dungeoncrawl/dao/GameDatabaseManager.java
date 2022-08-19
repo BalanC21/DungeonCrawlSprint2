@@ -103,7 +103,7 @@ public class GameDatabaseManager {
     }
 
     private void dataBaseUpdate() {
-        System.out.println("Update not done yet! :)) Haha Lol!");
+        System.out.println("Update not done yet!");
     }
 
     public PlayerModel getPlayerModel(String playerName) {

@@ -12,7 +12,6 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,7 +36,6 @@ public class MapLoader {
         scanner.nextLine(); // empty line
 
         GameMap map = new GameMap(width, height, CellType.EMPTY);
-//        GameMap map = new GameMap(width, height, CellType.FLOOR);
         for (int y = 0; y < height; y++) {
             String line = scanner.nextLine();
             for (int x = 0; x < width; x++) {
@@ -57,10 +55,9 @@ public class MapLoader {
         if (!loadFromDb) {
             try {
                 is = MapLoader.class.getResourceAsStream(gameMap);
-                assert is != null; // HahaLol :))
+                assert is != null;
                 scanner = new Scanner(is);
                 scanner.nextLine();
-//                map = new GameMap(width, height, CellType.EMPTY);
                 for (int j = 0; j < height; j++) {
                     String line = scanner.nextLine();
                     for (int x = 0; x < width; x++) {
@@ -89,7 +86,6 @@ public class MapLoader {
                                     map.getEnemyList().add(new Archer(cell));
                                 }
                                 default -> System.out.print("");
-//                            default -> throw new RuntimeException("Unrecognized character: '" + line.charAt(x) + "'");
                             }
                         }
                     }
@@ -116,16 +112,12 @@ public class MapLoader {
         player.setAttack(playerModel.getAttack());
         map.setPlayer(player);
         fillPlayerInventory(player, saveName);
-        System.out.println(player.getAllItems());
-        System.out.println(player.getItemTypeList());
     }
 
     private void fillPlayerInventory(Player player, String saveName){
         for (InventoryRecord inventoryRecord: gameDatabaseManager.getInventory(saveName)) {
             if (inventoryRecord.itemName().equals("key"))
                 player.addItem(ItemType.KEY);
-//            if (inventoryRecord.itemName().equals("sword"))
-//                player.addItem(ItemType.SWORD);
         }
     }
 

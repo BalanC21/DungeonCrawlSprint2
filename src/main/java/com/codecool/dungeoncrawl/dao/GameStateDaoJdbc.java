@@ -29,7 +29,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             rs.next();
             state.setId(rs.getInt(1));
         } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
             System.out.println(throwables.getMessage());
         }
     }
@@ -60,7 +59,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             System.out.println("Name Already Exist " + nameValue);
 
         } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
             System.out.println(throwables.getMessage());
         }
         return nameValue;
@@ -86,7 +84,6 @@ public class GameStateDaoJdbc implements GameStateDao {
             nameValue = rs.getString(1);
 
         } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
             System.out.println(throwables.getMessage());
         }
         return nameValue;

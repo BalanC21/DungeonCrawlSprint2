@@ -73,7 +73,6 @@ public class EnemyDaoJdbc implements EnemyDao {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-//            throw new RuntimeException(e);
         }
         System.out.println(enemyModels.size() + " size enemyModels");
         return enemyModels;
