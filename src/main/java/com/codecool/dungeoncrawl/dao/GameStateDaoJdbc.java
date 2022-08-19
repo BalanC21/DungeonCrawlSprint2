@@ -70,4 +70,25 @@ public class GameStateDaoJdbc implements GameStateDao {
     public List<GameState> getAll() {
         return null;
     }
+
+    @Override
+    public String getMap(String saveName) {
+        String nameValue = "";
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "select current_map from game_state where name = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            st.setString(1, saveName);
+            ResultSet rs = st.executeQuery();
+            if (!rs.next()) {
+                return null;
+            }
+            nameValue = rs.getString(1);
+
+        } catch (SQLException throwables) {
+//            throw new RuntimeException("Error while", throwables.getCause());
+            System.out.println(throwables.getMessage());
+        }
+        return nameValue;
+    }
 }

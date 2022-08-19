@@ -69,6 +69,10 @@ public class GameDatabaseManager {
         }
     }
 
+    public String getMap(String saveName) {
+        return gameStateDao.getMap(saveName);
+    }
+
     public List<EnemyModel> getAllEnemies(String playerName) {
         return enemyDao.getAll(playerName);
     }

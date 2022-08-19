@@ -11,4 +11,6 @@ public interface GameStateDao {
 
     String getSaveNameGameState(String name);
     List<GameState> getAll();
+
+    String getMap(String saveName);
 }

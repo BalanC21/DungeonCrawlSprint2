@@ -34,10 +34,11 @@ import java.util.List;
 public class Main extends Application {
 
     Scene scene;
-
     List<KeyCode> keyCodes = new ArrayList<>();
-
     String mapName = "/map.txt";
+    String playerInput = "";
+
+    boolean loadFromDataBase = false;
     Label healthLabel = new Label();
     Label attackLabel = new Label();
     Label inventory = new Label();
@@ -45,7 +46,7 @@ public class Main extends Application {
     private GameDatabaseManager gameDatabaseManager = new GameDatabaseManager();
 
     MapLoader mapLoader = new MapLoader(gameDatabaseManager);
-    GameMap map = mapLoader.loadMap("/map.txt", true);
+    GameMap map = mapLoader.loadMap(mapName, loadFromDataBase, "null");
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -115,8 +116,20 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // TODO: 18.08.2022 Aici logica penrtru load
-                String input = String.valueOf(openTextField.getText());
-                System.out.println("open button  " + input);
+                playerInput = String.valueOf(openTextField.getText());
+                loadFromDataBase = true;
+
+                try {
+                    refresh();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                //                try {
+//                    gameDatabaseManager.setup(playerInput);
+//                } catch (SQLException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                loadGameFromDb();
                 canvas.requestFocus();
             }
         });
@@ -177,8 +190,8 @@ public class Main extends Application {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            saveToBase(saveName);
 
+            saveToBase(saveName);
             newStage.hide();
         });
         cancelBtn.setOnAction(actionEvent -> {
@@ -194,8 +207,9 @@ public class Main extends Application {
         gameDatabaseManager.saveGame(mapName, map.getPlayer(), saveName);
     }
 
-    private void loadFromDataBase(String saveName) {
-        // TODO: 17.08.2022 How can Load??
+    private void loadFromDataBase(String saveName) throws SQLException {
+        String gameMap = gameDatabaseManager.getMap(saveName);
+        mapLoader.loadMap(gameMap, loadFromDataBase, saveName);
     }
 
     private void onKeyPressed(KeyEvent keyEvent) throws InvocationTargetException, IllegalAccessException, SQLException {
@@ -252,15 +266,13 @@ public class Main extends Application {
     private void refresh() throws SQLException {
         if (Player.newMap) {
             mapName = "/map2.txt";
-            map = mapLoader.loadMap("/map2.txt", false);
-            Player.newMap = false;
-            scene.setOnKeyPressed(keyEvent -> {
-                try {
-                    onKeyPressed(keyEvent);
-                } catch (InvocationTargetException | IllegalAccessException | SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            changeMapsLogic();
+        }
+
+        if (loadFromDataBase){
+            gameDatabaseManager.setup(playerInput);
+            mapName = gameDatabaseManager.getMap(playerInput);
+            changeMapsLogic();
         }
 
         context.setFill(Color.BLACK);
@@ -282,6 +294,19 @@ public class Main extends Application {
         } catch (Exception e) {
             System.out.println();
         }
+    }
+
+    private void changeMapsLogic() throws SQLException {
+        map = mapLoader.loadMap(mapName, loadFromDataBase, playerInput);
+        Player.newMap = false;
+        loadFromDataBase = false;
+        scene.setOnKeyPressed(keyEvent -> {
+            try {
+                onKeyPressed(keyEvent);
+            } catch (InvocationTargetException | IllegalAccessException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void enemyAction(boolean doSomething) {

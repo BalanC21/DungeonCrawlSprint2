@@ -25,7 +25,7 @@ public class MapLoader {
         this.gameDatabaseManager = gameDatabaseManager;
     }
 
-    public GameMap loadMap(String gameMap, boolean loadFromDb) throws SQLException {
+    public GameMap loadMap(String gameMap, boolean loadFromDb, String saveName) throws SQLException {
         if (gameDatabaseManager != null)
             gameDatabaseManager.setup("Lulu");
         InputStream is = MapLoader.class.getResourceAsStream(gameMap);
@@ -98,7 +98,7 @@ public class MapLoader {
                 System.out.println("Ana are mere" + e);
             }
         } else {
-            String saveName = "cearta";
+//            String saveName = "cearta";
             playerModel = gameDatabaseManager.getPlayerModel(saveName);
             List<EnemyModel> enemyModels = gameDatabaseManager.getAllEnemies(saveName);
             List<MapItemsRecord> mapItemsRecords = gameDatabaseManager.getMapItemsRecordsFromDb(saveName);
