@@ -9,4 +9,5 @@ import java.util.List;
 public interface ItemsDao {
 
     void add(List<Cell> cells, int gameStateId);
+    List<ItemModel> getItemModelList (int gameId);
 }

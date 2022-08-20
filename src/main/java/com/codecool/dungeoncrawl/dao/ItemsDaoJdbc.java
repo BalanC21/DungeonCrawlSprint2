@@ -6,11 +6,13 @@ import com.codecool.dungeoncrawl.model.ItemModel;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemsDaoJdbc implements ItemsDao{
 
     private final DataSource dataSource;
+    List<ItemModel> items;
 
     public ItemsDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -33,5 +35,31 @@ public class ItemsDaoJdbc implements ItemsDao{
                 throw new RuntimeException(e);
             }
         }
+    }
+
+
+    @Override
+    public List<ItemModel> getItemModelList(int gameId) {
+        ItemModel itemModel = null;
+        items = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "SELECT * FROM items WHERE game_state_id = ?";
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, gameId);
+            ResultSet result = st.executeQuery();
+            while (result.next()){
+                String enemyType = result.getString("item_type");
+                int x = result.getInt("x");
+                int y = result.getInt("y");
+
+
+                itemModel = new ItemModel(enemyType, x, y);
+                items.add(itemModel);
+            }
+
+        } catch (SQLException throwables) {
+            System.out.println(throwables.getMessage());
+        }
+        return items;
     }
 }

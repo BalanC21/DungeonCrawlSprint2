@@ -8,12 +8,19 @@ import java.util.List;
 
 public class ItemModel extends BaseModel {
     Cell[][] gameMap;
-    private CellType type;
+    private String type;
+    private int gameStateId;
     private int x;
     private int y;
 
     public ItemModel(Cell[][] gameMap) {
         this.gameMap = gameMap;
+    }
+
+    public ItemModel(String type, int x, int y) {
+        this.type = type;
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -25,10 +32,20 @@ public class ItemModel extends BaseModel {
                     itemList.add(cell);
                 }
             }
-
         }
         return itemList;
     }
 
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

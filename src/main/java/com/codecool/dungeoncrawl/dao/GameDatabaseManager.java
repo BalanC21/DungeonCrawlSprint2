@@ -12,12 +12,7 @@ import com.codecool.dungeoncrawl.model.PlayerModel;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,49 +37,59 @@ public class GameDatabaseManager {
         playerDao.add(model);
     }
 
-    public PlayerModel getPlayerById(int playerId) {
-        return playerDao.get(playerId);
-    }
 
-
-    public boolean entryAlreadySaved(String input){
+    public boolean checkGameExists(String input) {
         return gameStateDao.checkIfSavedInstanceExists(input);
-
     }
 
-
-    public void saveGame(String currentMap, Player player, List<Enemy> enemies,  String name, Cell[][] gamemap) {
+    public void saveGame(String currentMap, Player player, List<Enemy> enemies, String name, Cell[][] gamemap) {
         PlayerModel playerModel = new PlayerModel(player);
         playerDao.add(playerModel);
 
-        java.sql.Date date=new java.sql.Date(System.currentTimeMillis());
-        GameState gameState = new GameState(currentMap, date, playerModel, name);
+        java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+        GameState gameState = new GameState(currentMap, date, name);
 
-        gameStateDao.add(gameState);
+        gameStateDao.add(gameState, playerModel.getId());
 
 
         List<EnemyModel> enemyModelList = new ArrayList<>();
-        for (Enemy enemy: enemies) {
-            enemyModelList.add(new EnemyModel(enemy));
+        for (Enemy enemy : enemies) {
+            String enemyType = enemy.getCellType();
+            int hp = enemy.getHealth();
+            int x = enemy.getX();
+            int y = enemy.getY();
+
+            enemyModelList.add(new EnemyModel(enemyType, x, y, hp));
         }
         enemiesDao.add(enemyModelList, gameState.getId());
-
         ItemModel itemModel = new ItemModel(gamemap);
         List<Cell> itemList = itemModel.getItemList();
-        for (Cell cell: itemList) {
-            System.out.println(cell.getTileName());
-            System.out.println(cell.getX());
-            System.out.println( cell.getY());
-        }
-        System.out.println(gameState.getId() + "   this is the game stat");
         itemsDao.add(itemList, gameState.getId());
-
     }
 
+    public int getPlayerId(String name){
+        return gameStateDao.getPlayerId(name);
+    }
+
+    public PlayerModel getPlayerModel(int id){
+        return playerDao.getPlayerModel(id);
+    }
+
+    public GameState getGameModel(String name) {
+        return gameStateDao.get(name);
+    }
+
+    public List<ItemModel> getItemModels(int gameId) {
+        return itemsDao.getItemModelList(gameId);
+    }
+
+    public List<EnemyModel> getEnemiesDao(int gameId) {
+        return enemiesDao.getEnemieList(gameId);
+    }
 
     private DataSource connect() throws SQLException {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        ApplicationProperties properties= new ApplicationProperties();
+        ApplicationProperties properties = new ApplicationProperties();
 
         dataSource.setDatabaseName(properties.readProperty("database"));
         dataSource.setUser(properties.readProperty("user"));
@@ -96,4 +101,6 @@ public class GameDatabaseManager {
 
         return dataSource;
     }
+
+
 }

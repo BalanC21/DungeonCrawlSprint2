@@ -1,17 +1,17 @@
 package com.codecool.dungeoncrawl;
 //Good
 
-import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.Cell;
-import com.codecool.dungeoncrawl.logic.actors.Player;
+import com.codecool.dungeoncrawl.logic.actors.*;
 
 import com.codecool.dungeoncrawl.logic.*;
-import com.codecool.dungeoncrawl.logic.actors.Enemy;
+import com.codecool.dungeoncrawl.model.EnemyModel;
+import com.codecool.dungeoncrawl.model.ItemModel;
+import com.codecool.dungeoncrawl.model.PlayerModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,26 +21,21 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.sun.javafx.application.PlatformImpl.exit;
 
 public class Main extends Application {
 
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
+    //    GameMap emptyMap = MapLoader.loadMap("/emptyMap.txt");
     String ana = "/map.txt";
+    boolean loadFromDB;
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -48,11 +43,11 @@ public class Main extends Application {
     Label healthLabel = new Label();
     Label attackLabel = new Label();
     Label inventory = new Label();
+    String searchTerm;
 
     private GameDatabaseManager gameDatabaseManager;
     List<KeyCode> keyCodes = new ArrayList<>();
     GridPane ui = new GridPane();
-
 
 
     BorderPane upperPanel = new BorderPane();
@@ -63,14 +58,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         gameDatabaseManager = new GameDatabaseManager();
-
         Button pickUpButton = new Button("Pick Up");
-        Button openButton = new Button("Open");
-
         pickUpButton.setFocusTraversable(false);
-        openButton.setFocusTraversable(false);
-
 
 
         //BorderPane for the pick up button
@@ -88,19 +79,6 @@ public class Main extends Application {
         ui.add(attackLabel, 1, 2);
         ui.add(inventory, 1, 3);
         ui.setVgap(5);
-
-
-        Label userName = new Label("Name");
-        ui.setHalignment(userName, HPos.CENTER);
-        ui.add(userName, 0, 12);
-        TextField openTextField = new TextField();
-        openTextField.setFocusTraversable(false);
-        openTextField.setAlignment(Pos.BOTTOM_LEFT);
-        ui.add(openTextField, 1, 12);
-        HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-        hbBtn.getChildren().add(openButton);
-        ui.add(hbBtn, 1, 13);
 
 
         pickUpButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -123,13 +101,6 @@ public class Main extends Application {
             }
         });
 
-        openButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String input = String.valueOf(openTextField.getText());
-                System.out.println("open buttton  " + input);
-            }
-        });
 
         BorderPane borderPane = new BorderPane();
         borderPane.setCenter(canvas);
@@ -140,7 +111,7 @@ public class Main extends Application {
 
 
         primaryStage.setScene(scene);
-        refresh();
+        refresh("");
         scene.setOnKeyPressed(keyEvent -> {
             try {
                 onKeyPressed(keyEvent);
@@ -153,7 +124,7 @@ public class Main extends Application {
     }
 
 
-    public void openSavedGamePopUp() {
+    public void openSavedGamePopUp(String input) {
         Stage openStage = new Stage();
         openStage.setTitle("Open");
 
@@ -173,6 +144,11 @@ public class Main extends Application {
         ButtonType button = result.orElse(ButtonType.CANCEL);
 
         if (button == ButtonType.OK) {
+            loadFromDB = true;
+//            this.searchTerm = new String(input);
+            refresh(input);
+            alert.hide();
+
             System.out.println("Ok pressed");
         } else {
             System.out.println("canceled");
@@ -206,18 +182,20 @@ public class Main extends Application {
         newStage.show();
         saveBtn.setOnAction(event -> {
             String input = String.valueOf(nameField.getText());
+            System.out.println("first apperence of input  " + input);
             try {
                 gameDatabaseManager.setup();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
 
-            if (gameDatabaseManager.entryAlreadySaved(input)) {
-                openSavedGamePopUp();
-            } else
-                gameDatabaseManager.savePlayer(map.getPlayer());
+            if (gameDatabaseManager.checkGameExists(input)) {
+                openSavedGamePopUp(input);
+                System.out.println("Input before assigning to SearchTerm" + searchTerm);
+            } else {
+                gameDatabaseManager.saveGame(ana, map.getPlayer(), map.getEnemyList(), input, map.getMap());
+            }
 
-            gameDatabaseManager.saveGame("/map.txt", map.getPlayer(), map.getEnemyList(), input, map.getMap());
             newStage.hide();
 
         });
@@ -234,28 +212,28 @@ public class Main extends Application {
             case UP:
                 getPlayerStats(0, -1);
                 enemyAction(true);
-                refresh();
+                refresh("");
                 break;
             case DOWN:
                 getPlayerStats(0, 1);
                 enemyAction(true);
-                refresh();
+                refresh("");
                 break;
             case LEFT:
                 getPlayerStats(-1, 0);
                 enemyAction(true);
-                refresh();
+                refresh("");
                 break;
             case RIGHT:
                 getPlayerStats(1, 0);
                 enemyAction(true);
-                refresh();
+                refresh("");
                 break;
             case W:
                 getPlayerStats(0, 0);
                 map.getPlayer().attack();
                 enemyAction(false);
-                refresh();
+                refresh("");
                 break;
             case CONTROL:
                 System.out.println("CONTROL start");
@@ -282,14 +260,96 @@ public class Main extends Application {
     }
 
     private void getPlayerStats(int dx, int dy) {
+        refresh("");
         map.getPlayer().modifyPlayerStats();
         map.getPlayer().lootEnemy();
         map.getPlayer().move(dx, dy);
         map.getPlayer().getNextMap();
-        refresh();
     }
 
-    private void refresh() {
+    private void openSavedGame(String input) {
+        System.out.println("enters DB");
+        ana = "/emptyMap.txt";
+        map = MapLoader.loadMap("/emptyMap.txt");
+        System.out.println("Search term to be searched  " + input);
+        int playerId = gameDatabaseManager.getPlayerId(input);
+        int game_id = gameDatabaseManager.getGameModel(input).getGameId();
+
+
+        System.out.println("the game id is:  " + game_id);
+        System.out.println("playerId" + playerId);
+
+
+        // add player on mp
+        PlayerModel playerModel = gameDatabaseManager.getPlayerModel(playerId);
+        Cell playerCell = map.getCell(playerModel.getX(), playerModel.getY());
+        playerCell.setType(CellType.PLAYER);
+        Player player = new Player(playerCell);
+        map.setPlayer(player);
+        player.setHealth(playerModel.getHp());
+        player.setAttack(playerModel.getAttack());
+        player.setItemTypeList(playerModel.getItemTypeList());
+
+
+        //add enemies on map
+        List<EnemyModel> enemyModel = gameDatabaseManager.getEnemiesDao(game_id);
+        List<Enemy> enemyList = new ArrayList<>();
+        for (EnemyModel enemy : enemyModel) {
+            Cell enemyCell = map.getCell(enemy.getX(), enemy.getY());
+            String enemyType = enemy.getEnemyType();
+            int health = enemy.getHp();
+            switch (enemyType) {
+                case "skeleton":
+                    enemyCell.setType(CellType.SKELETON);
+                    Skeleton skeleton = new Skeleton(enemyCell);
+                    skeleton.setHealth(health);
+                    enemyList.add(skeleton);
+                    break;
+                case "archer":
+                    enemyCell.setType(CellType.ARCHER);
+                    Archer archer = new Archer(enemyCell);
+                    archer.setHealth(health);
+                    enemyList.add(archer);
+                    break;
+                case "sentinel":
+                    enemyCell.setType(CellType.SENTINEL);
+                    Sentinel sentinel = new Sentinel(enemyCell);
+                    sentinel.setHealth(health);
+                    enemyList.add(sentinel);
+                    break;
+            }
+        }
+        map.setEnemyList(enemyList);
+
+
+        // add items on map
+        List<ItemModel> itemModels = gameDatabaseManager.getItemModels(game_id);
+        for (ItemModel item : itemModels) {
+            Cell itemCell = map.getCell(item.getX(), item.getY());
+            String enemyType = item.getType();
+            switch (enemyType) {
+                case "key":
+                    itemCell.setType(CellType.KEY);
+                    break;
+                case "sword":
+                    itemCell.setType(CellType.SWORD);
+                    break;
+                case "health":
+                    itemCell.setType(CellType.HEALTH);
+                    break;
+            }
+        }
+        loadFromDB = false;
+        scene.setOnKeyPressed(keyEvent -> {
+            try {
+                onKeyPressed(keyEvent);
+            } catch (InvocationTargetException | IllegalAccessException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    private void refresh(String input) {
 
         if (Player.newMap) {
             ana = "/map2.txt";
@@ -302,6 +362,9 @@ public class Main extends Application {
                     throw new RuntimeException(e);
                 }
             });
+        }
+        if (loadFromDB) {
+            openSavedGame(input);
         }
 
         context.setFill(Color.BLACK);
@@ -326,8 +389,8 @@ public class Main extends Application {
         for (Enemy enemy : enemyList) {
             if (!enemy.isCharacterAlive()) {
                 enemy.attack();
-                if (doSomething && !enemy.isCharacterAlive())
-                    enemy.move(Util.getRandomInt(), Util.getRandomInt());
+                if (doSomething && !enemy.isCharacterAlive()){
+                    enemy.move(Util.getRandomInt(), Util.getRandomInt());}
             }
         }
     }

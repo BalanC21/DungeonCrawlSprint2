@@ -9,6 +9,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class EnemyModel extends BaseModel {
+    List<Enemy> enemies;
+    String enemyType;
     private int hp;
     private int x;
     private int y;
@@ -20,6 +22,17 @@ public class EnemyModel extends BaseModel {
         this.x = enemy.getX();
         this.y = enemy.getY();
         this.hp = enemy.getHealth();
+    }
+
+    public EnemyModel(String enemyType, int x, int y, int hp) {
+        this.enemyType = enemyType;
+        this.x = x;
+        this.y = y;
+        this.hp = hp;
+    }
+
+    public EnemyModel(List<Enemy> enemies) {
+        this.enemies = enemies;
     }
 
     public int getHp() {
@@ -35,7 +48,7 @@ public class EnemyModel extends BaseModel {
     }
 
     public String getEnemyType(){
-        return enemy.getCellType();
+        return enemyType;
 
     }
 }

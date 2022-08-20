@@ -146,6 +146,10 @@ public class Player extends Actor {
         return attack;
     }
 
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
     public String getTileName() {
         return "player";
     }
@@ -158,6 +162,9 @@ public class Player extends Actor {
         return itemTypeList;
     }
 
+    public void setItemTypeList(List<ItemType> itemTypeList) {
+        this.itemTypeList = itemTypeList;
+    }
 
     public String getName() {
         return "Ana";

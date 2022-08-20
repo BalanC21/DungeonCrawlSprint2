@@ -12,4 +12,7 @@ public interface EnemiesDao {
 
     void update(EnemyModel enemy);
 
+    EnemyModel get(int gameId);
+
+    List<EnemyModel> getEnemieList(int gameId);
 }

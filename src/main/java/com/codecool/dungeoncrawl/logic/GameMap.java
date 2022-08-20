@@ -27,6 +27,9 @@ public class GameMap {
     }
 
 
+    public void setEnemyList(List<Enemy> enemyList) {
+        this.enemyList = enemyList;
+    }
 
     public List<Enemy> getEnemyList() {
         return enemyList;
@@ -35,6 +38,7 @@ public class GameMap {
     public Cell getCell(int x, int y) {
         return cells[x][y];
     }
+
     public Cell setCell(int x, int y) {
         return cells[x][y];
     }

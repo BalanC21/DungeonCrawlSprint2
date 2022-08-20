@@ -2,6 +2,7 @@ package com.codecool.dungeoncrawl.model;
 
 import com.codecool.dungeoncrawl.logic.GameMap;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
+import com.codecool.dungeoncrawl.logic.actors.Player;
 
 import java.util.ArrayList;
 import java.sql.Date;
@@ -9,19 +10,26 @@ import java.util.List;
 
 public class GameState extends BaseModel {
     private final String name;
+    private int gameId;
     private Date savedAt;
     private String currentMap;
+    private int playerId;
     private List<String> discoveredMaps = new ArrayList<>();
-    private PlayerModel player;
 
 //    private Key
 //private List<Enemy> enemyList;
 
-    public GameState(String currentMap, Date savedAt, PlayerModel player, String name ) {
+    public GameState(String currentMap, Date savedAt, String name) {
         this.currentMap = currentMap;
         this.savedAt = savedAt;
-        this.player = player;
         this.name = name;
+    }
+    public GameState(String currentMap, Date savedAt, String name, int gameId, int playerId) {
+        this.currentMap = currentMap;
+        this.savedAt = savedAt;
+        this.name = name;
+        this.gameId = gameId;
+        this.playerId = playerId;
     }
 
     public Date getSavedAt() {
@@ -40,20 +48,12 @@ public class GameState extends BaseModel {
         this.currentMap = currentMap;
     }
 
-    public List<String> getDiscoveredMaps() {
-        return discoveredMaps;
+    public int getGameId() {
+        return gameId;
     }
 
-    public void addDiscoveredMap(String map) {
-        this.discoveredMaps.add(map);
-    }
-
-    public PlayerModel getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(PlayerModel player) {
-        this.player = player;
+    public int getPlayerId() {
+        return playerId;
     }
 
     public String getName() {
