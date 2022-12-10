@@ -1,8 +1,6 @@
 package com.codecool.dungeoncrawl.dao;
-
 import com.codecool.dungeoncrawl.dao.repositories.GameStateDao;
 import com.codecool.dungeoncrawl.model.GameState;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
