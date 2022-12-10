@@ -1,8 +1,5 @@
 package com.codecool.dungeoncrawl.dao;
-
 import com.codecool.dungeoncrawl.model.GameState;
-import com.codecool.dungeoncrawl.model.PlayerModel;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
@@ -10,11 +7,9 @@ import java.util.List;
 
 public class GameStateDaoJdbc implements GameStateDao {
     private final DataSource dataSource;
-
     public GameStateDaoJdbc(DataSource dataSource) {
         this.dataSource = dataSource;
     }
-
     @Override
     public void add(GameState state) {
         try (Connection conn = dataSource.getConnection()) {
@@ -34,45 +29,37 @@ public class GameStateDaoJdbc implements GameStateDao {
             ResultSet rs = st.getGeneratedKeys();
             rs.next();
             state.setId(rs.getInt(1));
-        } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
-            System.out.println(throwables.getMessage());
+        } catch (SQLException error) {
+            System.out.println(error.getMessage());
+            throw new RuntimeException("Error while", error.getCause());
         }
     }
-
-    @Override
-    public void update(GameState state) {
-
-    }
-
-    @Override
-    public GameState get(int id) {
-        return null;
-    }
-
     @Override
     public String getSaveName(String name) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "select name from game_state where name ilike ? limit 1";
             PreparedStatement st = conn.prepareStatement(sql);
-
             st.setString(2, name);
+
             ResultSet rs = st.executeQuery();
             if (!rs.next()) {
                 return null;
             }
             String nameValue = rs.getString(1);
             System.out.println("printing st  " + nameValue);
-
-        } catch (SQLException throwables) {
-//            throw new RuntimeException("Error while", throwables.getCause());
-            System.out.println(throwables.getMessage());
+        } catch (SQLException err) {
+            System.out.println(err.getMessage());
+            throw new RuntimeException("Error while", err.getCause());
         }
-        return "namer";
+        return "name";
     }
 
-
-
+    @Override
+    public void update(GameState state) { return; }
+    @Override
+    public GameState get(int id) {
+        return null;
+    }
     @Override
     public List<GameState> getAll() {
         return null;

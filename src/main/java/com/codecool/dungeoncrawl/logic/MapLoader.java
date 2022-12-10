@@ -1,11 +1,9 @@
 package com.codecool.dungeoncrawl.logic;
-
 import com.codecool.dungeoncrawl.logic.actors.Archer;
 import com.codecool.dungeoncrawl.logic.actors.Player;
 import com.codecool.dungeoncrawl.logic.actors.Sentinel;
 import com.codecool.dungeoncrawl.logic.actors.Skeleton;
 import com.codecool.dungeoncrawl.model.PlayerModel;
-
 import java.io.InputStream;
 import java.util.Scanner;
 

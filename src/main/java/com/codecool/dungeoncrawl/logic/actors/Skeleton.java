@@ -1,9 +1,6 @@
 package com.codecool.dungeoncrawl.logic.actors;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-
-import java.util.List;
 import java.util.Optional;
 
 public class Skeleton extends Enemy {
@@ -20,7 +17,6 @@ public class Skeleton extends Enemy {
             nextCell.setActor(this);
             this.setCell(nextCell);
             this.getCell().setType(CellType.SKELETON);
-
         }
     }
 

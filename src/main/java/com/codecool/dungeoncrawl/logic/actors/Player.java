@@ -1,24 +1,18 @@
 package com.codecool.dungeoncrawl.logic.actors;
-
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
 import com.codecool.dungeoncrawl.logic.ItemType;
 
 public class Player extends Actor {
     public static boolean newMap = false;
     private List<ItemType> itemTypeList;
-    private CellType cellType;
     private int attack;
 
     public Player(Cell cell) {
         super(cell, 10);
-        this.cellType = CellType.PLAYER;
         attack = 5;
         itemTypeList = new ArrayList<>();
     }
@@ -62,7 +56,7 @@ public class Player extends Actor {
     public void lootEnemy() {
         List<Enemy> enemyList = getEnemyList();
         Optional<Enemy> enemyOptional;
-        // TODO: 13.07.2022 Try to repair this!
+        // TODO: 13.07.2022
         for (Enemy enemy : enemyList) {
             enemyOptional = Optional.ofNullable(enemy);
             if (enemyOptional.isPresent()) {
@@ -114,11 +108,6 @@ public class Player extends Actor {
         }
         return false;
     }
-
-    public CellType getCellType() {
-        return cellType;
-    }
-
     private void getLifeModified() {
         List<ItemType> newItemList = new ArrayList<>(itemTypeList);
         int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.HEALTH)).count();
@@ -126,7 +115,6 @@ public class Player extends Actor {
             setHealth(getHealth() + 10);
         itemTypeList.remove(ItemType.HEALTH);
     }
-
     private void getAttackModified() {
         List<ItemType> newItemList = new ArrayList<>(itemTypeList);
         int elemNumber = (int) newItemList.parallelStream().filter(elem -> elem.equals(ItemType.SWORD)).count();
@@ -134,35 +122,27 @@ public class Player extends Actor {
             attack += elemNumber * 5;
         itemTypeList.remove(ItemType.SWORD);
     }
-
     public void modifyPlayerStats() {
         getLifeModified();
         getAttackModified();
     }
-
     public void getNextMap() {
         if (this.getCell().getX() == 20 && this.getCell().getY() == 19) {
             newMap = true;
         }
     }
-
     public int getAttack() {
         return attack;
     }
-
     public String getTileName() {
         return "player";
     }
-
     public void addItem(ItemType itemType) {
         itemTypeList.add(itemType);
     }
-
     public List<ItemType> getItemTypeList() {
         return itemTypeList;
     }
-
-
     public String getName() {
         return "Ana";
     }

@@ -3,11 +3,9 @@ package com.codecool.dungeoncrawl.logic.actors;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.Drawable;
 
-import java.util.List;
-
 public abstract class Actor implements Drawable {
     private Cell cell;
-    private boolean isCharacterAlive;
+    private boolean isCharacterAlive; // Todo//
     private int health;
 
     public Actor(Cell cell, int health) {
@@ -31,10 +29,6 @@ public abstract class Actor implements Drawable {
 
     public boolean isCharacterAlive() {
         return this.health <= 0;
-    }
-
-    public void setCharacterAlive(boolean characterAlive) {
-        isCharacterAlive = characterAlive;
     }
 
     public abstract void attack();

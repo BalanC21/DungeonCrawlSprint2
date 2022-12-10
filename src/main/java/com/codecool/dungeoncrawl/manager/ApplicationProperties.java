@@ -1,16 +1,12 @@
 package com.codecool.dungeoncrawl.manager;
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class ApplicationProperties {
     private final Properties properties;
-
     public ApplicationProperties() {
         properties = new Properties();
-
         try {
             properties.load(getClass().getClassLoader().getResourceAsStream("dungeon.properties"));
         } catch (IOException e) {
@@ -18,7 +14,6 @@ public class ApplicationProperties {
                     "file::::" + e.getMessage());
         }
     }
-
     public String readProperty(String keyName) {
         return properties.getProperty(keyName, "There is no key in the properties file");
     }

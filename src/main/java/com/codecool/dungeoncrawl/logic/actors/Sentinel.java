@@ -1,18 +1,13 @@
 package com.codecool.dungeoncrawl.logic.actors;
 
-import com.codecool.dungeoncrawl.Util;
 import com.codecool.dungeoncrawl.logic.Cell;
 import com.codecool.dungeoncrawl.logic.CellType;
-import com.codecool.dungeoncrawl.logic.ItemType;
 
-import java.util.List;
 import java.util.Optional;
 
 public class Sentinel extends Enemy {
-
     public Sentinel(Cell cell) {
         super(cell, 20);
-
     }
 
     @Override

@@ -1,10 +1,6 @@
 package com.codecool.dungeoncrawl;
-//Good
-
-import annotation.RunNow;
 import com.codecool.dungeoncrawl.dao.GameDatabaseManager;
 import com.codecool.dungeoncrawl.logic.actors.Player;
-
 import com.codecool.dungeoncrawl.logic.*;
 import com.codecool.dungeoncrawl.logic.actors.Enemy;
 import javafx.application.Application;
@@ -24,20 +20,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sun.javafx.application.PlatformImpl.exit;
-
 public class Main extends Application {
-
     Scene scene;
     GameMap map = MapLoader.loadMap("/map.txt");
-    String ana = "/map.txt";
+    String mapString = "/map.txt";
     Canvas canvas = new Canvas(
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
@@ -47,8 +38,6 @@ public class Main extends Application {
     Label inventory = new Label();
     Button button = new Button("Pick Up");
     private GameDatabaseManager gameDatabaseManager;
-
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -84,19 +73,13 @@ public class Main extends Application {
                     selectedCell.setType(CellType.FLOOR);
                 }
                 inventory.setText("" + map.getPlayer().getItemTypeList() + "\n");
-
             }
         });
         BorderPane borderPane = new BorderPane();
-
-
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
-
         scene = new Scene(borderPane);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
-
-
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(keyEvent -> {
@@ -116,26 +99,16 @@ public class Main extends Application {
         VBox comp = new VBox();
         GridPane ui = new GridPane();
         ui.setAlignment(Pos.CENTER_LEFT);
-//        ui.setHgap(2);
-//        ui.setVgap(2);
         ui.setPadding(new Insets(10, 10, 10, 10)); //margins around the whole grid
-
         TextField nameField = new TextField("Name");
         Button saveBtn = new Button("Save");
         Button cancelBtn = new Button("Cancel");
-//        Button openBtn = new Button("Open");
-
-
         ui.add(nameField, 0, 0);
         ui.add(saveBtn, 1, 0);
         ui.add(cancelBtn, 0, 1);
-//        ui.add(openBtn, 1, 1);
-
         comp.getChildren().add(ui);
-
         Scene stageScene = new Scene(comp, 300, 100);
         stageScene.getRoot().setStyle("-fx-font-family: 'serif'");
-
         newStage.setScene(stageScene);
         newStage.show();
         saveBtn.setOnAction(event -> {
@@ -146,8 +119,6 @@ public class Main extends Application {
                 throw new RuntimeException(e);
             }
             gameDatabaseManager.getName(input);
-
-
 
             System.out.println(input);
             //TODO save name for save entry
@@ -216,7 +187,7 @@ public class Main extends Application {
     private void refresh() {
 
         if (Player.newMap) {
-            ana = "/map2.txt";
+            mapString = "/map2.txt";
             map = MapLoader.loadMap("/map2.txt");
             Player.newMap = false;
             scene.setOnKeyPressed(keyEvent -> {
